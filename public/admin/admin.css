@@ -90,6 +90,12 @@ button{font-family:inherit}
 }
 .subnav a:hover{ color:var(--blue); }
 .subnav a.active{ color:var(--blue); border-bottom-color:var(--blue); }
+.subnav .home-link{
+  padding-right:20px; margin-right:4px;
+  border-right:1px solid var(--rule);
+  border-bottom:none !important;
+}
+.subnav .home-link:hover{ color:var(--blue); }
 
 /* ---------- shell ---------- */
 .shell{ max-width:1320px; margin:0 auto; padding:48px 24px 96px; }

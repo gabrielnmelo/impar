@@ -9,7 +9,6 @@ export function initLogin() {
     overlay.innerHTML = `
       <div class="login-card">
         <img src="/assets/Painel-Impar.svg" alt="Ímpar" class="login-logo" />
-        <div class="login-eyebrow">ADMIN · ACESSO</div>
         <h1 class="login-title">Entrar</h1>
         <form id="login-form" class="login-form">
           <label>
@@ -17,9 +16,7 @@ export function initLogin() {
             <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
           </label>
           <div class="login-error" id="login-error" hidden></div>
-          <button type="submit" class="btn" id="login-btn">
-            <span class="dot"></span>Entrar
-          </button>
+          <button type="submit" class="btn" id="login-btn">Entrar</button>
         </form>
       </div>
     `;
@@ -45,7 +42,7 @@ export function initLogin() {
         errEl.textContent = err.message;
         errEl.hidden = false;
         btn.disabled = false;
-        btn.innerHTML = '<span class="dot"></span>Entrar';
+        btn.textContent = 'Entrar';
         passInput.select();
       }
     });
