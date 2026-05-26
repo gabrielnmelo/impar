@@ -16,11 +16,11 @@
         ? `style="background-image:url('${esc(p.image_url)}');background-size:cover;background-position:center;"`
         : '';
       return `
-        <article class="article">
+        <a class="article" href="/article.html?id=${esc(p.id)}">
           <div class="thumb" ${bg}><span class="cat">${esc(cat)}</span></div>
           <h3>${esc(p.title)}</h3>
           <div class="meta"><span>${esc(kind)}</span><span>${esc(mins)}</span></div>
-        </article>`;
+        </a>`;
     }).join('');
   }
 

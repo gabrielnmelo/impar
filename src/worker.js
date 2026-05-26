@@ -29,6 +29,15 @@ async function handleApi(request, env, url) {
     return json({ posts });
   }
 
+  // Public: single post by id — returns published post without auth; drafts require auth.
+  const singleM = pathname.match(/^\/api\/posts\/([A-Za-z0-9_-]+)$/);
+  if (singleM && method === 'GET') {
+    const post = await getPost(env, singleM[1]);
+    if (!post) return json({ error: 'not found' }, { status: 404 });
+    if (post.status !== 'published') await requireAdmin(request, env);
+    return json({ post });
+  }
+
   // Public: password login.
   if (pathname === '/api/login' && method === 'POST') {
     const body = await readJson(request);
