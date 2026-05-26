@@ -2,6 +2,10 @@ import { requireAdmin, AuthError } from './auth.js';
 import {
   listPosts, getPost, createPost, updatePost, setStatus, deletePost,
 } from './posts.js';
+import {
+  listProposals, getProposal, createProposal, updateProposal,
+  setProposalStatus, deleteProposal,
+} from './proposals.js';
 import { uploadImage, serveImage } from './images.js';
 
 const json = (data, init = {}) =>
@@ -36,6 +40,15 @@ async function handleApi(request, env, url) {
     if (!post) return json({ error: 'not found' }, { status: 404 });
     if (post.status !== 'published') await requireAdmin(request, env);
     return json({ post });
+  }
+
+  // Public: single proposal by unguessable id — returns 'sent' proposal without auth.
+  const propSingleM = pathname.match(/^\/api\/proposals\/([A-Za-z0-9_-]+)$/);
+  if (propSingleM && method === 'GET') {
+    const proposal = await getProposal(env, propSingleM[1]);
+    if (!proposal) return json({ error: 'not found' }, { status: 404 });
+    if (proposal.status !== 'sent') await requireAdmin(request, env);
+    return json({ proposal });
   }
 
   // Public: password login.
@@ -95,6 +108,47 @@ async function handleApi(request, env, url) {
     if (id && action === 'unpublish' && method === 'POST') {
       const post = await setStatus(env, id, 'draft');
       return post ? json({ post }) : json({ error: 'not found' }, { status: 404 });
+    }
+  }
+
+  // Admin: proposals.
+  if (pathname === '/api/proposals' && method === 'GET') {
+    const statusParam = url.searchParams.get('status');
+    const limit = Math.min(parseInt(url.searchParams.get('limit') || '50', 10) || 50, 200);
+    const proposals = await listProposals(env, { status: statusParam || undefined, limit });
+    return json({ proposals });
+  }
+
+  const pm = pathname.match(/^\/api\/proposals(?:\/([A-Za-z0-9_-]+))?(?:\/(send|unsend))?$/);
+  if (pm) {
+    const id = pm[1];
+    const action = pm[2];
+
+    if (!id && method === 'POST') {
+      const body = await readJson(request);
+      const proposal = await createProposal(env, body, user.email);
+      return json({ proposal }, { status: 201 });
+    }
+    if (id && !action && method === 'GET') {
+      const proposal = await getProposal(env, id);
+      return proposal ? json({ proposal }) : json({ error: 'not found' }, { status: 404 });
+    }
+    if (id && !action && (method === 'PATCH' || method === 'PUT')) {
+      const body = await readJson(request);
+      const proposal = await updateProposal(env, id, body);
+      return proposal ? json({ proposal }) : json({ error: 'not found' }, { status: 404 });
+    }
+    if (id && !action && method === 'DELETE') {
+      const proposal = await deleteProposal(env, id);
+      return proposal ? json({ ok: true }) : json({ error: 'not found' }, { status: 404 });
+    }
+    if (id && action === 'send' && method === 'POST') {
+      const proposal = await setProposalStatus(env, id, 'sent');
+      return proposal ? json({ proposal }) : json({ error: 'not found' }, { status: 404 });
+    }
+    if (id && action === 'unsend' && method === 'POST') {
+      const proposal = await setProposalStatus(env, id, 'draft');
+      return proposal ? json({ proposal }) : json({ error: 'not found' }, { status: 404 });
     }
   }
 

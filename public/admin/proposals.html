@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Propostas · Ímpar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+
+<header class="admin-top">
+  <div class="row">
+    <div class="left">
+      <a href="/admin/" class="logo"><img src="/assets/logo-blue.svg" alt="Ímpar" /></a>
+      <span class="crumb">/ Admin</span>
+    </div>
+    <div class="right">
+      <span class="who" id="who">…</span>
+      <a class="btn-ghost" href="/" target="_blank" rel="noopener">Ver site →</a>
+      <button class="btn-ghost" id="logout-btn">Sair</button>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <div class="row">
+    <a href="/admin/">Conteúdo</a>
+    <a href="/admin/proposals.html" class="active">Propostas</a>
+  </div>
+</nav>
+
+<main class="shell">
+  <div class="page-head">
+    <div>
+      <div class="num">/ Propostas</div>
+      <h1>Propostas</h1>
+    </div>
+    <a class="btn" href="/admin/proposal-editor.html"><span class="dot"></span>Nova proposta</a>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="active" data-filter="all">Todas</button>
+    <button data-filter="sent">Enviadas</button>
+    <button data-filter="draft">Rascunhos</button>
+  </div>
+
+  <div id="list-wrap">
+    <div class="empty-state" id="loading"><h3>Carregando…</h3></div>
+  </div>
+</main>
+
+<script type="module">
+import { api, loadMe, formatWhen, logout } from '/admin/admin.js';
+import { initLogin } from '/admin/login.js';
+
+await initLogin();
+
+document.getElementById('logout-btn').addEventListener('click', logout);
+loadMe().then(email => {
+  if (email) document.getElementById('who').textContent = email;
+});
+
+const wrap = document.getElementById('list-wrap');
+const tabs = document.querySelectorAll('.tabs button');
+let currentFilter = 'all';
+let cache = { all: [], sent: [], draft: [] };
+
+async function refresh() {
+  try {
+    const { proposals } = await api('/api/proposals?limit=100');
+    cache.all = proposals;
+    cache.sent = proposals.filter(p => p.status === 'sent');
+    cache.draft = proposals.filter(p => p.status === 'draft');
+    render();
+  } catch (e) {
+    wrap.innerHTML = `<div class="empty-state"><h3>Erro</h3><p>${esc(e.message)}</p></div>`;
+  }
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+
+function fmtBRL(n) {
+  return (Number(n) || 0).toLocaleString('pt-BR', {
+    style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 2,
+  });
+}
+
+function totalOf(p) {
+  return (p.line_items || []).reduce((sum, it) =>
+    sum + (Number(it.qty) || 0) * (Number(it.unit_price) || 0), 0);
+}
+
+function render() {
+  const list = cache[currentFilter] || [];
+  if (!list.length) {
+    wrap.innerHTML = `
+      <div class="empty-state">
+        <h3>Nenhuma proposta ${currentFilter === 'draft' ? 'em rascunho' : currentFilter === 'sent' ? 'enviada' : 'ainda'}</h3>
+        <p>Comece criando uma nova proposta.</p>
+      </div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="post-list">${list.map(rowHtml).join('')}</div>`;
+  wrap.querySelectorAll('.post-row').forEach(row => {
+    row.addEventListener('click', e => {
+      if (e.target.closest('button') || e.target.closest('a.btn-ghost')) return;
+      window.location.href = `/admin/proposal-editor.html?id=${row.dataset.id}`;
+    });
+  });
+}
+
+function rowHtml(p) {
+  const when = p.status === 'sent' ? `Enviada ${formatWhen(p.sent_at)}` : `Editada ${formatWhen(p.updated_at)}`;
+  const title = p.title || 'Sem título';
+  const client = p.client_name || '—';
+  const total = fmtBRL(totalOf(p));
+  return `
+    <div class="post-row" data-id="${esc(p.id)}">
+      <div class="meta-col" style="grid-column: 1 / span 2;">
+        <div class="title">${esc(title)}</div>
+        <div class="sub">
+          <span>${esc(client)}</span>
+          <span>${esc(when)}</span>
+          <span>${esc(total)}</span>
+        </div>
+      </div>
+      <span class="badge ${p.status}">${p.status === 'sent' ? 'Enviada' : 'Rascunho'}</span>
+      <a class="btn-ghost" href="/admin/proposal-editor.html?id=${esc(p.id)}">Editar →</a>
+    </div>`;
+}
+
+tabs.forEach(t => t.addEventListener('click', () => {
+  tabs.forEach(b => b.classList.toggle('active', b === t));
+  currentFilter = t.dataset.filter;
+  render();
+}));
+
+refresh();
+</script>
+
+</body>
+</html>

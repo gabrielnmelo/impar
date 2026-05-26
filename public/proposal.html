@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Ímpar — Proposta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1a1aff;
+    --blue-deep:#1010c9;
+    --blue-soft:rgba(26,26,255,.7);
+    --rule:rgba(26,26,255,.18);
+    --bg:#fff;
+    --bg-2:#f7f8ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Space Grotesk",system-ui,sans-serif;
+    background:var(--bg); color:var(--blue);
+    font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:880px; margin:0 auto; padding:0 32px;}
+
+  /* ── TOP BAR ── */
+  .doc-top{
+    border-bottom:1px solid var(--rule);
+    padding:20px 0;
+    background:#fff;
+  }
+  .doc-top .row{
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+  }
+  .doc-top .logo-img{height:22px; width:auto; display:block;}
+  .doc-top .meta{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--blue-soft);
+  }
+
+  /* ── HEADER ── */
+  .doc-head{
+    padding:80px 0 56px;
+    border-bottom:1px solid var(--rule);
+  }
+  .doc-head .eyebrow{
+    display:flex; gap:24px; flex-wrap:wrap;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--blue-soft); margin-bottom:24px;
+  }
+  .doc-head .eyebrow .cat{
+    background:var(--blue); color:#fff;
+    padding:5px 11px 6px; letter-spacing:.14em; font-weight:500;
+  }
+  .doc-head h1{
+    font-family:"Space Grotesk",sans-serif; font-weight:700;
+    font-size:clamp(36px, 5vw, 64px); line-height:1.02;
+    letter-spacing:-0.028em; margin:0; color:var(--blue);
+    text-wrap:balance;
+  }
+  .doc-head .client-line{
+    margin-top:24px;
+    font-size:13px; letter-spacing:.06em;
+    color:var(--blue-soft);
+  }
+  .doc-head .client-line strong{ color:var(--blue); font-weight:600; }
+
+  /* ── SECTIONS ── */
+  section.doc-section{
+    padding:56px 0;
+    border-bottom:1px solid var(--rule);
+  }
+  section.doc-section:last-of-type{ border-bottom:none; }
+  section.doc-section h2{
+    font-family:"Space Grotesk",sans-serif; font-weight:700;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--blue-soft); margin:0 0 24px;
+  }
+
+  .doc-body p,
+  .doc-body ul,
+  .doc-body ol,
+  .doc-body blockquote{
+    font-size:17px; line-height:1.65; color:var(--blue);
+    margin:0 0 18px;
+  }
+  .doc-body h2{
+    font-family:"Space Grotesk",sans-serif; font-weight:600;
+    font-size:24px; letter-spacing:-0.015em; line-height:1.1;
+    color:var(--blue); margin:32px 0 14px;
+    text-transform:none;
+  }
+  .doc-body h3{
+    font-family:"Space Grotesk",sans-serif; font-weight:600;
+    font-size:18px; letter-spacing:-0.01em;
+    color:var(--blue); margin:24px 0 10px;
+  }
+  .doc-body blockquote{
+    padding:14px 0 14px 24px;
+    border-left:2px solid var(--blue);
+    font-weight:500; font-size:19px;
+  }
+  .doc-body a{ text-decoration:underline; }
+
+  /* ── PRICING TABLE ── */
+  .pricing{
+    width:100%; border-collapse:collapse;
+    margin-top:8px;
+  }
+  .pricing thead th{
+    text-align:left; font-weight:600;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--blue-soft);
+    padding:12px 0; border-bottom:1px solid var(--rule);
+  }
+  .pricing thead th:nth-child(2),
+  .pricing thead th:nth-child(3),
+  .pricing thead th:nth-child(4){ text-align:right; }
+  .pricing tbody td{
+    padding:18px 0; border-bottom:1px solid var(--rule);
+    font-size:16px; color:var(--blue); vertical-align:top;
+  }
+  .pricing tbody td:nth-child(2),
+  .pricing tbody td:nth-child(3),
+  .pricing tbody td:nth-child(4){
+    text-align:right; white-space:nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .pricing tfoot td{
+    padding:24px 0 0;
+    font-family:"Space Grotesk",sans-serif;
+  }
+  .pricing tfoot .total-label{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--blue-soft);
+  }
+  .pricing tfoot .total-value{
+    font-weight:700; font-size:32px;
+    letter-spacing:-0.02em; color:var(--blue);
+    text-align:right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── SCOPE GRID ── */
+  .scope-grid{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap:48px;
+  }
+  @media (max-width:680px){
+    .scope-grid{ grid-template-columns: 1fr; gap:32px; }
+  }
+  .scope-col h3{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--blue-soft); font-weight:600;
+    margin:0 0 14px;
+  }
+  .scope-col ul{
+    list-style:none; padding:0; margin:0;
+  }
+  .scope-col li{
+    padding:12px 0; border-bottom:1px solid var(--rule);
+    font-size:16px; line-height:1.4;
+    display:flex; gap:12px; align-items:flex-start;
+  }
+  .scope-col li::before{
+    content:""; flex-shrink:0;
+    width:6px; height:6px; border-radius:50%;
+    background:var(--blue); margin-top:9px;
+  }
+  .scope-col.out li::before{
+    background:transparent; border:1px solid var(--blue-soft);
+    width:6px; height:6px;
+  }
+
+  /* ── CONDITIONS GRID ── */
+  .conditions{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap:32px 48px;
+  }
+  @media (max-width:680px){
+    .conditions{ grid-template-columns: 1fr; gap:24px; }
+  }
+  .conditions .cond{
+    border-top:1px solid var(--rule);
+    padding-top:16px;
+  }
+  .conditions .cond .lbl{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--blue-soft); margin-bottom:8px;
+  }
+  .conditions .cond .val{
+    font-size:16px; line-height:1.5; color:var(--blue);
+    white-space:pre-wrap;
+  }
+
+  /* ── FOOTER ── */
+  .doc-foot{
+    padding:64px 0 96px; text-align:center;
+    border-top:1px solid var(--rule);
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--blue-soft);
+  }
+  .doc-foot .ref{ margin-top:8px; font-size:10.5px; letter-spacing:.12em; }
+
+  /* ── LOADING / ERROR ── */
+  .state{
+    padding:120px 0; text-align:center;
+    font-size:14px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--blue-soft);
+  }
+
+  /* ── PRINT ── */
+  @media print{
+    body{ font-size:11pt; }
+    .doc-top{ border-bottom:1px solid #999; padding:12px 0; }
+    section.doc-section{ padding:32px 0; page-break-inside:avoid; }
+    .doc-head{ padding:32px 0 24px; page-break-after:avoid; }
+    .doc-foot{ padding:32px 0; }
+    a{ text-decoration:none; }
+    .pricing tbody td{ padding:10px 0; }
+  }
+
+  @media (max-width:600px){
+    .wrap{ padding:0 20px; }
+    .doc-head{ padding:48px 0 32px; }
+    section.doc-section{ padding:40px 0; }
+    .pricing thead th:nth-child(2),
+    .pricing tbody td:nth-child(2){ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="doc-top">
+  <div class="wrap row">
+    <a href="/" aria-label="Ímpar">
+      <img src="/assets/logo-blue.svg" alt="Ímpar" class="logo-img" />
+    </a>
+    <span class="meta" id="ref">Proposta</span>
+  </div>
+</header>
+
+<main id="main">
+  <div class="state" id="loading">Carregando…</div>
+</main>
+
+<script>
+const id = new URLSearchParams(location.search).get('id');
+const main = document.getElementById('main');
+
+if (!id) {
+  showError('Proposta não especificada.');
+} else {
+  fetch('/api/proposals/' + encodeURIComponent(id), { headers:{ accept:'application/json' } })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(({ proposal }) => render(proposal))
+    .catch(() => showError('Proposta não encontrada ou ainda não enviada.'));
+}
+
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]);
+}
+
+function fmtBRL(n){
+  return (Number(n) || 0).toLocaleString('pt-BR', {
+    style:'currency', currency:'BRL',
+    minimumFractionDigits:0, maximumFractionDigits:2,
+  });
+}
+
+function fmtDate(ms){
+  if (!ms) return '';
+  return new Date(ms).toLocaleDateString('pt-BR', { day:'numeric', month:'long', year:'numeric' });
+}
+
+function render(p){
+  if (!p) return showError('Proposta não encontrada.');
+
+  const title = p.title || 'Proposta';
+  if (title) document.title = 'Ímpar — ' + title;
+
+  document.getElementById('ref').textContent = 'Ref. ' + (p.id || '').slice(0,8).toUpperCase();
+
+  const items = Array.isArray(p.line_items) ? p.line_items : [];
+  const total = items.reduce((s, it) => s + (Number(it.qty)||0) * (Number(it.unit_price)||0), 0);
+
+  const scopeIn = Array.isArray(p.scope_in) ? p.scope_in : [];
+  const scopeOut = Array.isArray(p.scope_out) ? p.scope_out : [];
+
+  const bodyHtml = (p.body_html || '').trim();
+  const hasBody = bodyHtml && bodyHtml !== '<p><br></p>';
+  const hasPricing = items.length > 0;
+  const hasScope = scopeIn.length > 0 || scopeOut.length > 0;
+  const hasConditions = p.valid_until || p.payment_terms || p.timeline;
+
+  const sentDate = p.sent_at ? fmtDate(p.sent_at) : '';
+
+  let html = `
+    <div class="wrap">
+      <header class="doc-head">
+        <div class="eyebrow">
+          <span class="cat">Proposta comercial</span>
+          ${sentDate ? `<span>${esc(sentDate)}</span>` : ''}
+        </div>
+        <h1>${esc(title)}</h1>
+        ${p.client_name ? `<div class="client-line">Preparada para <strong>${esc(p.client_name)}</strong></div>` : ''}
+      </header>
+  `;
+
+  if (hasBody) {
+    html += `
+      <section class="doc-section">
+        <h2>Contexto</h2>
+        <div class="doc-body">${bodyHtml}</div>
+      </section>
+    `;
+  }
+
+  if (hasPricing) {
+    html += `
+      <section class="doc-section">
+        <h2>Investimento</h2>
+        <table class="pricing">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Qtd</th>
+              <th>Unitário</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items.map(it => {
+              const sub = (Number(it.qty)||0) * (Number(it.unit_price)||0);
+              return `<tr>
+                <td>${esc(it.description || '')}</td>
+                <td>${esc(it.qty || 1)}</td>
+                <td>${esc(fmtBRL(it.unit_price))}</td>
+                <td>${esc(fmtBRL(sub))}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2" class="total-label">Total</td>
+              <td colspan="2" class="total-value">${esc(fmtBRL(total))}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    `;
+  }
+
+  if (hasScope) {
+    html += `
+      <section class="doc-section">
+        <h2>Escopo</h2>
+        <div class="scope-grid">
+          ${scopeIn.length ? `
+            <div class="scope-col">
+              <h3>Incluso</h3>
+              <ul>${scopeIn.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+            </div>` : ''}
+          ${scopeOut.length ? `
+            <div class="scope-col out">
+              <h3>Fora do escopo</h3>
+              <ul>${scopeOut.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+            </div>` : ''}
+        </div>
+      </section>
+    `;
+  }
+
+  if (hasConditions) {
+    html += `
+      <section class="doc-section">
+        <h2>Condições</h2>
+        <div class="conditions">
+          ${p.valid_until ? `
+            <div class="cond">
+              <div class="lbl">Validade</div>
+              <div class="val">Esta proposta é válida até ${esc(fmtDate(p.valid_until))}.</div>
+            </div>` : ''}
+          ${p.timeline ? `
+            <div class="cond">
+              <div class="lbl">Prazo</div>
+              <div class="val">${esc(p.timeline)}</div>
+            </div>` : ''}
+          ${p.payment_terms ? `
+            <div class="cond" style="grid-column: 1 / -1;">
+              <div class="lbl">Pagamento</div>
+              <div class="val">${esc(p.payment_terms)}</div>
+            </div>` : ''}
+        </div>
+      </section>
+    `;
+  }
+
+  html += `
+      <footer class="doc-foot">
+        <div>Ímpar · Comunicação & Reputação</div>
+        <div class="ref">Ref. ${esc((p.id || '').slice(0,8).toUpperCase())}</div>
+      </footer>
+    </div>
+  `;
+
+  main.innerHTML = html;
+}
+
+function showError(msg){
+  main.innerHTML = `<div class="state">${esc(msg)}</div>`;
+  document.title = 'Ímpar — Proposta';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Proposta · Editor · Ímpar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css" />
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="admin-top">
+  <div class="row">
+    <div class="left">
+      <a href="/admin/" class="logo"><img src="/assets/logo-blue.svg" alt="Ímpar" /></a>
+      <span class="crumb">/ Admin · <a href="/admin/proposals.html">Propostas</a> · Editor</span>
+    </div>
+    <div class="right">
+      <span class="who" id="who">…</span>
+      <a class="btn-ghost" href="/admin/proposals.html">← Voltar</a>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <div class="row">
+    <a href="/admin/">Conteúdo</a>
+    <a href="/admin/proposals.html" class="active">Propostas</a>
+  </div>
+</nav>
+
+<main class="shell">
+  <div class="editor-grid">
+    <section>
+      <div class="field">
+        <label for="client_name">Cliente</label>
+        <input type="text" id="client_name" placeholder="Nome do cliente ou empresa" />
+      </div>
+
+      <div class="field" style="margin-top:4px;">
+        <label for="title">Título do projeto</label>
+        <input type="text" id="title" class="title-input" placeholder="Reposicionamento de marca…" />
+      </div>
+
+      <div class="field">
+        <label>Resumo / contexto</label>
+        <div class="body-editor">
+          <div id="quill-editor"></div>
+        </div>
+      </div>
+
+      <h2 style="font-size:22px; font-weight:700; margin:48px 0 8px; letter-spacing:-0.01em;">Pricing</h2>
+      <div class="field">
+        <div class="lineitems" id="lineitems">
+          <div class="li-head">
+            <span>Descrição</span>
+            <span>Qtd</span>
+            <span>Valor unitário</span>
+            <span></span>
+          </div>
+          <!-- rows injected -->
+        </div>
+        <button type="button" class="btn-add" id="add-item">+ Adicionar item</button>
+        <div class="lineitems-foot">
+          <span class="total-label">Total</span>
+          <span class="total-value" id="total">R$ 0</span>
+        </div>
+      </div>
+
+      <h2 style="font-size:22px; font-weight:700; margin:48px 0 8px; letter-spacing:-0.01em;">Escopo</h2>
+      <div class="field">
+        <label>O que está incluso</label>
+        <div class="scope-list" id="scope-in"></div>
+        <button type="button" class="btn-add" data-scope="in">+ Adicionar item</button>
+      </div>
+
+      <div class="field">
+        <label>O que está fora do escopo</label>
+        <div class="scope-list" id="scope-out"></div>
+        <button type="button" class="btn-add" data-scope="out">+ Adicionar item</button>
+      </div>
+
+      <h2 style="font-size:22px; font-weight:700; margin:48px 0 8px; letter-spacing:-0.01em;">Condições</h2>
+      <div class="field">
+        <label for="valid_until">Validade da proposta</label>
+        <input type="date" id="valid_until" />
+      </div>
+
+      <div class="field">
+        <label for="payment_terms">Condições de pagamento</label>
+        <textarea id="payment_terms" rows="3" placeholder="Ex: 50% na assinatura, 50% na entrega"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="timeline">Prazo / cronograma</label>
+        <textarea id="timeline" rows="3" placeholder="Ex: 6 semanas a partir da assinatura"></textarea>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="row">
+        <span class="lbl">Status</span>
+        <span class="badge" id="status-badge">Rascunho</span>
+      </div>
+      <div class="actions">
+        <button class="btn" id="btn-save"><span class="dot"></span>Salvar rascunho</button>
+        <button class="btn btn-secondary" id="btn-send">Enviar (publicar link)</button>
+        <button class="btn btn-secondary" id="btn-unsend" hidden>Voltar para rascunho</button>
+        <a class="btn btn-secondary" id="btn-view" target="_blank" rel="noopener" hidden>Ver como cliente →</a>
+        <button class="btn btn-secondary" id="btn-copy-link" hidden>Copiar link</button>
+        <button class="btn btn-danger" id="btn-delete" hidden>Excluir</button>
+      </div>
+      <div class="meta-mini" id="meta-mini" hidden>
+        <span id="meta-created"></span>
+        <span id="meta-updated"></span>
+        <span id="meta-sent"></span>
+        <span id="meta-author"></span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="savebar" id="savebar">
+  <span class="status" id="savebar-status">Alterações não salvas</span>
+  <button class="btn" id="savebar-save">Salvar</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script type="module">
+import { api, toast, loadMe, formatWhen } from '/admin/admin.js';
+import { initLogin } from '/admin/login.js';
+
+await initLogin();
+
+const params = new URLSearchParams(location.search);
+let proposalId = params.get('id');
+let proposal = null;
+let dirty = false;
+let saving = false;
+let lineItems = [];      // [{description, qty, unit_price}]
+let scopeIn = [];        // [string]
+let scopeOut = [];       // [string]
+
+const els = {
+  clientName: document.getElementById('client_name'),
+  title: document.getElementById('title'),
+  validUntil: document.getElementById('valid_until'),
+  paymentTerms: document.getElementById('payment_terms'),
+  timeline: document.getElementById('timeline'),
+  lineitems: document.getElementById('lineitems'),
+  total: document.getElementById('total'),
+  scopeIn: document.getElementById('scope-in'),
+  scopeOut: document.getElementById('scope-out'),
+  statusBadge: document.getElementById('status-badge'),
+  btnSave: document.getElementById('btn-save'),
+  btnSend: document.getElementById('btn-send'),
+  btnUnsend: document.getElementById('btn-unsend'),
+  btnView: document.getElementById('btn-view'),
+  btnCopyLink: document.getElementById('btn-copy-link'),
+  btnDelete: document.getElementById('btn-delete'),
+  savebar: document.getElementById('savebar'),
+  savebarSave: document.getElementById('savebar-save'),
+  metaMini: document.getElementById('meta-mini'),
+  metaCreated: document.getElementById('meta-created'),
+  metaUpdated: document.getElementById('meta-updated'),
+  metaSent: document.getElementById('meta-sent'),
+  metaAuthor: document.getElementById('meta-author'),
+};
+
+loadMe().then(email => {
+  if (email) document.getElementById('who').textContent = email;
+});
+
+/* ---------- Quill ---------- */
+const quill = new Quill('#quill-editor', {
+  theme: 'snow',
+  placeholder: 'Contexto, objetivos, abordagem…',
+  modules: {
+    toolbar: [
+      [{ header: [2, 3, false] }],
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }, 'blockquote'],
+      ['link'],
+      ['clean'],
+    ],
+  },
+});
+quill.on('text-change', (_d, _o, source) => { if (source === 'user') markDirty(); });
+
+/* ---------- Inputs that touch dirty ---------- */
+[els.clientName, els.title, els.validUntil, els.paymentTerms, els.timeline]
+  .forEach(el => el.addEventListener('input', markDirty));
+
+/* ---------- Line items ---------- */
+function fmtBRL(n) {
+  return (Number(n) || 0).toLocaleString('pt-BR', {
+    style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 2,
+  });
+}
+function recalcTotal() {
+  const total = lineItems.reduce((sum, it) =>
+    sum + (Number(it.qty) || 0) * (Number(it.unit_price) || 0), 0);
+  els.total.textContent = fmtBRL(total);
+}
+function renderLineItems() {
+  els.lineitems.querySelectorAll('.li-row').forEach(n => n.remove());
+  lineItems.forEach((it, i) => {
+    const row = document.createElement('div');
+    row.className = 'li-row';
+    row.innerHTML = `
+      <input type="text" placeholder="Descrição do item" />
+      <input type="number" min="1" step="1" />
+      <input type="number" min="0" step="0.01" placeholder="0" />
+      <button type="button" class="li-remove" aria-label="Remover">×</button>
+    `;
+    const [desc, qty, price] = row.querySelectorAll('input');
+    desc.value = it.description || '';
+    qty.value = it.qty || 1;
+    price.value = it.unit_price || '';
+    desc.addEventListener('input', () => { it.description = desc.value; markDirty(); });
+    qty.addEventListener('input', () => { it.qty = +qty.value || 1; recalcTotal(); markDirty(); });
+    price.addEventListener('input', () => { it.unit_price = +price.value || 0; recalcTotal(); markDirty(); });
+    row.querySelector('.li-remove').addEventListener('click', () => {
+      lineItems.splice(i, 1); renderLineItems(); recalcTotal(); markDirty();
+    });
+    els.lineitems.appendChild(row);
+  });
+  recalcTotal();
+}
+document.getElementById('add-item').addEventListener('click', () => {
+  lineItems.push({ description: '', qty: 1, unit_price: 0 });
+  renderLineItems();
+  markDirty();
+});
+
+/* ---------- Scope lists ---------- */
+function renderScope(target, list) {
+  target.innerHTML = '';
+  list.forEach((v, i) => {
+    const row = document.createElement('div');
+    row.className = 'scope-row';
+    row.innerHTML = `<input type="text" placeholder="Item de escopo" />
+      <button type="button" class="li-remove" aria-label="Remover">×</button>`;
+    const input = row.querySelector('input');
+    input.value = v;
+    input.addEventListener('input', () => { list[i] = input.value; markDirty(); });
+    row.querySelector('.li-remove').addEventListener('click', () => {
+      list.splice(i, 1);
+      renderScope(target, list);
+      markDirty();
+    });
+    target.appendChild(row);
+  });
+}
+document.querySelectorAll('.btn-add[data-scope]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const list = btn.dataset.scope === 'in' ? scopeIn : scopeOut;
+    list.push('');
+    renderScope(btn.dataset.scope === 'in' ? els.scopeIn : els.scopeOut, list);
+    markDirty();
+  });
+});
+
+/* ---------- Save / send ---------- */
+function payload() {
+  let validUntilMs = null;
+  if (els.validUntil.value) {
+    const d = new Date(els.validUntil.value + 'T23:59:59');
+    if (!isNaN(d.getTime())) validUntilMs = d.getTime();
+  }
+  return {
+    title: els.title.value,
+    client_name: els.clientName.value,
+    body_html: quill.root.innerHTML,
+    line_items: lineItems,
+    valid_until: validUntilMs,
+    payment_terms: els.paymentTerms.value,
+    timeline: els.timeline.value,
+    scope_in: scopeIn,
+    scope_out: scopeOut,
+  };
+}
+
+function markDirty() {
+  dirty = true;
+  els.savebar.classList.add('visible');
+  document.getElementById('savebar-status').textContent = 'Alterações não salvas';
+}
+function markClean() {
+  dirty = false;
+  els.savebar.classList.remove('visible');
+}
+
+async function save({ silent = false } = {}) {
+  if (saving) return;
+  saving = true;
+  els.btnSave.disabled = true;
+  els.savebarSave.disabled = true;
+  try {
+    if (proposalId) {
+      const { proposal: p } = await api(`/api/proposals/${proposalId}`, {
+        method: 'PATCH', body: JSON.stringify(payload()),
+      });
+      proposal = p;
+    } else {
+      const { proposal: p } = await api(`/api/proposals`, {
+        method: 'POST', body: JSON.stringify(payload()),
+      });
+      proposal = p; proposalId = p.id;
+      history.replaceState(null, '', `/admin/proposal-editor.html?id=${proposalId}`);
+    }
+    markClean();
+    applyProposal();
+    if (!silent) toast('Salvo');
+    return proposal;
+  } catch (e) {
+    toast(e.message || 'Falha ao salvar', 'error');
+  } finally {
+    saving = false;
+    els.btnSave.disabled = false;
+    els.savebarSave.disabled = false;
+  }
+}
+
+async function send() {
+  const p = await save({ silent: true });
+  if (!p) return;
+  try {
+    const { proposal: updated } = await api(`/api/proposals/${proposalId}/send`, { method: 'POST' });
+    proposal = updated; applyProposal(); toast('Link da proposta ativo');
+  } catch (e) {
+    toast(e.message || 'Falha ao enviar', 'error');
+  }
+}
+async function unsend() {
+  try {
+    const { proposal: updated } = await api(`/api/proposals/${proposalId}/unsend`, { method: 'POST' });
+    proposal = updated; applyProposal(); toast('Voltou para rascunho');
+  } catch (e) {
+    toast(e.message || 'Falha', 'error');
+  }
+}
+async function remove() {
+  if (!confirm('Excluir esta proposta? Esta ação não pode ser desfeita.')) return;
+  try {
+    await api(`/api/proposals/${proposalId}`, { method: 'DELETE' });
+    window.location.href = '/admin/proposals.html';
+  } catch (e) {
+    toast(e.message || 'Falha', 'error');
+  }
+}
+
+els.btnSave.addEventListener('click', () => save());
+els.savebarSave.addEventListener('click', () => save());
+els.btnSend.addEventListener('click', send);
+els.btnUnsend.addEventListener('click', unsend);
+els.btnDelete.addEventListener('click', remove);
+els.btnCopyLink.addEventListener('click', async () => {
+  if (!proposalId) return;
+  const url = `${location.origin}/proposal.html?id=${proposalId}`;
+  try { await navigator.clipboard.writeText(url); toast('Link copiado'); }
+  catch { prompt('Copie o link:', url); }
+});
+
+window.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault(); save();
+  }
+});
+window.addEventListener('beforeunload', e => {
+  if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ---------- Apply ---------- */
+function applyProposal() {
+  if (!proposal) return;
+  const isSent = proposal.status === 'sent';
+  els.statusBadge.classList.toggle('sent', isSent);
+  els.statusBadge.classList.toggle('draft', !isSent);
+  els.statusBadge.textContent = isSent ? 'Enviada' : 'Rascunho';
+  els.btnSend.hidden = isSent;
+  els.btnUnsend.hidden = !isSent;
+  els.btnDelete.hidden = false;
+  els.btnView.hidden = false;
+  els.btnView.href = `/proposal.html?id=${proposal.id}`;
+  els.btnCopyLink.hidden = !isSent;
+  els.metaMini.hidden = false;
+  els.metaCreated.textContent = `Criada · ${formatWhen(proposal.created_at)}`;
+  els.metaUpdated.textContent = `Editada · ${formatWhen(proposal.updated_at)}`;
+  els.metaSent.textContent = proposal.sent_at ? `Enviada · ${formatWhen(proposal.sent_at)}` : 'Não enviada';
+  els.metaAuthor.textContent = proposal.author_email ? `Autor · ${proposal.author_email}` : '';
+}
+
+/* ---------- Load ---------- */
+async function loadProposal() {
+  if (!proposalId) {
+    els.btnDelete.hidden = true;
+    els.btnView.hidden = true;
+    return;
+  }
+  try {
+    const { proposal: p } = await api(`/api/proposals/${proposalId}`);
+    proposal = p;
+    els.title.value = p.title || '';
+    els.clientName.value = p.client_name || '';
+    quill.root.innerHTML = p.body_html || '';
+    lineItems = Array.isArray(p.line_items) ? p.line_items.map(it => ({ ...it })) : [];
+    renderLineItems();
+    scopeIn = Array.isArray(p.scope_in) ? [...p.scope_in] : [];
+    scopeOut = Array.isArray(p.scope_out) ? [...p.scope_out] : [];
+    renderScope(els.scopeIn, scopeIn);
+    renderScope(els.scopeOut, scopeOut);
+    els.paymentTerms.value = p.payment_terms || '';
+    els.timeline.value = p.timeline || '';
+    if (p.valid_until) {
+      const d = new Date(p.valid_until);
+      const iso = d.toISOString().slice(0, 10);
+      els.validUntil.value = iso;
+    }
+    applyProposal();
+    markClean();
+  } catch (e) {
+    toast('Não foi possível carregar esta proposta', 'error');
+  }
+}
+
+loadProposal();
+</script>
+
+</body>
+</html>
