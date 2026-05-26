@@ -111,6 +111,7 @@
         <button class="btn btn-secondary" id="btn-unsend" hidden>Voltar para rascunho</button>
         <a class="btn btn-secondary" id="btn-view" target="_blank" rel="noopener" hidden>Ver como cliente →</a>
         <button class="btn btn-secondary" id="btn-copy-link" hidden>Copiar link</button>
+        <button class="btn btn-secondary" id="btn-duplicate" hidden>Duplicar</button>
         <button class="btn btn-danger" id="btn-delete" hidden>Excluir</button>
       </div>
       <div class="meta-mini" id="meta-mini" hidden>
@@ -160,6 +161,7 @@ const els = {
   btnUnsend: document.getElementById('btn-unsend'),
   btnView: document.getElementById('btn-view'),
   btnCopyLink: document.getElementById('btn-copy-link'),
+  btnDuplicate: document.getElementById('btn-duplicate'),
   btnDelete: document.getElementById('btn-delete'),
   savebar: document.getElementById('savebar'),
   savebarSave: document.getElementById('savebar-save'),
@@ -352,12 +354,24 @@ async function remove() {
     toast(e.message || 'Falha', 'error');
   }
 }
+async function duplicate() {
+  if (dirty && !confirm('Há alterações não salvas — duplicar mesmo assim usará a última versão salva.')) return;
+  els.btnDuplicate.disabled = true;
+  try {
+    const { proposal: copy } = await api(`/api/proposals/${proposalId}/duplicate`, { method: 'POST' });
+    window.location.href = `/admin/proposal-editor.html?id=${copy.id}`;
+  } catch (e) {
+    els.btnDuplicate.disabled = false;
+    toast(e.message || 'Falha ao duplicar', 'error');
+  }
+}
 
 els.btnSave.addEventListener('click', () => save());
 els.savebarSave.addEventListener('click', () => save());
 els.btnSend.addEventListener('click', send);
 els.btnUnsend.addEventListener('click', unsend);
 els.btnDelete.addEventListener('click', remove);
+els.btnDuplicate.addEventListener('click', duplicate);
 els.btnCopyLink.addEventListener('click', async () => {
   if (!proposalId) return;
   const url = `${location.origin}/proposal.html?id=${proposalId}`;
@@ -387,6 +401,7 @@ function applyProposal() {
   els.btnView.hidden = false;
   els.btnView.href = `/proposal.html?id=${proposal.id}`;
   els.btnCopyLink.hidden = !isSent;
+  els.btnDuplicate.hidden = false;
   els.metaMini.hidden = false;
   els.metaCreated.textContent = `Criada · ${formatWhen(proposal.created_at)}`;
   els.metaUpdated.textContent = `Editada · ${formatWhen(proposal.updated_at)}`;
@@ -399,6 +414,7 @@ async function loadProposal() {
   if (!proposalId) {
     els.btnDelete.hidden = true;
     els.btnView.hidden = true;
+    els.btnDuplicate.hidden = true;
     return;
   }
   try {

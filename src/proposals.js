@@ -135,3 +135,31 @@ export async function deleteProposal(env, id) {
   await env.DB.prepare('DELETE FROM proposals WHERE id=?').bind(id).run();
   return p;
 }
+
+export async function duplicateProposal(env, id, authorEmail) {
+  const src = await getProposal(env, id);
+  if (!src) return null;
+  const newId_ = newId();
+  const now = Date.now();
+  const title = src.title ? `Cópia de ${src.title}` : 'Cópia';
+  await env.DB.prepare(
+    `INSERT INTO proposals (
+       id, title, client_name, body_html, line_items, valid_until,
+       payment_terms, timeline, scope_in, scope_out,
+       status, created_at, updated_at, author_email
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?, ?)`
+  ).bind(
+    newId_,
+    title,
+    src.client_name || '',
+    src.body_html || '',
+    JSON.stringify(src.line_items || []),
+    src.valid_until || null,
+    src.payment_terms || '',
+    src.timeline || '',
+    JSON.stringify(src.scope_in || []),
+    JSON.stringify(src.scope_out || []),
+    now, now, authorEmail,
+  ).run();
+  return getProposal(env, newId_);
+}

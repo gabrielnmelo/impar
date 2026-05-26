@@ -8,6 +8,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/admin/admin.css" />
+<style>
+  /* proposals list: meta spans 2, then badge + duplicate + edit */
+  #list-wrap .post-row{ grid-template-columns: 88px 1fr auto auto auto; }
+  #list-wrap .btn-ghost.btn-dup{
+    border:1px solid var(--rule); border-radius:999px;
+    padding:8px 14px; font-size:12px; font-weight:600; color:var(--blue);
+    letter-spacing:.04em; background:#fff; cursor:pointer;
+  }
+  #list-wrap .btn-ghost.btn-dup:hover{ background:var(--blue-light); }
+  #list-wrap .btn-ghost.btn-dup:disabled{ opacity:.55; cursor:not-allowed; }
+  @media (max-width: 720px){
+    #list-wrap .post-row{ grid-template-columns: 1fr auto auto; }
+    #list-wrap .post-row .meta-col{ grid-column: 1 !important; }
+    #list-wrap .post-row .badge{ display:none; }
+  }
+</style>
 </head>
 <body>
 
@@ -113,6 +129,20 @@ function render() {
       if (e.target.closest('button') || e.target.closest('a.btn-ghost')) return;
       window.location.href = `/admin/proposal-editor.html?id=${row.dataset.id}`;
     });
+    const dup = row.querySelector('.btn-dup');
+    if (dup) {
+      dup.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        dup.disabled = true;
+        try {
+          const { proposal } = await api(`/api/proposals/${row.dataset.id}/duplicate`, { method: 'POST' });
+          window.location.href = `/admin/proposal-editor.html?id=${proposal.id}`;
+        } catch (err) {
+          dup.disabled = false;
+          alert(err.message || 'Falha ao duplicar');
+        }
+      });
+    }
   });
 }
 
@@ -132,6 +162,7 @@ function rowHtml(p) {
         </div>
       </div>
       <span class="badge ${p.status}">${p.status === 'sent' ? 'Enviada' : 'Rascunho'}</span>
+      <button class="btn-ghost btn-dup" type="button" title="Duplicar">Duplicar</button>
       <a class="btn-ghost" href="/admin/proposal-editor.html?id=${esc(p.id)}">Editar →</a>
     </div>`;
 }

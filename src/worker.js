@@ -4,7 +4,7 @@ import {
 } from './posts.js';
 import {
   listProposals, getProposal, createProposal, updateProposal,
-  setProposalStatus, deleteProposal,
+  setProposalStatus, deleteProposal, duplicateProposal,
 } from './proposals.js';
 import { uploadImage, serveImage } from './images.js';
 
@@ -119,7 +119,7 @@ async function handleApi(request, env, url) {
     return json({ proposals });
   }
 
-  const pm = pathname.match(/^\/api\/proposals(?:\/([A-Za-z0-9_-]+))?(?:\/(send|unsend))?$/);
+  const pm = pathname.match(/^\/api\/proposals(?:\/([A-Za-z0-9_-]+))?(?:\/(send|unsend|duplicate))?$/);
   if (pm) {
     const id = pm[1];
     const action = pm[2];
@@ -149,6 +149,10 @@ async function handleApi(request, env, url) {
     if (id && action === 'unsend' && method === 'POST') {
       const proposal = await setProposalStatus(env, id, 'draft');
       return proposal ? json({ proposal }) : json({ error: 'not found' }, { status: 404 });
+    }
+    if (id && action === 'duplicate' && method === 'POST') {
+      const proposal = await duplicateProposal(env, id, user.email);
+      return proposal ? json({ proposal }, { status: 201 }) : json({ error: 'not found' }, { status: 404 });
     }
   }
 
