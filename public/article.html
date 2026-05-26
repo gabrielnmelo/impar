@@ -125,6 +125,13 @@
     font-size:clamp(40px,5.4vw,76px);line-height:1.02;
     letter-spacing:-0.028em;margin:0;color:#fff;text-wrap:balance;
   }
+  .article-hero .art-subtitle{
+    margin:16px 0 0;
+    font-family:"Space Grotesk",sans-serif;font-weight:400;
+    font-size:clamp(18px,1.6vw,22px);line-height:1.45;
+    letter-spacing:-0.005em;color:rgba(255,255,255,.85);
+    text-wrap:pretty;max-width:560px;
+  }
   .article-hero .meta{
     margin-top:32px;display:flex;gap:24px;
     font-family:"Space Grotesk",sans-serif;
@@ -252,6 +259,7 @@
           <span id="art-date"></span>
         </div>
         <h1 id="art-title"></h1>
+        <p class="art-subtitle" id="art-subtitle" hidden></p>
         <div class="meta">
           <span id="art-format"></span>
           <span id="art-time"></span>
@@ -338,6 +346,12 @@
     set('art-format',  format);
     set('art-time',    mins);
 
+    const subtitleEl = document.getElementById('art-subtitle');
+    if (subtitleEl) {
+      if (post.subtitle) { subtitleEl.textContent = post.subtitle; subtitleEl.hidden = false; }
+      else { subtitleEl.hidden = true; }
+    }
+
     if (post.title) document.title = 'Ímpar — ' + post.title;
 
     if (post.image_url) {
@@ -345,10 +359,10 @@
       if (bg) bg.style.backgroundImage = "url('" + post.image_url.replace(/'/g, "%27") + "')";
     }
 
-    renderBody(post.body_html || '', dateShort);
+    renderBody(post.body_html || '', dateShort, post.author_name || '');
   }
 
-  function renderBody(html, dateShort){
+  function renderBody(html, dateShort, authorName){
     const inner = document.getElementById('body-inner');
     if (!html.trim()) {
       inner.innerHTML = '<p class="loading">—</p>';
@@ -364,9 +378,10 @@
       firstP.remove();
     }
 
+    const byline = authorName ? 'Por ' + authorName : 'Por Ímpar';
     const authorHtml = '<div class="author-line">'
       + '<span>Publicado em ' + (dateShort || '—') + '</span>'
-      + '<span>Por Ímpar</span>'
+      + '<span>' + byline + '</span>'
       + '</div>';
 
     inner.innerHTML = ledeHtml + doc.body.innerHTML + authorHtml;

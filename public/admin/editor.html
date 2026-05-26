@@ -47,6 +47,16 @@
       </div>
 
       <div class="field">
+        <label for="subtitle">Subtítulo</label>
+        <textarea id="subtitle" rows="2" placeholder="Uma frase ou duas que ampliam o título…" style="resize:none; overflow:hidden;"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="author">Autor</label>
+        <input type="text" id="author" placeholder="Nome do autor" />
+      </div>
+
+      <div class="field">
         <label>Tags <span style="text-transform:none; letter-spacing:0; opacity:.7;">(a primeira vira a categoria do card)</span></label>
         <div class="tagbox" id="tagbox">
           <input type="text" id="tag-input" placeholder="Reputação, Ensaio…" />
@@ -106,6 +116,8 @@ let saving = false;
 
 const els = {
   title: document.getElementById('title'),
+  subtitle: document.getElementById('subtitle'),
+  author: document.getElementById('author'),
   tagbox: document.getElementById('tagbox'),
   tagInput: document.getElementById('tag-input'),
   cover: document.getElementById('cover'),
@@ -175,8 +187,14 @@ quill.on('text-change', (delta, _old, source) => {
   if (source === 'user') markDirty();
 });
 
-/* ---------- Title & tags ---------- */
+/* ---------- Title, subtitle & author ---------- */
 els.title.addEventListener('input', markDirty);
+els.subtitle.addEventListener('input', () => {
+  els.subtitle.style.height = 'auto';
+  els.subtitle.style.height = els.subtitle.scrollHeight + 'px';
+  markDirty();
+});
+els.author.addEventListener('input', markDirty);
 
 function renderTags() {
   els.tagbox.querySelectorAll('.chip').forEach(c => c.remove());
@@ -280,6 +298,8 @@ function setCoverDisplay() {
 function payload() {
   return {
     title: els.title.value,
+    subtitle: els.subtitle.value,
+    author_name: els.author.value,
     tags,
     body_html: quill.root.innerHTML,
     image_key: imageKey,
@@ -399,6 +419,10 @@ async function loadPost() {
     const { post: p } = await api(`/api/posts/${postId}`);
     post = p;
     els.title.value = p.title || '';
+    els.subtitle.value = p.subtitle || '';
+    els.subtitle.style.height = 'auto';
+    els.subtitle.style.height = els.subtitle.scrollHeight + 'px';
+    els.author.value = p.author_name || '';
     tags = Array.isArray(p.tags) ? [...p.tags] : [];
     renderTags();
     imageKey = p.image_key || null;

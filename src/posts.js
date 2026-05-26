@@ -5,6 +5,7 @@ function rowToPost(row) {
   return {
     id: row.id,
     title: row.title,
+    subtitle: row.subtitle || '',
     tags,
     body_html: row.body_html,
     excerpt: row.excerpt,
@@ -16,6 +17,7 @@ function rowToPost(row) {
     updated_at: row.updated_at,
     published_at: row.published_at,
     author_email: row.author_email,
+    author_name: row.author_name || '',
   };
 }
 
@@ -58,16 +60,18 @@ export async function createPost(env, input, authorEmail) {
   const id = newId();
   const now = Date.now();
   const title = (input.title || '').trim() || 'Sem título';
+  const subtitle = (input.subtitle || '').trim();
+  const author_name = (input.author_name || '').trim();
   const tags = JSON.stringify(Array.isArray(input.tags) ? input.tags : []);
   const body_html = input.body_html || '';
   const excerpt = input.excerpt || deriveExcerpt(body_html);
   const read_minutes = estimateReadMinutes(body_html);
   await env.DB.prepare(
-    `INSERT INTO posts (id, title, tags, body_html, excerpt, image_key, read_minutes,
-                        status, created_at, updated_at, author_email)
-     VALUES (?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?, ?)`
-  ).bind(id, title, tags, body_html, excerpt, input.image_key || null,
-         read_minutes, now, now, authorEmail).run();
+    `INSERT INTO posts (id, title, subtitle, author_name, tags, body_html, excerpt,
+                        image_key, read_minutes, status, created_at, updated_at, author_email)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?, ?)`
+  ).bind(id, title, subtitle, author_name, tags, body_html, excerpt,
+         input.image_key || null, read_minutes, now, now, authorEmail).run();
   return getPost(env, id);
 }
 
@@ -75,16 +79,19 @@ export async function updatePost(env, id, input) {
   const existing = await getPost(env, id);
   if (!existing) return null;
   const title = input.title !== undefined ? input.title.trim() || 'Sem título' : existing.title;
+  const subtitle = input.subtitle !== undefined ? (input.subtitle || '').trim() : existing.subtitle;
+  const author_name = input.author_name !== undefined ? (input.author_name || '').trim() : existing.author_name;
   const tags = input.tags !== undefined ? JSON.stringify(input.tags) : JSON.stringify(existing.tags);
   const body_html = input.body_html !== undefined ? input.body_html : existing.body_html;
   const image_key = input.image_key !== undefined ? input.image_key : existing.image_key;
   const excerpt = input.excerpt !== undefined ? input.excerpt : deriveExcerpt(body_html);
   const read_minutes = estimateReadMinutes(body_html);
   await env.DB.prepare(
-    `UPDATE posts SET title=?, tags=?, body_html=?, excerpt=?, image_key=?,
-                      read_minutes=?, updated_at=?
+    `UPDATE posts SET title=?, subtitle=?, author_name=?, tags=?, body_html=?, excerpt=?,
+                      image_key=?, read_minutes=?, updated_at=?
      WHERE id=?`
-  ).bind(title, tags, body_html, excerpt, image_key, read_minutes, Date.now(), id).run();
+  ).bind(title, subtitle, author_name, tags, body_html, excerpt,
+         image_key, read_minutes, Date.now(), id).run();
   return getPost(env, id);
 }
 
