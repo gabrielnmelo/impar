@@ -8,8 +8,8 @@ export function initLogin() {
     overlay.className = 'login-overlay';
     overlay.innerHTML = `
       <div class="login-card">
-        <img src="/assets/logo-blue.svg" alt="Ímpar" class="login-logo" />
-        <div class="login-eyebrow">/ ADMIN · ACESSO</div>
+        <img src="/assets/Painel-Impar.svg" alt="Ímpar" class="login-logo" />
+        <div class="login-eyebrow">ADMIN · ACESSO</div>
         <h1 class="login-title">Entrar</h1>
         <form id="login-form" class="login-form">
           <label>

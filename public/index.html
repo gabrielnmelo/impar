@@ -106,6 +106,8 @@
   }
   .cta-btn:hover{background:#fff; color:var(--blue); transform:translateY(-1px)}
   .cta-btn .dot{width:7px; height:7px; border-radius:50%; background:currentColor}
+  .cta-btn .icon{width:15px; height:15px; display:block; flex-shrink:0}
+  .cta-btn .icon svg{width:100%; height:100%; display:block}
 
   /* ---------- SPOTLIGHT MARK ---------- */
   .spot-mark{ fill: currentColor; }
@@ -116,7 +118,7 @@
      tiles below in one continuous zone. */
   .spot-hero{
     position:relative;
-    background:#000 url("assets/hero-bg.jpg") center/cover no-repeat;
+    background:#000 url("/assets/hero-bg.jpg") center/cover no-repeat;
     color:#fff;
     overflow:hidden;
     border-bottom: 1px solid var(--rule);
@@ -428,7 +430,7 @@
     text-align:left;
     max-width: none;
     width: 70%;
-    margin: 0 0 48px;
+    margin: 0 0 112px;
     padding: 0;
     font-family:"Space Grotesk", sans-serif;
     font-weight: 500;
@@ -453,26 +455,26 @@
     border-bottom: 1px solid rgba(26,26,255,.18);
     padding: 28px 24px 24px;
     transition: background-color .15s ease, color .15s ease;
+    cursor: pointer;
+    outline: none;
+  }
+  .servicos-list .group:focus-visible{
+    box-shadow: inset 0 0 0 2px var(--blue);
   }
   .servicos-list .group.active{
     background: var(--blue);
     color: #fff;
   }
   .servicos-list .group.active .head h3,
-  .servicos-list .group.active .head .n,
-  .servicos-list .group.active ul li .title{ color: #fff; }
-  .servicos-list .group.active ul li{ border-top-color: rgba(255,255,255,.18); }
-  .servicos-list .group.active ul li .arrow{
-    border-color: rgba(255,255,255,.6); color: #fff;
-  }
-  .servicos-list .group.active ul li.active .arrow,
-  .servicos-list .group.active ul li:hover .arrow{
-    background: #fff; color: var(--blue); border-color: #fff;
+  .servicos-list .group.active ul li{ color: #fff; }
+  .servicos-list .group.active ul li{ border-top-color: rgba(255,255,255,.22); }
+  .servicos-list .group.active .head .arrow{
+    background:#fff; color:var(--blue); border-color:#fff;
   }
   .servicos-list .group .head{
-    display:flex; justify-content:space-between; align-items:flex-start;
+    display:flex; justify-content:space-between; align-items:center;
     gap: 16px;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
   }
   .servicos-list .group .head h3{
     font-family:"Space Grotesk", sans-serif; font-weight:700;
@@ -481,45 +483,33 @@
     color: var(--blue);
     margin:0;
   }
-  .servicos-list .group .head .n{
-    font-family:"Space Grotesk", sans-serif; font-size:12px;
-    color:rgba(26,26,255,.7); padding-top:6px;
-    letter-spacing:.14em;
+  .servicos-list .group .head .arrow{
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid rgba(26,26,255,.45);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; font-size: 16px;
+    color: var(--blue);
+    transition: background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .servicos-list .group:hover .head .arrow{
+    background: var(--blue); color: #fff; border-color: var(--blue);
+    transform: translateX(2px);
+  }
+  .servicos-list .group.active:hover .head .arrow{
+    transform: none;
   }
   .servicos-list .group ul{
     list-style:none; margin:0; padding:0;
     display:flex; flex-direction:column;
   }
   .servicos-list .group ul li{
-    padding: 14px 0;
-    display:flex; justify-content:space-between; align-items:center;
-    gap: 16px;
-    cursor:pointer;
-    transition: padding .15s ease, color .15s ease;
-    border-top:1px solid rgba(26,26,255,.12);
+    padding: 12px 0;
+    font-family:"Space Grotesk", sans-serif; font-weight:500;
+    font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--blue);
+    border-top: 1px solid rgba(26,26,255,.12);
   }
   .servicos-list .group ul li:first-child{ border-top: none; padding-top: 4px; }
-  .servicos-list .group ul li:hover{ padding-left:8px; }
-  .servicos-list .group ul li.active{
-    padding-left: 8px;
-    color: var(--blue);
-  }
-  .servicos-list .group ul li .title{
-    font-family:"Space Grotesk", sans-serif; font-weight:600;
-    font-size: 15px; letter-spacing:.06em; text-transform: uppercase;
-    color: var(--blue);
-  }
-  .servicos-list .group ul li .arrow{
-    width:26px; height:26px; border-radius:50%;
-    border:1px solid rgba(26,26,255,.45);
-    display:flex; align-items:center; justify-content:center;
-    flex-shrink:0; font-size:13px;
-    transition: background .15s ease, color .15s ease, border-color .15s ease;
-  }
-  .servicos-list .group ul li:hover .arrow,
-  .servicos-list .group ul li.active .arrow{
-    background:var(--blue); color:#fff; border-color:var(--blue);
-  }
 
   .servicos-detail{
     position: relative;
@@ -573,9 +563,10 @@
     position: relative;
   }
   .servicos-detail .det-includes li::before{
-    content: "→";
-    position:absolute; left:0; top:0;
-    color: rgba(26,26,255,.7);
+    content: "";
+    position:absolute; left:0; top:.65em;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(26,26,255,.55);
   }
   .servicos-detail .det-cta{
     margin-top: 40px;
@@ -587,6 +578,9 @@
     font-family:"Space Grotesk", sans-serif; font-weight:600;
     font-size: 13.5px;
     transition: transform .15s ease, background-color .15s ease;
+  }
+  .servicos-detail .det-cta-icon{
+    width: 16px; height: 16px; display: block; flex-shrink: 0;
   }
   .servicos-detail .det-cta:hover{
     transform: translateY(-1px);
@@ -905,6 +899,7 @@
     color: var(--blue);
     opacity: .3;
   }
+  .form button .send-icon{ width:16px; height:16px; display:block; }
   .form button{
     margin-top: 12px;
     background: var(--ink); color: var(--cream);
@@ -974,28 +969,34 @@
 <nav class="top top-sticky" id="top-sticky" aria-hidden="true">
   <div class="wrap row">
     <a href="#home" class="logo">
-      <img src="assets/logo-blue.svg" alt="Ímpar" class="logo-img" />
+      <img src="/assets/Logo.svg" alt="Ímpar" class="logo-img" />
     </a>
     <div class="links">
       <a href="#servicos">Serviços</a>
       <a href="#sobre">Sobre</a>
       <a href="#conteudo">Conteúdo</a>
     </div>
-    <a href="#contato" class="cta-btn"><span class="dot"></span>Conversar com a Ímpar</a>
+    <a href="#contato" class="cta-btn">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg></span>
+      Conversar com a Ímpar
+    </a>
   </div>
 </nav>
 
 <nav class="top">
   <div class="wrap row">
     <a href="#home" class="logo">
-      <img src="assets/logo-white.svg" alt="Ímpar" class="logo-img" />
+      <img src="/assets/Logo-white.svg" alt="Ímpar" class="logo-img" />
     </a>
     <div class="links">
       <a href="#servicos">Serviços</a>
       <a href="#sobre">Sobre</a>
       <a href="#conteudo">Conteúdo</a>
     </div>
-    <a href="#contato" class="cta-btn"><span class="dot"></span>Conversar com a Ímpar</a>
+    <a href="#contato" class="cta-btn">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg></span>
+      Conversar com a Ímpar
+    </a>
   </div>
 </nav>
 
@@ -1036,51 +1037,51 @@ verdadeiramente ímpares.</h1>
     </p>
     <div class="servicos-layout">
       <div class="servicos-list" id="servicos-list">
-        <div class="group">
+        <div class="group" data-key="rep" tabindex="0" role="button" aria-label="Ver detalhes de Reputação">
           <div class="head">
             <h3>Reputação</h3>
-            <div class="n">01 / 04</div>
+            <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li data-key="rep-gestao"><span class="title" style="letter-spacing: 0.2px">Gestão de reputação</span><span class="arrow">→</span></li>
-            <li data-key="rep-posic"><span class="title">Posicionamento institucional</span><span class="arrow">→</span></li>
-            <li data-key="rep-autor"><span class="title">Construção de autoridade</span><span class="arrow">→</span></li>
+            <li>Gestão de reputação</li>
+            <li>Posicionamento institucional</li>
+            <li>Construção de autoridade</li>
           </ul>
         </div>
 
-        <div class="group">
+        <div class="group" data-key="marca" tabindex="0" role="button" aria-label="Ver detalhes de Marca">
           <div class="head">
             <h3>Marca</h3>
-            <div class="n">02 / 04</div>
+            <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li data-key="mp-pessoal"><span class="title">Marca pessoal</span><span class="arrow">→</span></li>
-            <li data-key="mp-exec"><span class="title">Posicionamento executivo</span><span class="arrow">→</span></li>
-            <li data-key="mp-lider"><span class="title">Comunicação para lideranças</span><span class="arrow">→</span></li>
+            <li>Marca pessoal</li>
+            <li>Posicionamento executivo</li>
+            <li>Comunicação para lideranças</li>
           </ul>
         </div>
 
-        <div class="group">
+        <div class="group" data-key="com" tabindex="0" role="button" aria-label="Ver detalhes de Comunicação">
           <div class="head">
             <h3>Comunicação</h3>
-            <div class="n">03 / 04</div>
+            <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li data-key="com-assess"><span class="title">Assessoria estratégica</span><span class="arrow">→</span></li>
-            <li data-key="com-rp"><span class="title">Relações públicas</span><span class="arrow">→</span></li>
-            <li data-key="com-digital"><span class="title">Conteúdo e presença digital</span><span class="arrow">→</span></li>
+            <li>Assessoria estratégica</li>
+            <li>Relações públicas</li>
+            <li>Conteúdo e presença digital</li>
           </ul>
         </div>
 
-        <div class="group">
+        <div class="group" data-key="proj" tabindex="0" role="button" aria-label="Ver detalhes de Projetos">
           <div class="head">
             <h3>Projetos</h3>
-            <div class="n">04 / 04</div>
+            <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li data-key="proj-eventos"><span class="title">Eventos de relacionamento</span><span class="arrow">→</span></li>
-            <li data-key="proj-influ"><span class="title">Ambientes de influência</span><span class="arrow">→</span></li>
-            <li data-key="proj-instit"><span class="title">Projetos institucionais</span><span class="arrow">→</span></li>
+            <li>Eventos de relacionamento</li>
+            <li>Ambientes de influência</li>
+            <li>Projetos institucionais</li>
           </ul>
         </div>
       </div>
@@ -1091,10 +1092,12 @@ verdadeiramente ímpares.</h1>
         <h4 id="det-title" style="font-size: 50px">Gestão de reputação</h4>
         <p class="det-desc" id="det-desc" style="font-size: 18px"></p>
         <div class="det-includes">
-          <div class="lbl" style="font-size: 14px">O que inclui</div>
           <ul id="det-list" style="font-size: 20px"></ul>
         </div>
-        <a href="#contato" class="det-cta" style="font-size: 15px">Conversar sobre este projeto →</a>
+        <a href="#contato" class="det-cta" style="font-size: 15px">
+          <svg class="det-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>
+          Conversar sobre este projeto
+        </a>
         </div>
       </aside>
     </div>
@@ -1173,7 +1176,7 @@ verdadeiramente ímpares.</h1>
         <div class="founder">
           <div class="photo" style="height: 328px"></div>
           <div class="meta">
-            <span class="name">Nome Sobrenome</span>
+            <span class="name">LETÍCIA</span>
             <span class="role">Sócia-fundadora · Estratégia de Reputação</span>
           </div>
           <p class="bio">
@@ -1185,7 +1188,7 @@ verdadeiramente ímpares.</h1>
         <div class="founder">
           <div class="photo" style="height: 328px"></div>
           <div class="meta">
-            <span class="name">Nome Sobrenome</span>
+            <span class="name">RICARDO POCETTI</span>
             <span class="role">Sócio-fundador · Comunicação &amp; Conteúdo</span>
           </div>
           <p class="bio">
@@ -1225,7 +1228,7 @@ verdadeiramente ímpares.</h1>
     <div class="section-head">
       <h2>Conteúdo</h2>
       <div class="meta">
-        <div class="num">06 — reflexões da casa</div>
+        <div class="num">/ 06 — reflexões da casa</div>
         <p style="max-width: 50ch; margin-top:14px;">
           Reputação, comunicação e tendências. Publicações curtas e ensaios
           assinados por sócios e parceiros da Ímpar.
@@ -1234,36 +1237,36 @@ verdadeiramente ímpares.</h1>
     </div>
 
     <div class="content-grid">
-      <article class="article">
+      <a class="article" href="Article.html?title=O%20sil%C3%AAncio%20tamb%C3%A9m%20comunica%3A%20quando%20n%C3%A3o%20responder%20%C3%A9%20estrat%C3%A9gia.&subtitle=Por%20que%20a%20recusa%20p%C3%BAblica%20%C3%A9%2C%20em%20determinados%20momentos%2C%20a%20resposta%20mais%20bem%20calibrada%20que%20uma%20lideran%C3%A7a%20pode%20oferecer%20%E2%80%94%20e%20como%20decidir%20quando%20guardar%20a%20voz.&cat=Reputa%C3%A7%C3%A3o&format=Ensaio&time=06%20min%20de%20leitura&date=26%20maio%202026">
         <div class="thumb"><span class="cat">Reputação</span></div>
         <h3>O silêncio também comunica: quando não responder é estratégia.</h3>
         <div class="meta"><span>Ensaio</span><span>06 min</span></div>
-      </article>
-      <article class="article">
+      </a>
+      <a class="article" href="Article.html?title=Para%20al%C3%A9m%20do%20release%3A%20o%20que%20substitui%20a%20assessoria%20tradicional%20em%202026.&subtitle=Da%20m%C3%ADdia%20de%20massa%20%C3%A0%20mediação%20editorial%20cont%C3%ADnua%3A%20um%20mapa%20do%20que%20mudou%20na%20pr%C3%A1tica%20di%C3%A1ria%20de%20assessorar%20lideran%C3%A7as.&cat=Comunica%C3%A7%C3%A3o&format=An%C3%A1lise&time=09%20min%20de%20leitura&date=12%20maio%202026">
         <div class="thumb"><span class="cat">Comunicação</span></div>
         <h3>Para além do release: o que substitui a assessoria tradicional em 2026.</h3>
         <div class="meta"><span>Análise</span><span>09 min</span></div>
-      </article>
-      <article class="article">
+      </a>
+      <a class="article" href="Article.html?title=O%20retorno%20do%20offline%3A%20por%20que%20mesa%20redonda%20voltou%20a%20ser%20m%C3%ADdia.&subtitle=Encontros%20pequenos%2C%20curados%20e%20fora%20do%20gravador%20viraram%20um%20dos%20formatos%20mais%20influentes%20da%20comunica%C3%A7%C3%A3o%20corporativa.&cat=Tend%C3%AAncias&format=Tend%C3%AAncia&time=04%20min%20de%20leitura&date=02%20maio%202026">
         <div class="thumb"><span class="cat">Tendências</span></div>
         <h3>O retorno do offline: por que mesa redonda voltou a ser mídia.</h3>
         <div class="meta"><span>Tendência</span><span>04 min</span></div>
-      </article>
-      <article class="article">
+      </a>
+      <a class="article" href="Article.html?title=Reputa%C3%A7%C3%A3o%20de%20herdeiros%3A%20o%20desafio%20de%20existir%20al%C3%A9m%20do%20sobrenome.&subtitle=Como%20a%20segunda%20e%20a%20terceira%20gera%C3%A7%C3%A3o%20de%20fam%C3%ADlias%20empres%C3%A1rias%20constroem%20uma%20presen%C3%A7a%20p%C3%BAblica%20pr%C3%B3pria%20sem%20negar%20a%20heran%C3%A7a.&cat=Reputa%C3%A7%C3%A3o&format=Ensaio&time=08%20min%20de%20leitura&date=20%20abril%202026">
         <div class="thumb"><span class="cat">Reputação</span></div>
         <h3>Reputação de herdeiros: o desafio de existir além do sobrenome.</h3>
         <div class="meta"><span>Ensaio</span><span>08 min</span></div>
-      </article>
-      <article class="article">
+      </a>
+      <a class="article" href="Article.html?title=Discri%C3%A7%C3%A3o%20como%20vantagem%20competitiva%20em%20comunica%C3%A7%C3%A3o%20executiva.&subtitle=A%20economia%20de%20palavras%20deixou%20de%20ser%20um%20gesto%20de%20estilo%20para%20virar%20instrumento%20estrat%C3%A9gico%20de%20posicionamento%20de%20lideran%C3%A7as.&cat=Comunica%C3%A7%C3%A3o&format=An%C3%A1lise&time=07%20min%20de%20leitura&date=08%20abril%202026">
         <div class="thumb"><span class="cat">Comunicação</span></div>
         <h3>Discrição como vantagem competitiva em comunicação executiva.</h3>
         <div class="meta"><span>Análise</span><span>07 min</span></div>
-      </article>
-      <article class="article">
+      </a>
+      <a class="article" href="Article.html?title=IA%20e%20autoria%3A%20o%20novo%20contrato%20entre%20lideran%C3%A7as%20e%20suas%20vozes.&subtitle=O%20que%20%C3%A9%20delegado%2C%20o%20que%20segue%20sendo%20intransfer%C3%ADvel%20e%20como%20construir%20um%20protocolo%20editorial%20que%20preserve%20a%20assinatura.&cat=Tend%C3%AAncias&format=Tend%C3%AAncia&time=05%20min%20de%20leitura&date=24%20mar%C3%A7o%202026">
         <div class="thumb"><span class="cat">Tendências</span></div>
         <h3>IA e autoria: o novo contrato entre lideranças e suas vozes.</h3>
         <div class="meta"><span>Tendência</span><span>05 min</span></div>
-      </article>
+      </a>
     </div>
   </div>
 </section>
@@ -1333,8 +1336,8 @@ verdadeiramente ímpares.</h1>
           <textarea placeholder="Quanto mais contexto, melhor."></textarea>
         </label>
         <button type="submit">
+          <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
           <span>Enviar mensagem</span>
-          <span>→</span>
         </button>
       </form>
     </div>
@@ -1346,13 +1349,13 @@ verdadeiramente ímpares.</h1>
   <div class="wrap">
     <div class="row">
       <div>
-        <div class="eyebrow" style="margin-bottom: 8px;">Ímpar Comunicação &amp; Reputação</div>
+        <div class="eyebrow" style="margin-bottom: 8px;">/ Ímpar Comunicação &amp; Reputação</div>
         <div style="font-family:'Space Grotesk'; font-weight:700; font-size:18px; text-transform: uppercase; letter-spacing:-0.005em; max-width: 26ch; line-height:1.1;">
           Boutique de reputação para lideranças e marcas verdadeiramente ímpares.
         </div>
       </div>
       <div class="mark">
-        <img src="assets/logo2-white.svg" alt="Ímpar" />
+        <img src="/assets/Logo2-white.svg" alt="Ímpar" />
       </div>
     </div>
     <div class="copy">
@@ -1480,6 +1483,47 @@ verdadeiramente ímpares.</h1>
   if (!list || !elTitle) return;
 
   const DATA = {
+    'rep': {
+      cat: 'Reputação · 01 / 04',
+      title: 'Reputação',
+      desc: 'Construímos e protegemos o capital reputacional de lideranças e instituições. Lemos cenário em tempo real, definimos a tese pública da casa e transformamos substância em autoridade reconhecida pelo mercado.',
+      list: [
+        'Gestão de reputação',
+        'Posicionamento institucional',
+        'Construção de autoridade',
+      ],
+    },
+    'marca': {
+      cat: 'Marca · 02 / 04',
+      title: 'Marca',
+      desc: 'Tradução entre quem a liderança é, o que faz e como o mercado precisa enxergá-la. Trabalhamos marca pessoal e executiva com substância — não fórmula — para que a presença pública sustente as decisões de negócio.',
+      list: [
+        'Marca pessoal',
+        'Posicionamento executivo',
+        'Comunicação para lideranças',
+      ],
+    },
+    'com': {
+      cat: 'Comunicação · 03 / 04',
+      title: 'Comunicação',
+      desc: 'Mais do que assessoria de imprensa: pensamos com a liderança o que vale a pena ser dito, em que canal e em que momento — alinhando agenda pública e objetivos de negócio com relacionamento real, sem ruído.',
+      list: [
+        'Assessoria estratégica',
+        'Relações públicas',
+        'Conteúdo e presença digital',
+      ],
+    },
+    'proj': {
+      cat: 'Projetos · 04 / 04',
+      title: 'Projetos',
+      desc: 'Plataformas próprias — encontros, ambientes de influência e iniciativas institucionais — concebidas como projetos editoriais. Eventos não são agenda social: são instrumentos de reputação com curadoria, conceito e desdobramento.',
+      list: [
+        'Eventos de relacionamento',
+        'Ambientes de influência',
+        'Projetos institucionais',
+      ],
+    },
+    /* legacy keys removed below */
     'rep-gestao': {
       cat: 'Reputação · 01',
       title: 'Gestão de reputação',
@@ -1620,34 +1664,36 @@ verdadeiramente ímpares.</h1>
     elTitle.textContent = d.title;
     elDesc.textContent = d.desc;
     elList.innerHTML = d.list.map(x => '<li>' + x + '</li>').join('');
-    list.querySelectorAll('li[data-key]').forEach(li => {
-      li.classList.toggle('active', li.dataset.key === key);
-    });
-    // Highlight the whole parent group (category + sub-items)
-    const activeLi = list.querySelector('li[data-key="' + key + '"]');
-    const activeGroup = activeLi ? activeLi.closest('.group') : null;
     list.querySelectorAll('.group').forEach(g => {
-      g.classList.toggle('active', g === activeGroup);
+      g.classList.toggle('active', g.dataset.key === key);
     });
   }
 
   list.addEventListener('click', e => {
-    const li = e.target.closest('li[data-key]');
-    if (!li) return;
-    render(li.dataset.key);
-    currentKey = li.dataset.key;
+    const g = e.target.closest('.group[data-key]');
+    if (!g) return;
+    render(g.dataset.key);
+    currentKey = g.dataset.key;
+  });
+  list.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const g = e.target.closest('.group[data-key]');
+    if (!g) return;
+    e.preventDefault();
+    render(g.dataset.key);
+    currentKey = g.dataset.key;
   });
 
   // initial state
-  let currentKey = 'rep-gestao';
+  let currentKey = 'rep';
   render(currentKey);
 
   // CTA: prefill the contact form with the current selection
   const FRENTE_FOR_KEY = {
-    rep:  'Reputação',
-    mp:   'Imagem & marca pessoal',
-    com:  'Comunicação',
-    proj: 'Projetos especiais',
+    rep:   'Reputação',
+    marca: 'Imagem & marca pessoal',
+    com:   'Comunicação',
+    proj:  'Projetos especiais',
   };
   const cta = document.querySelector('.det-cta');
   if (cta){
@@ -1699,6 +1745,7 @@ verdadeiramente ímpares.</h1>
 </script>
 
 <script src="/cms-content.js"></script>
+
 </body>
 </html>
 
