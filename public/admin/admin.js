@@ -1,13 +1,13 @@
 const TOKEN_KEY = 'impar_cms_token';
 
 export function getToken() {
-  return sessionStorage.getItem(TOKEN_KEY) || '';
+  return localStorage.getItem(TOKEN_KEY) || '';
 }
 export function setToken(t) {
-  sessionStorage.setItem(TOKEN_KEY, t);
+  localStorage.setItem(TOKEN_KEY, t);
 }
 export function clearToken() {
-  sessionStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_KEY);
 }
 
 export async function login(password) {
