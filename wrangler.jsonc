@@ -1,8 +1,33 @@
 {
   "name": "impar",
+  "main": "src/worker.js",
   "compatibility_date": "2026-05-26",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./",
+    "directory": "./public/",
+    "binding": "ASSETS",
     "not_found_handling": "single-page-application"
-  }
+  },
+  "vars": {
+    // Filled in after Cloudflare Access app is created (see SETUP.md).
+    // Example: "yourteam" → https://yourteam.cloudflareaccess.com
+    "CF_ACCESS_TEAM_DOMAIN": "",
+    // AUD tag of the Access application protecting /admin and /api.
+    "CF_ACCESS_AUD": ""
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "impar-cms",
+      // Replace with the id printed by `wrangler d1 create impar-cms`.
+      "database_id": "REPLACE_WITH_D1_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "IMAGES",
+      "bucket_name": "impar-images"
+    }
+  ]
 }

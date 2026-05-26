@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Editor · Ímpar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css" />
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="admin-top">
+  <div class="row">
+    <div class="left">
+      <a href="/admin/" class="logo"><img src="/assets/logo-blue.svg" alt="Ímpar" /></a>
+      <span class="crumb">/ Admin · <a href="/admin/">Posts</a> · Editor</span>
+    </div>
+    <div class="right">
+      <span class="who" id="who">…</span>
+      <a class="btn-ghost" href="/admin/">← Voltar</a>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+  <div class="editor-grid">
+    <section>
+      <div class="cover" id="cover">
+        <input type="file" id="cover-input" accept="image/*" hidden />
+        <span class="cover-prompt">Clique ou arraste uma imagem de capa</span>
+        <button type="button" class="cover-remove" id="cover-remove" hidden>Remover</button>
+        <img id="cover-img" alt="" hidden />
+      </div>
+
+      <div class="field" style="margin-top:24px;">
+        <label for="title">Título</label>
+        <input type="text" id="title" class="title-input" placeholder="Um título que mereça ser lido…" />
+      </div>
+
+      <div class="field">
+        <label>Tags <span style="text-transform:none; letter-spacing:0; opacity:.7;">(a primeira vira a categoria do card)</span></label>
+        <div class="tagbox" id="tagbox">
+          <input type="text" id="tag-input" placeholder="Reputação, Ensaio…" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Corpo</label>
+        <div class="body-editor">
+          <div id="quill-editor"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="row">
+        <span class="lbl">Status</span>
+        <span class="badge" id="status-badge">Rascunho</span>
+      </div>
+      <div class="actions">
+        <button class="btn" id="btn-save"><span class="dot"></span>Salvar rascunho</button>
+        <button class="btn btn-secondary" id="btn-publish">Publicar</button>
+        <button class="btn btn-secondary" id="btn-unpublish" hidden>Despublicar</button>
+        <button class="btn btn-danger" id="btn-delete" hidden>Excluir</button>
+      </div>
+      <div class="meta-mini" id="meta-mini" hidden>
+        <span id="meta-created"></span>
+        <span id="meta-updated"></span>
+        <span id="meta-published"></span>
+        <span id="meta-author"></span>
+        <span id="meta-readtime"></span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="savebar" id="savebar">
+  <span class="status" id="savebar-status">Alterações não salvas</span>
+  <button class="btn" id="savebar-save">Salvar</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script type="module">
+import { api, uploadFile, toast, loadMe, formatWhen } from '/admin/admin.js';
+
+const params = new URLSearchParams(location.search);
+let postId = params.get('id');
+let post = null;
+let dirty = false;
+let tags = [];
+let imageKey = null;
+let imageUrl = null;
+let saving = false;
+
+const els = {
+  title: document.getElementById('title'),
+  tagbox: document.getElementById('tagbox'),
+  tagInput: document.getElementById('tag-input'),
+  cover: document.getElementById('cover'),
+  coverInput: document.getElementById('cover-input'),
+  coverImg: document.getElementById('cover-img'),
+  coverPrompt: document.querySelector('.cover-prompt'),
+  coverRemove: document.getElementById('cover-remove'),
+  statusBadge: document.getElementById('status-badge'),
+  btnSave: document.getElementById('btn-save'),
+  btnPublish: document.getElementById('btn-publish'),
+  btnUnpublish: document.getElementById('btn-unpublish'),
+  btnDelete: document.getElementById('btn-delete'),
+  savebar: document.getElementById('savebar'),
+  savebarSave: document.getElementById('savebar-save'),
+  savebarStatus: document.getElementById('savebar-status'),
+  metaMini: document.getElementById('meta-mini'),
+  metaCreated: document.getElementById('meta-created'),
+  metaUpdated: document.getElementById('meta-updated'),
+  metaPublished: document.getElementById('meta-published'),
+  metaAuthor: document.getElementById('meta-author'),
+  metaReadtime: document.getElementById('meta-readtime'),
+};
+
+loadMe().then(email => {
+  if (email) document.getElementById('who').textContent = email;
+});
+
+/* ---------- Quill ---------- */
+const quill = new Quill('#quill-editor', {
+  theme: 'snow',
+  placeholder: 'Comece a escrever — substância antes da forma.',
+  modules: {
+    toolbar: {
+      container: [
+        [{ header: [2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ list: 'ordered' }, { list: 'bullet' }, 'blockquote'],
+        ['link', 'image'],
+        ['clean'],
+      ],
+      handlers: {
+        image: () => insertInlineImage(),
+      },
+    },
+  },
+});
+
+function insertInlineImage() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async () => {
+    const f = input.files && input.files[0];
+    if (!f) return;
+    try {
+      const { url } = await uploadFile(f);
+      const range = quill.getSelection(true);
+      quill.insertEmbed(range.index, 'image', url, 'user');
+      quill.setSelection(range.index + 1);
+      markDirty();
+    } catch (e) {
+      toast('Falha ao enviar imagem', 'error');
+    }
+  };
+  input.click();
+}
+
+quill.on('text-change', (delta, _old, source) => {
+  if (source === 'user') markDirty();
+});
+
+/* ---------- Title & tags ---------- */
+els.title.addEventListener('input', markDirty);
+
+function renderTags() {
+  els.tagbox.querySelectorAll('.chip').forEach(c => c.remove());
+  tags.forEach((t, i) => {
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.innerHTML = `${escapeHtml(t)} <button type="button" aria-label="Remover">×</button>`;
+    chip.querySelector('button').addEventListener('click', () => {
+      tags.splice(i, 1);
+      renderTags();
+      markDirty();
+    });
+    els.tagbox.insertBefore(chip, els.tagInput);
+  });
+}
+function addTag(raw) {
+  const v = (raw || '').trim().replace(/,$/, '').trim();
+  if (!v) return;
+  if (tags.find(t => t.toLowerCase() === v.toLowerCase())) return;
+  tags.push(v);
+  renderTags();
+  markDirty();
+}
+els.tagInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
+    if (els.tagInput.value.trim()) {
+      e.preventDefault();
+      addTag(els.tagInput.value);
+      els.tagInput.value = '';
+    }
+  } else if (e.key === 'Backspace' && !els.tagInput.value && tags.length) {
+    tags.pop();
+    renderTags();
+    markDirty();
+  }
+});
+els.tagInput.addEventListener('blur', () => {
+  if (els.tagInput.value.trim()) {
+    addTag(els.tagInput.value);
+    els.tagInput.value = '';
+  }
+});
+
+/* ---------- Cover image ---------- */
+els.cover.addEventListener('click', e => {
+  if (e.target.closest('.cover-remove')) return;
+  els.coverInput.click();
+});
+els.coverInput.addEventListener('change', () => {
+  const f = els.coverInput.files && els.coverInput.files[0];
+  if (f) handleCover(f);
+});
+['dragenter', 'dragover'].forEach(ev =>
+  els.cover.addEventListener(ev, e => { e.preventDefault(); els.cover.classList.add('dragging'); })
+);
+['dragleave', 'drop'].forEach(ev =>
+  els.cover.addEventListener(ev, e => { e.preventDefault(); els.cover.classList.remove('dragging'); })
+);
+els.cover.addEventListener('drop', e => {
+  const f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f) handleCover(f);
+});
+els.coverRemove.addEventListener('click', () => {
+  imageKey = null;
+  imageUrl = null;
+  setCoverDisplay();
+  markDirty();
+});
+
+async function handleCover(file) {
+  try {
+    els.coverPrompt.textContent = 'Enviando…';
+    const { key, url } = await uploadFile(file);
+    imageKey = key;
+    imageUrl = url;
+    setCoverDisplay();
+    markDirty();
+  } catch (e) {
+    toast('Falha ao enviar capa', 'error');
+    els.coverPrompt.textContent = 'Clique ou arraste uma imagem de capa';
+  }
+}
+function setCoverDisplay() {
+  if (imageUrl) {
+    els.coverImg.src = imageUrl;
+    els.coverImg.hidden = false;
+    els.coverPrompt.hidden = true;
+    els.coverRemove.hidden = false;
+    els.cover.classList.add('has-image');
+  } else {
+    els.coverImg.hidden = true;
+    els.coverImg.removeAttribute('src');
+    els.coverPrompt.hidden = false;
+    els.coverPrompt.textContent = 'Clique ou arraste uma imagem de capa';
+    els.coverRemove.hidden = true;
+    els.cover.classList.remove('has-image');
+  }
+}
+
+/* ---------- Save / publish ---------- */
+function payload() {
+  return {
+    title: els.title.value,
+    tags,
+    body_html: quill.root.innerHTML,
+    image_key: imageKey,
+  };
+}
+
+function markDirty() {
+  dirty = true;
+  els.savebar.classList.add('visible');
+  els.savebarStatus.textContent = 'Alterações não salvas';
+}
+function markClean() {
+  dirty = false;
+  els.savebar.classList.remove('visible');
+}
+
+async function save({ silent = false } = {}) {
+  if (saving) return;
+  saving = true;
+  els.btnSave.disabled = true;
+  els.savebarSave.disabled = true;
+  try {
+    if (postId) {
+      const { post: p } = await api(`/api/posts/${postId}`, {
+        method: 'PATCH', body: JSON.stringify(payload()),
+      });
+      post = p;
+    } else {
+      const { post: p } = await api(`/api/posts`, {
+        method: 'POST', body: JSON.stringify(payload()),
+      });
+      post = p; postId = p.id;
+      history.replaceState(null, '', `/admin/editor.html?id=${postId}`);
+    }
+    markClean();
+    applyPost();
+    if (!silent) toast('Salvo');
+    return post;
+  } catch (e) {
+    toast(e.message || 'Falha ao salvar', 'error');
+  } finally {
+    saving = false;
+    els.btnSave.disabled = false;
+    els.savebarSave.disabled = false;
+  }
+}
+
+async function publish() {
+  const p = await save({ silent: true });
+  if (!p) return;
+  try {
+    const { post: updated } = await api(`/api/posts/${postId}/publish`, { method: 'POST' });
+    post = updated; applyPost(); toast('Publicado');
+  } catch (e) {
+    toast(e.message || 'Falha ao publicar', 'error');
+  }
+}
+async function unpublish() {
+  try {
+    const { post: updated } = await api(`/api/posts/${postId}/unpublish`, { method: 'POST' });
+    post = updated; applyPost(); toast('Despublicado');
+  } catch (e) {
+    toast(e.message || 'Falha', 'error');
+  }
+}
+async function remove() {
+  if (!confirm('Excluir este post? Esta ação não pode ser desfeita.')) return;
+  try {
+    await api(`/api/posts/${postId}`, { method: 'DELETE' });
+    window.location.href = '/admin/';
+  } catch (e) {
+    toast(e.message || 'Falha', 'error');
+  }
+}
+
+els.btnSave.addEventListener('click', () => save());
+els.savebarSave.addEventListener('click', () => save());
+els.btnPublish.addEventListener('click', publish);
+els.btnUnpublish.addEventListener('click', unpublish);
+els.btnDelete.addEventListener('click', remove);
+
+window.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+    save();
+  }
+});
+window.addEventListener('beforeunload', e => {
+  if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ---------- Apply post state to UI ---------- */
+function applyPost() {
+  if (!post) return;
+  const isPublished = post.status === 'published';
+  els.statusBadge.classList.toggle('published', isPublished);
+  els.statusBadge.classList.toggle('draft', !isPublished);
+  els.statusBadge.textContent = isPublished ? 'Publicado' : 'Rascunho';
+  els.btnPublish.hidden = isPublished;
+  els.btnUnpublish.hidden = !isPublished;
+  els.btnDelete.hidden = false;
+  els.metaMini.hidden = false;
+  els.metaCreated.textContent = `Criado · ${formatWhen(post.created_at)}`;
+  els.metaUpdated.textContent = `Editado · ${formatWhen(post.updated_at)}`;
+  els.metaPublished.textContent = post.published_at ? `Publicado · ${formatWhen(post.published_at)}` : 'Não publicado';
+  els.metaAuthor.textContent = post.author_email ? `Autor · ${post.author_email}` : '';
+  els.metaReadtime.textContent = `Leitura · ${post.read_minutes || 1} min`;
+}
+
+/* ---------- Load existing post ---------- */
+async function loadPost() {
+  if (!postId) {
+    els.btnDelete.hidden = true;
+    return;
+  }
+  try {
+    const { post: p } = await api(`/api/posts/${postId}`);
+    post = p;
+    els.title.value = p.title || '';
+    tags = Array.isArray(p.tags) ? [...p.tags] : [];
+    renderTags();
+    imageKey = p.image_key || null;
+    imageUrl = p.image_url || null;
+    setCoverDisplay();
+    quill.root.innerHTML = p.body_html || '';
+    applyPost();
+    markClean();
+  } catch (e) {
+    toast('Não foi possível carregar este post', 'error');
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+
+loadPost();
+</script>
+
+</body>
+</html>

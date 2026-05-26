@@ -1233,7 +1233,7 @@ verdadeiramente ímpares.</h1>
       </div>
     </div>
 
-    <div class="content-grid">
+    <div class="content-grid" id="content-grid" data-fallback="true">
       <article class="article">
         <div class="thumb"><span class="cat">Reputação</span></div>
         <h3>O silêncio também comunica: quando não responder é estratégia.</h3>
@@ -1695,6 +1695,43 @@ verdadeiramente ímpares.</h1>
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule);
   update();
+})();
+</script>
+
+<script>
+/* ---------- Conteúdo: pull from /api/posts, fall back to static ---------- */
+(function(){
+  const grid = document.getElementById('content-grid');
+  if (!grid) return;
+
+  const esc = (s) => String(s || '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+
+  function render(posts){
+    if (!posts.length) return; // keep fallback
+    grid.innerHTML = posts.map(p => {
+      const tags = Array.isArray(p.tags) ? p.tags : [];
+      const cat  = tags[0] || 'Conteúdo';
+      const kind = tags[1] || 'Ensaio';
+      const mins = (p.read_minutes || 1).toString().padStart(2, '0') + ' min';
+      const bg = p.image_url
+        ? `style="background-image:url('${esc(p.image_url)}'); background-size:cover; background-position:center;"`
+        : '';
+      return `
+        <article class="article">
+          <div class="thumb" ${bg}><span class="cat">${esc(cat)}</span></div>
+          <h3>${esc(p.title)}</h3>
+          <div class="meta"><span>${esc(kind)}</span><span>${esc(mins)}</span></div>
+        </article>`;
+    }).join('');
+    grid.removeAttribute('data-fallback');
+  }
+
+  fetch('/api/posts?limit=6', { headers: { accept: 'application/json' } })
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { if (d && d.posts) render(d.posts); })
+    .catch(() => {});
 })();
 </script>
 
