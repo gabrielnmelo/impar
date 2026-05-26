@@ -31,10 +31,8 @@
   <div class="row">
     <div class="left">
       <a href="/admin/" class="logo"><img src="/assets/Painel-Impar.svg" alt="Ímpar" /></a>
-      <span class="crumb">Admin</span>
     </div>
     <div class="right">
-      <span class="who" id="who">…</span>
       <a class="btn-ghost" href="/" target="_blank" rel="noopener">Ver site →</a>
       <button class="btn-ghost" id="logout-btn">Sair</button>
     </div>
@@ -75,9 +73,7 @@ import { initLogin } from '/admin/login.js';
 await initLogin();
 
 document.getElementById('logout-btn').addEventListener('click', logout);
-loadMe().then(email => {
-  if (email) document.getElementById('who').textContent = email;
-});
+loadMe();
 
 const wrap = document.getElementById('list-wrap');
 const tabs = document.querySelectorAll('.tabs button');

@@ -16,10 +16,9 @@
   <div class="row">
     <div class="left">
       <a href="/admin/" class="logo"><img src="/assets/Painel-Impar.svg" alt="Ímpar" /></a>
-      <span class="crumb">Admin · <a href="/admin/proposals.html">Propostas</a> · Editor</span>
+      <span class="crumb"><a href="/admin/proposals.html">Propostas</a> · Editor</span>
     </div>
     <div class="right">
-      <span class="who" id="who">…</span>
       <a class="btn-ghost" href="/admin/proposals.html">← Voltar</a>
     </div>
   </div>
@@ -172,9 +171,7 @@ const els = {
   metaAuthor: document.getElementById('meta-author'),
 };
 
-loadMe().then(email => {
-  if (email) document.getElementById('who').textContent = email;
-});
+loadMe();
 
 /* ---------- Quill ---------- */
 const quill = new Quill('#quill-editor', {
