@@ -112,6 +112,21 @@ export default {
       }
     }
 
+    // Inject the CMS content script into the homepage automatically,
+    // so design file updates never need manual CMS modifications.
+    if (url.pathname === '/' || url.pathname === '/index.html') {
+      const resp = await env.ASSETS.fetch(request);
+      if (!resp.headers.get('content-type')?.includes('text/html')) return resp;
+      let html = await resp.text();
+      if (!html.includes('/cms-content.js')) {
+        html = html.replace('</body>', '<script src="/cms-content.js"></script></body>');
+      }
+      return new Response(html, {
+        status: resp.status,
+        headers: { ...Object.fromEntries(resp.headers), 'content-type': 'text/html; charset=utf-8' },
+      });
+    }
+
     return env.ASSETS.fetch(request);
   },
 };
