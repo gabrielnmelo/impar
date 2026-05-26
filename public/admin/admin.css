@@ -281,6 +281,49 @@ button{font-family:inherit}
 .toast.visible{ opacity:1; transform:translateX(-50%) translateY(0); }
 .toast.error{ background:#b00020; }
 
+/* ---------- login overlay ---------- */
+.login-overlay{
+  position:fixed; inset:0; z-index:100;
+  background:var(--blue);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+}
+.login-card{
+  background:#fff;
+  padding:48px 40px;
+  max-width:440px; width:100%;
+}
+.login-logo{ height:28px; display:block; margin-bottom:32px; }
+.login-eyebrow{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ink-soft); margin-bottom:12px;
+}
+.login-title{
+  font-family:"Space Grotesk",sans-serif; font-weight:700;
+  font-size:48px; line-height:.95; letter-spacing:-0.03em;
+  margin:0 0 40px; color:var(--blue);
+}
+.login-form{ display:flex; flex-direction:column; gap:24px; }
+.login-form label{
+  display:flex; flex-direction:column; gap:8px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.login-form input[type=password]{
+  border:none; border-bottom:1px solid var(--rule);
+  padding:10px 0; font-family:inherit; font-size:20px;
+  color:var(--blue); background:transparent; outline:none; width:100%;
+}
+.login-form input[type=password]:focus{ border-color:var(--blue); }
+.login-form .btn{ align-self:flex-start; }
+.login-error{
+  color:#b00020; font-size:13px; letter-spacing:.04em; padding:2px 0;
+}
+@media (max-width:480px){
+  .login-card{ padding:40px 24px; }
+  .login-title{ font-size:36px; }
+}
+
 /* responsive */
 @media (max-width: 720px){
   .post-row{ grid-template-columns: 64px 1fr auto; }

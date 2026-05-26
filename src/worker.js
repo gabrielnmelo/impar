@@ -18,21 +18,34 @@ async function handleApi(request, env, url) {
   const { pathname } = url;
   const method = request.method;
 
-  // Public: list published posts for the homepage.
+  // Public: list published posts.
   if (pathname === '/api/posts' && method === 'GET') {
     const limit = Math.min(parseInt(url.searchParams.get('limit') || '12', 10) || 12, 50);
     const statusParam = url.searchParams.get('status');
     if (statusParam && statusParam !== 'published') {
       await requireAdmin(request, env);
     }
-    const posts = await listPosts(env, {
-      status: statusParam || 'published',
-      limit,
-    });
+    const posts = await listPosts(env, { status: statusParam || 'published', limit });
     return json({ posts });
   }
 
-  // Everything below requires admin auth via Cloudflare Access.
+  // Public: password login.
+  if (pathname === '/api/login' && method === 'POST') {
+    const body = await readJson(request);
+    const enc = new TextEncoder();
+    const pass = enc.encode(body.password || '');
+    const secret = enc.encode(env.CMS_PASSWORD || '');
+    let ok = pass.length > 0 && pass.length === secret.length;
+    if (ok) {
+      let diff = 0;
+      for (let i = 0; i < pass.length; i++) diff |= pass[i] ^ secret[i];
+      ok = diff === 0;
+    }
+    if (!ok) return json({ error: 'Senha incorreta' }, { status: 401 });
+    return json({ ok: true });
+  }
+
+  // Everything below requires admin auth.
   const user = await requireAdmin(request, env);
 
   if (pathname === '/api/me' && method === 'GET') {
@@ -43,7 +56,6 @@ async function handleApi(request, env, url) {
     return uploadImage(request, env);
   }
 
-  // /api/posts/:id (or sub-actions)
   const m = pathname.match(/^\/api\/posts(?:\/([A-Za-z0-9_-]+))?(?:\/(publish|unpublish))?$/);
   if (m) {
     const id = m[1];

@@ -52,42 +52,17 @@ npx wrangler r2 bucket create impar-images
 npx wrangler d1 migrations apply impar-cms --remote
 ```
 
-## 6. Set up Cloudflare Access (this is your "password" gate)
+## 6. Set the admin password
 
-In the Cloudflare dashboard:
-
-1. Go to **Zero Trust** → **Settings** → **General** and note your **Team
-   domain** (e.g. `yourname.cloudflareaccess.com`). If you don't have one
-   yet, the wizard will ask you to create a team name — pick something
-   short.
-2. Go to **Zero Trust** → **Access** → **Applications** → **Add an
-   application** → **Self-hosted**.
-3. Fill in:
-   - **Application name:** `Ímpar Admin`
-   - **Session duration:** `24 hours` (whatever you like)
-   - **Application domain:** add **two** rows:
-     - `impar.pages.dev` with path `/admin*`
-     - `impar.pages.dev` with path `/api/*`
-     - (also add your custom domain rows if you have one)
-4. **Identity providers:** check **One-time PIN** (email magic-link login).
-   Optionally add Google.
-5. **Policies → Add a policy:**
-   - Name: `Allowed admins`
-   - Action: `Allow`
-   - Include: **Emails** → list every person who should be able to log in
-     (your email, partners, etc.). You can come back and add more later.
-6. Save the application.
-7. On the application's details page, copy the **Application Audience
-   (AUD) tag** (a long hex string).
-
-Now paste the team domain and the AUD into `wrangler.jsonc`:
-
-```jsonc
-"vars": {
-  "CF_ACCESS_TEAM_DOMAIN": "yourname.cloudflareaccess.com",
-  "CF_ACCESS_AUD": "the-long-hex-aud-tag"
-}
+```sh
+npx wrangler secret put CMS_PASSWORD
 ```
+
+Wrangler will prompt you to type the password (it won't echo). Use something
+strong — this is the only credential protecting `/admin`. Share it with
+anyone who needs access to the CMS.
+
+To change the password later, just run the same command again and redeploy.
 
 ## 7. Deploy
 
@@ -95,13 +70,8 @@ Now paste the team domain and the AUD into `wrangler.jsonc`:
 npx wrangler deploy
 ```
 
-That's it. Visit `https://impar.pages.dev/admin` — Cloudflare Access will
-intercept, ask for your email, send a magic-link code, and once you're in
-you'll land on the post list.
-
-To add more editors later: Zero Trust → Access → Applications → Ímpar
-Admin → Policies → edit `Allowed admins` → add emails. They get access on
-their next login. No code changes needed.
+Visit `https://impar.workers.dev/admin` — you'll see a login screen. Enter
+the password you set above and you're in.
 
 ## Local development
 
@@ -109,17 +79,20 @@ their next login. No code changes needed.
 npm run dev
 ```
 
-This runs Wrangler locally with a local D1. Note: Cloudflare Access can't
-gate `wrangler dev`, so locally the `/admin` and `/api/*` routes will
-return 401 unless you also set `CF_ACCESS_TEAM_DOMAIN` and
-`CF_ACCESS_AUD` to empty/dummy values during local testing — or just do
-your testing against a preview deploy.
+For local dev, create a `.dev.vars` file in the repo root:
+
+```
+CMS_PASSWORD=any-local-test-password
+```
+
+This file is gitignored — never commit it.
 
 ## Adding new editors
 
-Cloudflare dashboard → **Zero Trust** → **Access** → **Applications** →
-**Ímpar Admin** → **Policies** → edit `Allowed admins` → add their email.
-They'll get a magic-link the next time they hit `/admin`.
+Share the `CMS_PASSWORD` with them. Their session lasts until they close
+the browser tab. To revoke access, run `npx wrangler secret put CMS_PASSWORD`
+with a new password and `npx wrangler deploy` — all existing sessions are
+immediately invalidated.
 
 ## Schema changes
 

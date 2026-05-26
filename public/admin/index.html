@@ -20,7 +20,7 @@
     <div class="right">
       <span class="who" id="who">…</span>
       <a class="btn-ghost" href="/" target="_blank" rel="noopener">Ver site →</a>
-      <a class="btn-ghost" href="/cdn-cgi/access/logout">Sair</a>
+      <button class="btn-ghost" id="logout-btn">Sair</button>
     </div>
   </div>
 </header>
@@ -48,16 +48,21 @@
 </main>
 
 <script type="module">
-import { api, loadMe, formatWhen, toast } from '/admin/admin.js';
+import { api, loadMe, formatWhen, logout } from '/admin/admin.js';
+import { initLogin } from '/admin/login.js';
+
+await initLogin();
+
+document.getElementById('logout-btn').addEventListener('click', logout);
+
+loadMe().then(email => {
+  if (email) document.getElementById('who').textContent = email;
+});
 
 const wrap = document.getElementById('list-wrap');
 const tabs = document.querySelectorAll('.tabs button');
 let currentFilter = 'all';
 let cache = { all: null, published: null, draft: null };
-
-loadMe().then(email => {
-  if (email) document.getElementById('who').textContent = email;
-});
 
 async function refresh() {
   try {

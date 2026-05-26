@@ -1,15 +1,43 @@
-// Shared helpers used by both /admin/ and /admin/editor.html.
-// Cloudflare Access cookies/JWT are sent automatically by the browser, so
-// fetch() against same-origin /api/* "just works" once the user has logged in.
+const TOKEN_KEY = 'impar_cms_token';
+
+export function getToken() {
+  return sessionStorage.getItem(TOKEN_KEY) || '';
+}
+export function setToken(t) {
+  sessionStorage.setItem(TOKEN_KEY, t);
+}
+export function clearToken() {
+  sessionStorage.removeItem(TOKEN_KEY);
+}
+
+export async function login(password) {
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ password }),
+  });
+  const d = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(d.error || 'Senha incorreta');
+  setToken(password);
+}
+
+export function logout() {
+  clearToken();
+  window.location.reload();
+}
 
 export async function api(path, opts = {}) {
+  const token = getToken();
   const res = await fetch(path, {
-    credentials: 'same-origin',
-    headers: { 'content-type': 'application/json', ...(opts.headers || {}) },
     ...opts,
+    headers: {
+      'content-type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...(opts.headers || {}),
+    },
   });
   if (res.status === 401 || res.status === 403) {
-    // Force a reload through Access to re-authenticate.
+    clearToken();
     window.location.reload();
     throw new Error('unauthorized');
   }
@@ -20,10 +48,13 @@ export async function api(path, opts = {}) {
 }
 
 export async function uploadFile(file) {
+  const token = getToken();
   const res = await fetch('/api/upload', {
     method: 'POST',
-    credentials: 'same-origin',
-    headers: { 'content-type': file.type },
+    headers: {
+      'content-type': file.type,
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+    },
     body: file,
   });
   if (!res.ok) throw new Error('upload failed');

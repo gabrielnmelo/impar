@@ -85,6 +85,9 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script type="module">
 import { api, uploadFile, toast, loadMe, formatWhen } from '/admin/admin.js';
+import { initLogin } from '/admin/login.js';
+
+await initLogin();
 
 const params = new URLSearchParams(location.search);
 let postId = params.get('id');

@@ -8,13 +8,6 @@
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
   },
-  "vars": {
-    // Filled in after Cloudflare Access app is created (see SETUP.md).
-    // Example: "yourteam" → https://yourteam.cloudflareaccess.com
-    "CF_ACCESS_TEAM_DOMAIN": "",
-    // AUD tag of the Access application protecting /admin and /api.
-    "CF_ACCESS_AUD": ""
-  },
   "d1_databases": [
     {
       "binding": "DB",
