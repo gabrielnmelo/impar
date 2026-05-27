@@ -12,8 +12,7 @@
     {
       "binding": "DB",
       "database_name": "impar-cms",
-      // Replace with the id printed by `wrangler d1 create impar-cms`.
-      "database_id": "REPLACE_WITH_D1_ID",
+      "database_id": "de285e64-85f0-4825-9189-5c4435325282",
       "migrations_dir": "migrations"
     }
   ],
