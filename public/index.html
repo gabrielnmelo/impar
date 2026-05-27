@@ -937,7 +937,10 @@
 
   /* spot-hero responsive */
   @media (max-width: 720px){
-    .spot-hero .hero-block{ min-height: 0; padding: 72px 0 48px; }
+    .spot-hero .hero-block{
+      min-height: calc(100svh - 72px);
+      padding: 72px 0 56px;
+    }
     .spot-corner, .spot-hint{ display:none; }
     .areas{ grid-template-columns: 1fr 1fr; }
     .areas .item:nth-child(2n){ border-right: none; }
@@ -960,7 +963,104 @@
     .ba-card{grid-template-columns:1fr; grid-column:span 1}
     .hero-banner{height: 200px}
     .hero-banner .marquee{font-size: 96px}
+
+    /* Services: each service becomes a self-contained card with description inline */
+    .servicos-layout{ grid-template-columns: 1fr; gap: 24px; }
+    .servicos-detail{ display: none; }
+    .servicos-list .group{ cursor: default; }
+    .servicos-list .group.active{ background: transparent; color: var(--blue); }
+    .servicos-list .group.active .head h3,
+    .servicos-list .group.active ul li{ color: var(--blue); }
+    .servicos-list .group.active ul li{ border-top-color: rgba(26,26,255,.12); }
+    .servicos-list .group.active .head .arrow{
+      background: transparent; color: var(--blue); border-color: rgba(26,26,255,.45);
+    }
+    .servicos-list .group:hover{ background: transparent; }
+    .servicos-list .group:hover .head .arrow{
+      background: transparent; color: var(--blue); border-color: rgba(26,26,255,.45);
+      transform: none;
+    }
+    .servicos-list .group .head .arrow{ display: none; }
+    .servicos-list .group .mobile-desc{
+      display: block;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(26,26,255,.12);
+      font-family:"Space Grotesk", sans-serif;
+      font-size: 15px; line-height: 1.55;
+      color: rgba(26,26,255,.85);
+    }
   }
+  /* hidden by default — only shown via media query above */
+  .servicos-list .group .mobile-desc{ display: none; }
+
+  /* ---------- MOBILE: text wrap, padding & overflow fixes ---------- */
+  @media (max-width: 720px){
+    .wrap{ padding: 0 20px; }
+    section.block{ padding: 64px 0; }
+
+    /* Sobre */
+    .sobre-title{ width: 100%; font-size: clamp(40px, 11vw, 56px); margin-bottom: 32px; }
+    .sobre-subhead{ font-size: clamp(28px, 8vw, 40px); margin-bottom: 24px; }
+    .sobre-team{ margin-top: 56px; }
+    .sobre-grid h3{ word-wrap: break-word; }
+    .sobre-grid p{ word-wrap: break-word; }
+    .pillar-list .row{ gap: 12px; }
+
+    /* Services intro inline-style override */
+    .servicos-intro{
+      width: 100% !important;
+      font-size: clamp(28px, 8vw, 40px) !important;
+      line-height: 1.05 !important;
+      letter-spacing: -1px !important;
+      margin-bottom: 48px !important;
+    }
+
+    /* Conteudo */
+    #conteudo .section-head h2{ font-size: clamp(40px, 11vw, 56px); }
+
+    /* Contato */
+    .contato{ padding: 64px 0; }
+    .contato h2{
+      font-size: clamp(40px, 11vw, 56px) !important;
+      font-weight: 600 !important;
+      line-height: .98;
+      margin: 8px 0 20px;
+    }
+    .contato p{ font-size: 16px !important; max-width: 100%; }
+    .contato .links a{
+      padding: 18px 0; font-size: 18px; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .contato .links a span:first-child{ font-size: 16px !important; }
+    .contato .links a .meta{ font-size: 11px; }
+    .contato .grid{ gap: 40px; }
+
+    /* Form — prevent overflow */
+    .form{ padding: 24px; max-width: 100%; box-sizing: border-box; }
+    .form .row{ grid-template-columns: 1fr; }
+    .form input, .form textarea, .form select{
+      width: 100%; box-sizing: border-box; max-width: 100%;
+    }
+
+    /* Footer */
+    footer{ padding: 40px 0 24px; }
+    footer .row{
+      flex-direction: column; align-items: flex-start; gap: 24px;
+      padding-bottom: 24px;
+    }
+    footer .row .mark{ justify-content: flex-start; }
+    footer .row .mark img{ max-height: 56px; height: auto; }
+    footer .copy{
+      flex-direction: column; gap: 10px; align-items: flex-start;
+    }
+  }
+
+  /* Always: never let inputs/form overflow */
+  .form input, .form textarea, .form select{
+    width: 100%; box-sizing: border-box; max-width: 100%;
+  }
+  .form{ min-width: 0; }
 </style>
 </head>
 <body>
@@ -1682,6 +1782,18 @@ verdadeiramente ímpares.</h1>
     e.preventDefault();
     render(g.dataset.key);
     currentKey = g.dataset.key;
+  });
+
+  // Inject mobile descriptions into each top-level group
+  ['rep','marca','com','proj'].forEach(key => {
+    const g = list.querySelector(`.group[data-key="${key}"]`);
+    if (!g || g.querySelector('.mobile-desc')) return;
+    const d = DATA[key];
+    if (!d) return;
+    const desc = document.createElement('p');
+    desc.className = 'mobile-desc';
+    desc.textContent = d.desc;
+    g.appendChild(desc);
   });
 
   // initial state

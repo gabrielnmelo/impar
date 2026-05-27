@@ -32,7 +32,7 @@
 
 <main class="shell">
   <div class="editor-grid">
-    <section>
+    <section class="editor-article">
       <div class="cover" id="cover">
         <input type="file" id="cover-input" accept="image/*" hidden />
         <span class="cover-prompt">Clique ou arraste uma imagem de capa</span>
@@ -40,30 +40,30 @@
         <img id="cover-img" alt="" hidden />
       </div>
 
-      <div class="field" style="margin-top:24px;">
-        <label for="title">Título</label>
-        <input type="text" id="title" class="title-input" placeholder="Um título que mereça ser lido…" />
-      </div>
-
-      <div class="field">
-        <label for="subtitle">Subtítulo</label>
-        <textarea id="subtitle" rows="2" placeholder="Uma frase ou duas que ampliam o título…" style="resize:none; overflow:hidden;"></textarea>
-      </div>
-
-      <div class="field">
-        <label for="author">Autor</label>
-        <input type="text" id="author" placeholder="Nome do autor" />
-      </div>
-
-      <div class="field">
-        <label>Tags <span style="text-transform:none; letter-spacing:0; opacity:.7;">(a primeira vira a categoria do card)</span></label>
+      <div class="field field-tags" style="margin-top:24px;">
+        <label>Categoria e formato <span style="text-transform:none; letter-spacing:0; opacity:.7;">(a primeira tag é a categoria; a segunda é o formato)</span></label>
         <div class="tagbox" id="tagbox">
           <input type="text" id="tag-input" placeholder="Reputação, Ensaio…" />
         </div>
       </div>
 
       <div class="field">
-        <label>Corpo</label>
+        <label for="title">Título</label>
+        <input type="text" id="title" class="title-input" placeholder="O título do artigo aparece aqui…" />
+      </div>
+
+      <div class="field">
+        <label for="subtitle">Subtítulo</label>
+        <textarea id="subtitle" class="subtitle-input" rows="2" placeholder="Uma ou duas frases que ampliam o título…" style="resize:none; overflow:hidden;"></textarea>
+      </div>
+
+      <div class="field field-author">
+        <label for="author">Autor</label>
+        <input type="text" id="author" class="author-input" placeholder="Nome do autor" />
+      </div>
+
+      <div class="field">
+        <label>Corpo do artigo</label>
         <div class="body-editor">
           <div id="quill-editor"></div>
         </div>
@@ -87,6 +87,10 @@
         <span id="meta-published"></span>
         <span id="meta-author"></span>
         <span id="meta-readtime"></span>
+      </div>
+      <div class="toc-preview" id="toc-preview" hidden>
+        <div class="lbl">Neste artigo</div>
+        <ul id="toc-preview-list"></ul>
       </div>
     </aside>
   </div>
@@ -184,7 +188,23 @@ function insertInlineImage() {
 
 quill.on('text-change', (delta, _old, source) => {
   if (source === 'user') markDirty();
+  updateTocPreview();
 });
+
+function updateTocPreview() {
+  const wrap = document.getElementById('toc-preview');
+  const list = document.getElementById('toc-preview-list');
+  if (!wrap || !list) return;
+  const heads = quill.root.querySelectorAll('h2');
+  if (heads.length < 2) { wrap.hidden = true; return; }
+  wrap.hidden = false;
+  list.innerHTML = '';
+  heads.forEach(h => {
+    const li = document.createElement('li');
+    li.textContent = h.textContent || '(sem título)';
+    list.appendChild(li);
+  });
+}
 
 /* ---------- Title, subtitle & author ---------- */
 els.title.addEventListener('input', markDirty);
@@ -429,6 +449,7 @@ async function loadPost() {
     setCoverDisplay();
     quill.root.innerHTML = p.body_html || '';
     applyPost();
+    updateTocPreview();
     markClean();
   } catch (e) {
     toast('Não foi possível carregar este post', 'error');
