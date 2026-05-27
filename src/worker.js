@@ -167,6 +167,25 @@ export default {
       return serveImage(url.pathname.slice('/img/'.length), env);
     }
 
+    if (url.pathname.startsWith('/p/')) {
+      const shortCode = url.pathname.slice(3);
+      if (/^[A-Za-z0-9_-]{8}$/.test(shortCode)) {
+        try {
+          const proposals = await listProposals(env, { limit: 1000 });
+          const match = proposals.find(p => p.id.startsWith(shortCode));
+          if (match) {
+            return new Response(null, {
+              status: 302,
+              headers: { location: `/proposal.html?id=${match.id}` },
+            });
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      return json({ error: 'not found' }, { status: 404 });
+    }
+
     if (url.pathname.startsWith('/api/')) {
       try {
         return await handleApi(request, env, url);

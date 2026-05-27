@@ -25,7 +25,6 @@
 
 <nav class="subnav">
   <div class="row">
-    <a href="/admin/" class="home-link">Home</a>
     <a href="/admin/">Conteúdo</a>
     <a href="/admin/proposals.html" class="active">Propostas</a>
   </div>
@@ -371,9 +370,10 @@ els.btnDelete.addEventListener('click', remove);
 els.btnDuplicate.addEventListener('click', duplicate);
 els.btnCopyLink.addEventListener('click', async () => {
   if (!proposalId) return;
-  const url = `${location.origin}/proposal.html?id=${proposalId}`;
-  try { await navigator.clipboard.writeText(url); toast('Link copiado'); }
-  catch { prompt('Copie o link:', url); }
+  const shortCode = proposalId.slice(0, 8);
+  const shortUrl = `${location.origin}/p/${shortCode}`;
+  try { await navigator.clipboard.writeText(shortUrl); toast('Link (curto) copiado'); }
+  catch { prompt('Copie o link:', shortUrl); }
 });
 
 window.addEventListener('keydown', e => {
