@@ -372,7 +372,7 @@ els.btnCopyLink.addEventListener('click', async () => {
   if (!proposalId) return;
   const shortCode = proposalId.slice(0, 8);
   const shortUrl = `${location.origin}/p/${shortCode}`;
-  try { await navigator.clipboard.writeText(shortUrl); toast('Link (curto) copiado'); }
+  try { await navigator.clipboard.writeText(shortUrl); toast('Link copiado'); }
   catch { prompt('Copie o link:', shortUrl); }
 });
 

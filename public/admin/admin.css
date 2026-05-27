@@ -65,6 +65,10 @@ button{font-family:inherit}
   background:transparent; color:#b00020; border-color:#b00020;
 }
 .btn-danger:hover{ background:#fde7eb; color:#b00020; }
+.btn-soft{
+  background:var(--blue-light); color:var(--blue); border-color:var(--blue-light);
+}
+.btn-soft:hover{ background:#dde2ff; border-color:#dde2ff; color:var(--blue); }
 .btn .dot{ width:7px; height:7px; border-radius:50%; background:currentColor; }
 .btn .icon{
   width:14px; height:14px; display:flex; align-items:center; justify-content:center;

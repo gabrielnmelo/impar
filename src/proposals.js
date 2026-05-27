@@ -63,6 +63,13 @@ export async function getProposal(env, id) {
   return rowToProposal(row);
 }
 
+export async function findProposalByPrefix(env, prefix) {
+  const row = await env.DB.prepare(
+    'SELECT * FROM proposals WHERE id LIKE ? LIMIT 1'
+  ).bind(prefix + '%').first();
+  return rowToProposal(row);
+}
+
 export async function createProposal(env, input, authorEmail) {
   const id = newId();
   const now = Date.now();

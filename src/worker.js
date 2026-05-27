@@ -4,7 +4,7 @@ import {
 } from './posts.js';
 import {
   listProposals, getProposal, createProposal, updateProposal,
-  setProposalStatus, deleteProposal, duplicateProposal,
+  setProposalStatus, deleteProposal, duplicateProposal, findProposalByPrefix,
 } from './proposals.js';
 import { uploadImage, serveImage } from './images.js';
 
@@ -168,22 +168,18 @@ export default {
     }
 
     if (url.pathname.startsWith('/p/')) {
-      const shortCode = url.pathname.slice(3);
-      if (/^[A-Za-z0-9_-]{8}$/.test(shortCode)) {
+      const shortCode = url.pathname.slice(3).replace(/\/$/, '');
+      if (/^[A-Za-z0-9_-]{6,16}$/.test(shortCode)) {
         try {
-          const proposals = await listProposals(env, { limit: 1000 });
-          const match = proposals.find(p => p.id.startsWith(shortCode));
+          const match = await findProposalByPrefix(env, shortCode);
           if (match) {
-            return new Response(null, {
-              status: 302,
-              headers: { location: `/proposal.html?id=${match.id}` },
-            });
+            return Response.redirect(`${url.origin}/proposal.html?id=${match.id}`, 302);
           }
         } catch (e) {
-          console.error(e);
+          console.error('Short link lookup failed:', e);
         }
       }
-      return json({ error: 'not found' }, { status: 404 });
+      return new Response('Proposta não encontrada', { status: 404 });
     }
 
     if (url.pathname.startsWith('/api/')) {
