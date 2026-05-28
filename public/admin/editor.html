@@ -196,7 +196,7 @@ function updateTocPreview() {
   const list = document.getElementById('toc-preview-list');
   if (!wrap || !list) return;
   const heads = quill.root.querySelectorAll('h2');
-  if (heads.length < 2) { wrap.hidden = true; return; }
+  if (heads.length < 1) { wrap.hidden = true; return; }
   wrap.hidden = false;
   list.innerHTML = '';
   heads.forEach(h => {
@@ -320,7 +320,7 @@ function payload() {
     subtitle: els.subtitle.value,
     author_name: els.author.value,
     tags,
-    body_html: quill.root.innerHTML,
+    body_html: (quill.getSemanticHTML ? quill.getSemanticHTML() : quill.root.innerHTML),
     image_key: imageKey,
   };
 }
