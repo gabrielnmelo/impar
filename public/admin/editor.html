@@ -49,7 +49,7 @@
 
       <div class="field">
         <label for="title">Título</label>
-        <input type="text" id="title" class="title-input" placeholder="O título do artigo aparece aqui…" />
+        <textarea id="title" class="title-input" rows="1" placeholder="O título do artigo aparece aqui…"></textarea>
       </div>
 
       <div class="field">
@@ -79,6 +79,7 @@
         <button class="btn" id="btn-save"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></span>Salvar rascunho</button>
         <button class="btn btn-secondary" id="btn-publish">Publicar</button>
         <button class="btn btn-secondary" id="btn-unpublish" hidden>Despublicar</button>
+        <a class="btn btn-soft" id="btn-view" target="_blank" rel="noopener" hidden>Ver artigo ↗</a>
         <button class="btn btn-danger" id="btn-delete" hidden>Excluir</button>
       </div>
       <div class="meta-mini" id="meta-mini" hidden>
@@ -132,6 +133,7 @@ const els = {
   btnSave: document.getElementById('btn-save'),
   btnPublish: document.getElementById('btn-publish'),
   btnUnpublish: document.getElementById('btn-unpublish'),
+  btnView: document.getElementById('btn-view'),
   btnDelete: document.getElementById('btn-delete'),
   savebar: document.getElementById('savebar'),
   savebarSave: document.getElementById('savebar-save'),
@@ -207,10 +209,20 @@ function updateTocPreview() {
 }
 
 /* ---------- Title, subtitle & author ---------- */
-els.title.addEventListener('input', markDirty);
+function autoGrow(el) {
+  if (!el) return;
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+els.title.addEventListener('input', () => {
+  autoGrow(els.title);
+  markDirty();
+});
+els.title.addEventListener('keydown', e => {
+  if (e.key === 'Enter') e.preventDefault();
+});
 els.subtitle.addEventListener('input', () => {
-  els.subtitle.style.height = 'auto';
-  els.subtitle.style.height = els.subtitle.scrollHeight + 'px';
+  autoGrow(els.subtitle);
   markDirty();
 });
 els.author.addEventListener('input', markDirty);
@@ -420,6 +432,10 @@ function applyPost() {
   els.btnPublish.hidden = isPublished;
   els.btnUnpublish.hidden = !isPublished;
   els.btnDelete.hidden = false;
+  if (els.btnView && postId) {
+    els.btnView.href = `/article.html?id=${postId}`;
+    els.btnView.hidden = false;
+  }
   els.metaMini.hidden = false;
   els.metaCreated.textContent = `Criado · ${formatWhen(post.created_at)}`;
   els.metaUpdated.textContent = `Editado · ${formatWhen(post.updated_at)}`;
@@ -438,9 +454,9 @@ async function loadPost() {
     const { post: p } = await api(`/api/posts/${postId}`);
     post = p;
     els.title.value = p.title || '';
+    autoGrow(els.title);
     els.subtitle.value = p.subtitle || '';
-    els.subtitle.style.height = 'auto';
-    els.subtitle.style.height = els.subtitle.scrollHeight + 'px';
+    autoGrow(els.subtitle);
     els.author.value = p.author_name || '';
     tags = Array.isArray(p.tags) ? [...p.tags] : [];
     renderTags();

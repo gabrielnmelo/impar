@@ -198,6 +198,9 @@ button{font-family:inherit}
   border:none !important; padding:8px 0 14px !important;
   border-bottom:1px dashed rgba(26,26,255,.18) !important;
   background:transparent;
+  width:100%; box-sizing:border-box;
+  resize:none; overflow:hidden;
+  word-break:break-word; overflow-wrap:break-word;
 }
 .title-input::placeholder{ color:rgba(26,26,255,.22); }
 
