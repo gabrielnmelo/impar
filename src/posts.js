@@ -42,7 +42,7 @@ function newId() {
 
 export async function listPosts(env, { status, limit = 12 } = {}) {
   const where = status ? 'WHERE status = ?' : '';
-  const order = status === 'draft' ? 'updated_at DESC' : 'published_at DESC, updated_at DESC';
+  const order = status === 'draft' ? 'updated_at DESC' : 'created_at DESC';
   const bind = status ? [status] : [];
   const stmt = env.DB.prepare(
     `SELECT * FROM posts ${where} ORDER BY ${order} LIMIT ?`
