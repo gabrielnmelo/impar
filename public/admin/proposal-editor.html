@@ -55,8 +55,7 @@
         <div class="lineitems" id="lineitems">
           <div class="li-head">
             <span>Descrição</span>
-            <span>Qtd</span>
-            <span>Valor unitário</span>
+            <span>Valor</span>
             <span></span>
           </div>
           <!-- rows injected -->
@@ -139,7 +138,7 @@ let proposalId = params.get('id');
 let proposal = null;
 let dirty = false;
 let saving = false;
-let lineItems = [];      // [{description, qty, unit_price}]
+let lineItems = [];      // [{description, unit_price}]
 let scopeIn = [];        // [string]
 let scopeOut = [];       // [string]
 
@@ -199,8 +198,7 @@ function fmtBRL(n) {
   });
 }
 function recalcTotal() {
-  const total = lineItems.reduce((sum, it) =>
-    sum + (Number(it.qty) || 0) * (Number(it.unit_price) || 0), 0);
+  const total = lineItems.reduce((sum, it) => sum + (Number(it.unit_price) || 0), 0);
   els.total.textContent = fmtBRL(total);
 }
 function renderLineItems() {
@@ -210,16 +208,13 @@ function renderLineItems() {
     row.className = 'li-row';
     row.innerHTML = `
       <input type="text" placeholder="Descrição do item" />
-      <input type="number" min="1" step="1" />
       <input type="number" min="0" step="0.01" placeholder="0" />
       <button type="button" class="li-remove" aria-label="Remover">×</button>
     `;
-    const [desc, qty, price] = row.querySelectorAll('input');
+    const [desc, price] = row.querySelectorAll('input');
     desc.value = it.description || '';
-    qty.value = it.qty || 1;
     price.value = it.unit_price || '';
     desc.addEventListener('input', () => { it.description = desc.value; markDirty(); });
-    qty.addEventListener('input', () => { it.qty = +qty.value || 1; recalcTotal(); markDirty(); });
     price.addEventListener('input', () => { it.unit_price = +price.value || 0; recalcTotal(); markDirty(); });
     row.querySelector('.li-remove').addEventListener('click', () => {
       lineItems.splice(i, 1); renderLineItems(); recalcTotal(); markDirty();
@@ -229,7 +224,7 @@ function renderLineItems() {
   recalcTotal();
 }
 document.getElementById('add-item').addEventListener('click', () => {
-  lineItems.push({ description: '', qty: 1, unit_price: 0 });
+  lineItems.push({ description: '', unit_price: 0 });
   renderLineItems();
   markDirty();
 });

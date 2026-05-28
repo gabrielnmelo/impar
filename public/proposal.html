@@ -289,7 +289,7 @@ function render(p){
   document.getElementById('ref').textContent = 'Ref. ' + (p.id || '').slice(0,8).toUpperCase();
 
   const items = Array.isArray(p.line_items) ? p.line_items : [];
-  const total = items.reduce((s, it) => s + (Number(it.qty)||0) * (Number(it.unit_price)||0), 0);
+  const total = items.reduce((s, it) => s + (Number(it.unit_price)||0), 0);
 
   const scopeIn = Array.isArray(p.scope_in) ? p.scope_in : [];
   const scopeOut = Array.isArray(p.scope_out) ? p.scope_out : [];
@@ -331,26 +331,19 @@ function render(p){
           <thead>
             <tr>
               <th>Descrição</th>
-              <th>Qtd</th>
-              <th>Unitário</th>
-              <th>Subtotal</th>
+              <th>Valor</th>
             </tr>
           </thead>
           <tbody>
-            ${items.map(it => {
-              const sub = (Number(it.qty)||0) * (Number(it.unit_price)||0);
-              return `<tr>
-                <td>${esc(it.description || '')}</td>
-                <td>${esc(it.qty || 1)}</td>
-                <td>${esc(fmtBRL(it.unit_price))}</td>
-                <td>${esc(fmtBRL(sub))}</td>
-              </tr>`;
-            }).join('')}
+            ${items.map(it => `<tr>
+              <td>${esc(it.description || '')}</td>
+              <td>${esc(fmtBRL(it.unit_price))}</td>
+            </tr>`).join('')}
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="2" class="total-label">Total</td>
-              <td colspan="2" class="total-value">${esc(fmtBRL(total))}</td>
+              <td class="total-label">Total</td>
+              <td class="total-value">${esc(fmtBRL(total))}</td>
             </tr>
           </tfoot>
         </table>

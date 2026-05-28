@@ -35,7 +35,6 @@ function normalizeLineItems(input) {
   if (!Array.isArray(input)) return [];
   return input.map(it => ({
     description: String(it.description || '').slice(0, 500),
-    qty: Number.isFinite(+it.qty) && +it.qty > 0 ? +it.qty : 1,
     unit_price: Number.isFinite(+it.unit_price) ? +it.unit_price : 0,
   })).filter(it => it.description || it.unit_price);
 }
