@@ -116,6 +116,7 @@
     font-size:11px;letter-spacing:.18em;text-transform:uppercase;
     color:rgba(255,255,255,.85);margin-bottom:24px;
   }
+  #art-tags{ display:inline-flex; gap:6px; flex-wrap:wrap; align-items:center; }
   .article-hero .eyebrow .cat{
     background:var(--blue);color:#fff;
     padding:5px 11px 6px;letter-spacing:.14em;font-weight:500;
@@ -332,14 +333,13 @@
     <div class="wrap">
       <div class="hero-inner">
         <div class="eyebrow">
-          <span class="cat" id="art-cat"></span>
+          <span id="art-tags"></span>
           <span id="art-date"></span>
           <span id="art-author-eyebrow" hidden></span>
         </div>
         <h1 id="art-title"></h1>
         <p class="art-subtitle" id="art-subtitle" hidden></p>
         <div class="meta">
-          <span id="art-format"></span>
           <span id="art-time"></span>
         </div>
       </div>
@@ -431,18 +431,22 @@
 
   function render(post){
     const tags   = Array.isArray(post.tags) ? post.tags : [];
-    const cat    = tags[0] || 'Conteúdo';
-    const format = tags[1] || 'Ensaio';
     const mins   = (post.read_minutes || 1) + ' min de leitura';
     const date   = fmtDate(post.published_at);
     const dateShort = fmtDateShort(post.published_at);
 
     set('art-title',   post.title);
     set('sticky-title', post.title);
-    set('art-cat',     cat);
     set('art-date',    date);
-    set('art-format',  format);
     set('art-time',    mins);
+
+    const tagsEl = document.getElementById('art-tags');
+    if (tagsEl) {
+      tagsEl.innerHTML = tags.map(t =>
+        `<span class="cat">${t.replace(/[&<>"']/g, c =>
+          ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c])}</span>`
+      ).join('');
+    }
 
     // Author in hero eyebrow
     const authorEyebrow = document.getElementById('art-author-eyebrow');

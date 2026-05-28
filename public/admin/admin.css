@@ -202,7 +202,7 @@ button{font-family:inherit}
   resize:none; overflow:hidden;
   word-break:break-word; overflow-wrap:break-word;
 }
-.title-input::placeholder{ color:rgba(26,26,255,.22); font-size:18px; }
+.title-input::placeholder{ color:rgba(26,26,255,.30); font-size:18px; }
 
 /* Article-style editor mode: makes the editor visually mirror the article page */
 .editor-article{
@@ -229,6 +229,7 @@ button{font-family:inherit}
   letter-spacing:-0.005em !important;
   color:var(--blue) !important;
 }
+.editor-article .author-input::placeholder{ color:rgba(26,26,255,.30); }
 
 /* tag chip input */
 .tagbox{
@@ -252,6 +253,7 @@ button{font-family:inherit}
   flex:1; min-width:120px; padding:4px 0 !important;
   color:var(--blue); font-family:inherit; font-size:15px;
 }
+.tagbox input::placeholder{ color:rgba(26,26,255,.30); }
 
 /* cover image dropzone */
 .cover{
