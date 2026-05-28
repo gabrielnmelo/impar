@@ -598,11 +598,10 @@
   }
   .founder .photo{
     aspect-ratio: 4/5;
-    background:
-      repeating-linear-gradient(135deg,
-        rgba(12,12,26,.06) 0 2px,
-        transparent 2px 10px),
-      var(--cream-2);
+    background-color: var(--cream-2);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border:1px solid var(--rule);
     display:flex; align-items:flex-end; padding: 16px;
     position:relative;
@@ -1274,7 +1273,7 @@ verdadeiramente ímpares.</h1>
 
       <div class="team-grid team-grid--three">
         <div class="founder">
-          <div class="photo" style="height: 328px"></div>
+          <div class="photo" style="height: 328px; background-image: url('/assets/Leticia.png');"></div>
           <div class="meta">
             <span class="name">LETÍCIA</span>
             <span class="role">Sócia-fundadora · Estratégia de Reputação</span>
@@ -1286,7 +1285,7 @@ verdadeiramente ímpares.</h1>
         </div>
 
         <div class="founder">
-          <div class="photo" style="height: 328px"></div>
+          <div class="photo" style="height: 328px; background-image: url('/assets/Ricardo.png');"></div>
           <div class="meta">
             <span class="name">RICARDO POCETTI</span>
             <span class="role">Sócio-fundador · Comunicação &amp; Conteúdo</span>
