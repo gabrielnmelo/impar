@@ -186,15 +186,14 @@ button{font-family:inherit}
 .field input[type=text], .field textarea, .field input[type=number]{
   width:100%; border:none; border-bottom:1px solid var(--rule);
   background:transparent; padding:10px 0;
-  font-family:inherit; color:var(--blue);
+  font-family:inherit; font-size:18px; line-height:1.62; color:var(--blue);
   outline:none;
 }
 .field input[type=text]:focus, .field textarea:focus{ border-color:var(--blue); }
 
 .title-input{
-  font-family:"Space Grotesk",sans-serif; font-weight:600;
-  font-size:clamp(36px,5.4vw,68px); line-height:1.02;
-  letter-spacing:-0.028em; color:var(--blue);
+  font-family:"Space Grotesk",sans-serif; font-weight:500;
+  font-size:18px; line-height:1.62; letter-spacing:-0.005em; color:var(--blue);
   border:none !important; padding:8px 0 14px !important;
   border-bottom:1px dashed rgba(26,26,255,.18) !important;
   background:transparent;
@@ -215,7 +214,7 @@ button{font-family:inherit}
 }
 .editor-article .subtitle-input{
   font-family:"Space Grotesk",sans-serif !important; font-weight:400;
-  font-size:clamp(18px,1.6vw,22px) !important; line-height:1.45;
+  font-size:18px !important; line-height:1.62 !important;
   letter-spacing:-0.005em !important;
   color:rgba(26,26,255,.85) !important;
   border:none !important;
@@ -225,7 +224,8 @@ button{font-family:inherit}
 .editor-article .subtitle-input::placeholder{ color:rgba(26,26,255,.30); }
 .editor-article .author-input{
   font-family:"Space Grotesk",sans-serif !important;
-  font-size:13px !important; letter-spacing:.04em;
+  font-size:18px !important; line-height:1.62 !important;
+  letter-spacing:-0.005em !important;
   color:var(--blue) !important;
 }
 
