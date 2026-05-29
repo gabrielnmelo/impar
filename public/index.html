@@ -1,1871 +1,820 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ímpar — Comunicação & Reputação</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --blue: #1a1aff;
-    --blue-deep:#1010c9;
-    --blue-dark:#0a0a66;
-    --blue-light:#eef0ff;
-    --cream:#ffffff;
-    --cream-2:#f5f5f5;
-    --lavender:#e2dffc;
-    --ink:#1a1aff;
-    --ink-soft:rgba(26,26,255,.7);
-    --rule: rgba(26,26,255,.18);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:"Space Grotesk", system-ui, sans-serif;
-    background:var(--cream);
-    color:var(--ink);
-    font-size:17px;
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-  }
-  .display{
-    font-family:"Space Grotesk", sans-serif;
-    font-weight:700;
-    letter-spacing:-0.02em;
-    line-height:.92;
-    text-transform: uppercase;
-  }
-  .eyebrow{
-    font-family:"Space Grotesk", sans-serif;
-    font-size:11px;
-    letter-spacing:.18em;
-    text-transform: uppercase;
-    color:var(--ink-soft);
-  }
-  .wrap{max-width:1320px; margin:0 auto; padding:0 32px}
-  a{color:inherit; text-decoration:none}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helena T. — Escritora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #ECE0D4;
+      --cream-soft: #E5D7C8;
+      --cream-deep: #DAC9B7;
+      --terracotta: #C43E00;
+      --terracotta-deep: #9E3200;
+      --terracotta-faded: rgba(196, 62, 0, 0.55);
+      --line: rgba(196, 62, 0, 0.20);
+      --line-strong: rgba(196, 62, 0, 0.45);
 
-  /* sticky inverted variant — white bg, blue content, shown after hero scrolls past */
-  nav.top.top-sticky{
-    position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-    background: #fff;
-    border-bottom: 1px solid rgba(26,26,255,.18);
-    transform: translateY(-100%);
-    transition: transform .25s ease;
-    pointer-events: none;
-  }
-  nav.top.top-sticky.is-visible{
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-  nav.top.top-sticky .logo,
-  nav.top.top-sticky .links a{ color: var(--blue); }
-  nav.top.top-sticky .links a:hover{ color: var(--blue-deep); }
-  nav.top.top-sticky .cta-btn{
-    background: var(--blue); color: #fff; border-color: var(--blue);
-  }
-  nav.top.top-sticky .cta-btn:hover{
-    background: var(--blue-deep); color: #fff; border-color: var(--blue-deep);
-  }
-
-  /* ---------- NAV ---------- */
-  nav.top{
-    position:absolute; top:0; left:0; right:0; z-index:50;
-    background:transparent;
-    border-bottom:1px solid rgba(255,255,255,.55);
-  }
-  nav.top .row{
-    display:flex; align-items:center; justify-content:space-between;
-    height:72px;
-  }
-  .logo{
-    display:flex; align-items:center; gap:10px;
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size:22px; letter-spacing:-0.01em;
-    color:#fff;
-  }
-  .logo svg{width:26px; height:26px; display:block}
-  .logo-img{height:28px; width:auto; display:block}
-  nav .links{display:flex; gap:28px}
-  nav .links a{
-    font-size:13.5px; font-weight:500; color:#fff;
-    position:relative; padding:6px 0;
-  }
-  nav .links a:hover{color:rgba(255,255,255,.7)}
-  .cta-btn{
-    display:inline-flex; align-items:center; gap:8px;
-    background:transparent; color:#fff;
-    border:1px solid #fff;
-    padding:10px 18px 11px; border-radius:999px;
-    font-weight:600; font-size:13.5px;
-    transition:background .15s ease, color .15s ease, transform .15s ease;
-  }
-  .cta-btn:hover{background:#fff; color:var(--blue); transform:translateY(-1px)}
-  .cta-btn .dot{width:7px; height:7px; border-radius:50%; background:currentColor}
-  .cta-btn .icon{width:15px; height:15px; display:block; flex-shrink:0}
-  .cta-btn .icon svg{width:100%; height:100%; display:block}
-
-  /* ---------- SPOTLIGHT MARK ---------- */
-  .spot-mark{ fill: currentColor; }
-
-  /* ---------- HERO + ÁREAS SPOT ZONE (interactive spotlight cone) ---------- */
-  /* Single content tree on blue. A cream overlay above masks everything
-     OUTSIDE the cone — so the spotlight reveals the hero AND the áreas
-     tiles below in one continuous zone. */
-  .spot-hero{
-    position:relative;
-    background:#000 url("/assets/hero-bg.jpg") center/cover no-repeat;
-    color:#fff;
-    overflow:hidden;
-    border-bottom: 1px solid var(--rule);
-    isolation:isolate;
-    padding-top: 72px; /* room for the absolute nav */
-  }
-  .spot-content{ position: relative; z-index: 1; }
-  .spot-overlay{
-    position:absolute; inset:0; z-index:2;
-    background: var(--blue);
-    pointer-events:none;
-    /* Inverse-cone clip path set in JS via path(evenodd, ...) */
-  }
-
-  /* Hero block — top portion of the spot zone */
-  .spot-hero .hero-block{
-    position: relative;
-    min-height: calc(100vh - 72px);
-    display: flex; align-items: flex-end;
-    padding: 96px 0 72px;
-  }
-  /* thin white dividing line between nav and hero block */
-  .spot-hero .hero-block::before{
-    /* nav already supplies its own bottom border — keep this as a no-op */
-    content: none;
-  }
-  .spot-hero .hero-block .wrap{ width: 100%; }
-  .hero-grid{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 64px;
-    align-items: end;
-  }
-  .hero h1, .hero-h1{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: clamp(64px, 10.5vw, 176px);
-    line-height:.92;
-    letter-spacing:-0.038em;
-    text-transform:none;
-    margin:24px 0 0;
-    color: var(--cream);
-  }
-  .hero-h1.outlined{
-    color: transparent;
-    -webkit-text-stroke: 1.2px var(--cream);
-  }
-  .hero-h1 em{ font-style:normal; }
-  .hero-tag{
-    display:flex; align-items:center; gap:14px;
-    margin-bottom: 8px;
-    color: var(--cream);
-  }
-  .hero-tag .pill{
-    border:1px solid currentColor; padding:5px 12px 6px;
-    border-radius:999px; font-size:12px;
-    font-family:"Space Grotesk", sans-serif;
-    text-transform: uppercase; letter-spacing:.14em;
-    color: var(--cream);
-  }
-  .hero-tag .eyebrow{ color: rgba(244,238,227,.75); }
-  .hero-right{ display:none; }
-
-  /* Áreas block — bottom portion of the spot zone */
-  .spot-hero .areas-block{
-    position: relative;
-    padding: 0 0 0;
-  }
-  .spot-hero .areas-block .wrap{ padding-bottom: 40px; }
-
-  /* Services block lives inside the spotlight zone */
-  .spot-hero .servicos-block{
-    position: relative;
-    padding: 96px 0 120px;
-    color:#fff;
-  }
-  .spot-hero .servicos-divider{
-    height:1px; background: rgba(255,255,255,.22);
-    margin: 0 32px;
-    max-width: 1320px;
-  }
-  @media (min-width: 1384px){
-    .spot-hero .servicos-divider{
-      margin-left: auto; margin-right:auto;
+      --gutter: clamp(20px, 5vw, 80px);
+      --rhythm: clamp(80px, 12vw, 180px);
+      --max: 1320px;
     }
-  }
-  .spot-hero .section-head{ color: var(--cream); }
-  .spot-hero .section-head h2{ color: var(--cream); }
-  .spot-hero .section-head .num{ color: rgba(244,238,227,.7); }
-  .spot-hero .section-head p{ color: rgba(244,238,227,.85); }
 
-  /* spotlight hint overlay */
-  .spot-hint{
-    position:absolute;
-    left:50%; bottom: 28px;
-    transform: translateX(-50%);
-    display:flex; align-items:center; gap:10px;
-    color: var(--blue);
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
-    pointer-events:none; z-index: 5;
-    mix-blend-mode: difference;
-    transition: opacity .4s ease;
-  }
-  .spot-hint.hide{ opacity:0; }
-  .spot-hint .spot-icon{
-    width:14px; height:14px;
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{ opacity:.5; transform: translateY(0); }
-    50%{ opacity:1; transform: translateY(-2px); }
-  }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-  /* corner brand badge */
-  .spot-corner{
-    position:absolute; top: 88px; right: 32px; z-index:4;
-    color: var(--blue);
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
-    text-align:right;
-    pointer-events:none;
-    mix-blend-mode: difference;
-  }
-  .spot-corner .lbl{ display:block; margin-top:6px; }
-
-  /* ---------- SECTION HEADERS ---------- */
-  section.block{
-    padding: 96px 0;
-    border-bottom:1px solid var(--rule);
-    position:relative;
-  }
-  section.block.dark{
-    background:#fff; color:var(--blue);
-    border-color: rgba(26,26,255,.18);
-  }
-  section.block.lavender{ background:var(--lavender) }
-  section.block.white-blue{ background:#fff; color:var(--blue); }
-  section.block.white-blue .section-head h2{ color:var(--blue); }
-  section.block.white-blue .section-head .num{ color:var(--blue); opacity:.7; }
-  section.block.white-blue h3,
-  section.block.white-blue h4{ color:var(--blue); }
-  section.block.white-blue p{ color:var(--blue); }
-  section.block.white-blue .pillar-list .num{ color:var(--blue); opacity:.7; }
-  section.block.white-blue .pillar-list .row{ border-top-color: rgba(26,26,255,.18); }
-  section.block.white-blue .visao-card{ background:var(--blue); color:#fff; }
-  section.block.white-blue .visao-card .spot-bg{ color: #fff; opacity:.15; }
-
-  .section-head{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(48px, 8vw, 140px);
-    margin-bottom: 64px;
-    align-items:start;
-  }
-  .section-head h2{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: clamp(40px, 5.4vw, 84px);
-    line-height:.95; letter-spacing:-0.025em;
-    text-transform:none;
-    margin:0;
-  }
-  .section-head .meta{
-    padding-top: 14px;
-    text-align: right;
-    justify-self: end;
-    max-width: 52ch;
-    width: 100%;
-  }
-  .section-head .num{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 13px;
-    color:var(--ink-soft);
-  }
-  .section-head .meta p{ margin-top: 14px; max-width: none !important; }
-  section.block.dark .section-head .num,
-  section.block.dark .eyebrow{color: rgba(26,26,255,.7)}
-
-  /* ---------- AREAS ---------- */
-  .areas{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
-    width: 100%;
-  }
-  .areas .item{
-    background: transparent;
-    border-right: 1px solid rgba(244,238,227,.18);
-    border-top: 1px solid rgba(244,238,227,.18);
-    padding:40px 32px 32px;
-    display:flex; flex-direction:column; gap:18px;
-    min-height:280px;
-    position:relative;
-    color: var(--cream);
-    transition: background .2s ease;
-  }
-  .areas .item:last-child{ border-right: none; }
-  .areas .item:hover{ background: rgba(255,255,255,.06); }
-  .areas .item .n{
-    font-family:"Space Grotesk", sans-serif;
-    font-size:12px; color: rgba(244,238,227,.6);
-  }
-  .areas .item h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: 24px; letter-spacing:-0.01em;
-    text-transform:none; margin:0;
-    line-height:1.05;
-    color: var(--cream);
-  }
-  .areas .item p{
-    font-size:14px; color: rgba(244,238,227,.7); margin:auto 0 0;
-  }
-  .areas .item .arrow{
-    width:32px; height:32px; border-radius:50%;
-    border:1px solid rgba(244,238,227,.6);
-    display:flex; align-items:center; justify-content:center;
-    margin-top:auto;
-    color: var(--cream);
-    transition: background .15s ease, color .15s ease, border-color .15s ease;
-  }
-  .areas .item:hover .arrow{ background: var(--cream); color: var(--blue); border-color: var(--cream); }
-
-  /* ---------- SOBRE ---------- */
-  .sobre-grid{
-    display:grid; grid-template-columns: 1.2fr 1fr; gap: 72px;
-    align-items:start;
-  }
-  .sobre-grid h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: 14px; text-transform: uppercase; letter-spacing:.12em;
-    margin: 0 0 12px;
-  }
-  .sobre-grid p{
-    font-size: 17px; color: var(--ink); margin: 0 0 28px;
-    max-width: 60ch;
-  }
-  .sobre-grid p:last-child{margin-bottom:0}
-
-  .pillar-list{
-    display:grid; grid-template-columns: 1fr; gap: 0;
-    border-top:1px solid var(--rule);
-  }
-  .pillar-list .row{
-    display:grid; grid-template-columns: 120px 1fr;
-    gap: 24px; padding: 20px 0;
-    border-bottom:1px solid var(--rule);
-    align-items:start;
-  }
-  .pillar-list .num{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 12px; color:var(--ink-soft); padding-top:4px;
-  }
-  .pillar-list h4{
-    margin:0 0 4px; font-family:"Space Grotesk", sans-serif;
-    font-weight:700; font-size:17px; text-transform: uppercase;
-    letter-spacing:-0.005em;
-  }
-  .pillar-list p{ margin:0; font-size:14.5px; color:var(--ink-soft); max-width:50ch }
-
-  /* Visao card */
-  .visao-card{
-    background:var(--ink); color:#fff;
-    padding: 40px 36px;
-    position:relative; overflow:hidden;
-    margin-top: 28px;
-  }
-  .visao-card .quote{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: 28px; line-height:1.05; letter-spacing:-0.02em;
-    text-transform: uppercase;
-    margin:0;
-  }
-  .visao-card .by{
-    margin-top: 28px; font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
-    color:rgba(255,255,255,.65);
-  }
-  .visao-card .spot-bg{
-    position:absolute; right:-30px; bottom:-30px;
-    width: 200px; height:200px; color:var(--blue);
-    opacity:.9;
-  }
-
-  .sobre-team{
-    margin-top: 96px;
-    padding-top: 0;
-    border-top: none;
-  }
-  .sobre-subhead{
-    font-family:"Space Grotesk", sans-serif;
-    font-weight: 600;
-    font-size: clamp(36px, 4.4vw, 64px);
-    line-height: .98;
-    letter-spacing: -0.03em;
-    color: var(--blue);
-    margin: 0 0 40px;
-  }
-
-  .sobre-title{
-    font-family:"Space Grotesk", sans-serif;
-    font-weight: 600;
-    font-size: clamp(48px, 6vw, 96px);
-    line-height: .98;
-    letter-spacing: -0.035em;
-    color: var(--blue);
-    margin: 0 0 56px;
-    width: 70%;
-    max-width: none;
-  }
-
-  .servicos-intro{
-    text-align:left;
-    max-width: none;
-    width: 70%;
-    margin: 0 0 112px;
-    padding: 0;
-    font-family:"Space Grotesk", sans-serif;
-    font-weight: 500;
-    font-size: clamp(18px, 1.6vw, 22px);
-    line-height: 1.35;
-    letter-spacing: -0.005em;
-    color: var(--blue);
-  }
-
-  /* ---------- SERVICOS ---------- */
-  .servicos-layout{
-    display:grid;
-    grid-template-columns: 1fr 1.15fr;
-    gap: 32px;
-    align-items: stretch;
-  }
-  .servicos-list{
-    display:flex; flex-direction:column;
-    border-top: 1px solid rgba(26,26,255,.18);
-  }
-  .servicos-list .group{
-    border-bottom: 1px solid rgba(26,26,255,.18);
-    padding: 28px 24px 24px;
-    transition: background-color .15s ease, color .15s ease;
-    cursor: pointer;
-    outline: none;
-  }
-  .servicos-list .group:focus-visible{
-    box-shadow: inset 0 0 0 2px var(--blue);
-  }
-  .servicos-list .group.active{
-    background: var(--blue);
-    color: #fff;
-  }
-  .servicos-list .group.active .head h3,
-  .servicos-list .group.active ul li{ color: #fff; }
-  .servicos-list .group.active ul li{ border-top-color: rgba(255,255,255,.22); }
-  .servicos-list .group.active .head .arrow{
-    background:#fff; color:var(--blue); border-color:#fff;
-  }
-  .servicos-list .group .head{
-    display:flex; justify-content:space-between; align-items:center;
-    gap: 16px;
-    margin-bottom: 18px;
-  }
-  .servicos-list .group .head h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: clamp(28px, 3vw, 40px); line-height:.95; letter-spacing:-0.025em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin:0;
-  }
-  .servicos-list .group .head .arrow{
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 1px solid rgba(26,26,255,.45);
-    display:flex; align-items:center; justify-content:center;
-    flex-shrink:0; font-size: 16px;
-    color: var(--blue);
-    transition: background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
-  }
-  .servicos-list .group:hover .head .arrow{
-    background: var(--blue); color: #fff; border-color: var(--blue);
-    transform: translateX(2px);
-  }
-  .servicos-list .group.active:hover .head .arrow{
-    transform: none;
-  }
-  .servicos-list .group ul{
-    list-style:none; margin:0; padding:0;
-    display:flex; flex-direction:column;
-  }
-  .servicos-list .group ul li{
-    padding: 12px 0;
-    font-family:"Space Grotesk", sans-serif; font-weight:500;
-    font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
-    color: var(--blue);
-    border-top: 1px solid rgba(26,26,255,.12);
-  }
-  .servicos-list .group ul li:first-child{ border-top: none; padding-top: 4px; }
-
-  .servicos-detail{
-    position: relative;
-    background: #fff; color: var(--blue);
-    padding: 40px 40px 44px;
-    border-radius: 2px;
-    border: 1px solid rgba(26,26,255,.18);
-    overflow: visible;
-  }
-  .servicos-detail .det-inner{
-    position: sticky;
-    top: 96px;
-    display: flex; flex-direction: column; gap: 24px;
-  }
-  .servicos-detail .det-eyebrow{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
-    color: rgba(26,26,255,.7);
-  }
-  .servicos-detail h4{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: clamp(32px, 3.4vw, 48px);
-    line-height:.98; letter-spacing:-0.025em;
-    margin: 0;
-    color: var(--blue);
-  }
-  .servicos-detail .det-desc{
-    font-size: 16px; line-height: 1.5;
-    color: rgba(26,26,255,.85);
-    max-width: 52ch;
-    margin: 0;
-  }
-  .servicos-detail .det-includes{
-    border-top:1px solid rgba(26,26,255,.18);
-    padding-top: 18px;
-  }
-  .servicos-detail .det-includes .lbl{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
-    color: rgba(26,26,255,.7);
-    margin-bottom: 12px;
-  }
-  .servicos-detail .det-includes ul{
-    list-style: none; margin:0; padding:0;
-    display:flex; flex-direction:column; gap: 8px;
-  }
-  .servicos-detail .det-includes li{
-    font-size: 14px; line-height: 1.45;
-    color: var(--blue);
-    padding-left: 28px;
-    position: relative;
-  }
-  .servicos-detail .det-includes li::before{
-    content: "";
-    position:absolute; left:0; top:.65em;
-    width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(26,26,255,.55);
-  }
-  .servicos-detail .det-cta{
-    margin-top: 40px;
-    align-self: flex-start;
-    display:inline-flex; align-items:center; gap:10px;
-    background: var(--blue); color: #fff;
-    padding: 12px 18px;
-    border-radius: 999px;
-    font-family:"Space Grotesk", sans-serif; font-weight:600;
-    font-size: 13.5px;
-    transition: transform .15s ease, background-color .15s ease;
-  }
-  .servicos-detail .det-cta-icon{
-    width: 16px; height: 16px; display: block; flex-shrink: 0;
-  }
-  .servicos-detail .det-cta:hover{
-    transform: translateY(-1px);
-    background: var(--blue-deep);
-  }
-
-  /* legacy grid kept hidden in case anything else references it */
-
-  /* ---------- QUEM SOMOS ---------- */
-  .team-grid{
-    display:grid; grid-template-columns: repeat(2,1fr); gap: 32px;
-  }
-  .founder{
-    display:flex; flex-direction:column; gap: 16px;
-  }
-  .founder .photo{
-    aspect-ratio: 4/5;
-    background-color: var(--cream-2);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border:1px solid var(--rule);
-    display:flex; align-items:flex-end; padding: 16px;
-    position:relative;
-    overflow:hidden;
-  }
-  .founder .photo .tag{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 10.5px; letter-spacing:.16em;
-    text-transform: uppercase;
-    background: var(--ink); color:var(--cream);
-    padding: 4px 10px;
-  }
-  .founder .meta{ display:flex; flex-direction:column; gap:4px }
-  .founder .meta .name{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: 26px; text-transform: uppercase; letter-spacing:-0.015em;
-    line-height: 1;
-  }
-  .founder .meta .role{
-    font-size: 14px; color: var(--ink-soft);
-  }
-  .founder .bio{
-    font-size: 14.5px; color: var(--ink-soft); margin-top:6px;
-  }
-
-  .qs-tiles{
-    display:grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 1px; background:var(--rule);
-    border:1px solid var(--rule);
-    margin-top: 32px;
-  }
-  .qs-tiles .tile{
-    background:var(--cream); padding:28px 26px;
-    display:flex; flex-direction:column; gap:14px;
-    min-height: 220px;
-  }
-  .qs-tiles .tile h4{
-    margin:0; font-family:"Space Grotesk", sans-serif; font-weight:700;
-    text-transform: uppercase; font-size:18px;
-    letter-spacing:-0.005em;
-  }
-  .qs-tiles .tile p{ margin:0; font-size:14px; color:var(--ink-soft); }
-  .qs-tiles .tile .num{
-    font-family:"Space Grotesk", sans-serif; font-size: 11px;
-    letter-spacing:.16em; text-transform: uppercase;
-    color: var(--blue);
-  }
-
-  .team-grid--three{
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .partnerships{
-    border: 1px solid rgba(26,26,255,.22);
-    padding: 24px 22px;
-    display:flex; flex-direction:column; gap: 22px;
-    background: transparent;
-  }
-  .partnerships .part-eyebrow{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--blue);
-    padding-bottom: 14px;
-    border-bottom: 1px solid rgba(26,26,255,.22);
-  }
-  .partnerships .part-list{
-    display:flex; flex-direction:column; gap: 22px;
-  }
-  .partnerships .part-item{
-    display:flex; flex-direction:column; gap: 8px;
-  }
-  .partnerships .part-item .part-num{
-    font-family:"Space Grotesk", sans-serif; font-size: 11px;
-    letter-spacing: .16em; text-transform: uppercase;
-    color: var(--blue);
-  }
-  .partnerships .part-item h4{
-    margin: 0;
-    font-family:"Space Grotesk", sans-serif; font-weight: 700;
-    text-transform: uppercase; font-size: 18px;
-    letter-spacing: -0.005em;
-    color: var(--blue);
-    line-height: 1.05;
-  }
-  .partnerships .part-item p{
-    margin: 0;
-    font-size: 14px; line-height: 1.45;
-    color: var(--ink-soft);
-  }
-
-  /* ---------- IMPACTOS ---------- */
-  .imp-row{
-    display:grid; grid-template-columns: repeat(12, 1fr);
-    gap: 24px;
-    margin-bottom: 24px;
-  }
-  .imp-card{
-    background:var(--lavender);
-    border:1px solid rgba(26,26,255,.12);
-    padding: 24px;
-    display:flex; flex-direction:column; gap: 14px;
-    color:var(--ink);
-    min-height: 240px;
-    position:relative; overflow:hidden;
-  }
-  .imp-card.blue{ background:var(--blue); color:#fff; border-color:transparent }
-  .imp-card.cream{ background:var(--cream); border:1px solid var(--rule) }
-  .imp-card .label{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing:.16em; text-transform: uppercase;
-    color: inherit; opacity:.7;
-  }
-  .imp-card h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: 28px; text-transform: uppercase;
-    letter-spacing:-0.02em; line-height:.95;
-    margin: 0;
-  }
-  .imp-card .photo{
-    margin-top:auto;
-    aspect-ratio: 16/10;
-    background:
-      repeating-linear-gradient(135deg, rgba(12,12,26,.08) 0 2px, transparent 2px 10px),
-      rgba(255,255,255,.5);
-    border-radius:2px;
-    display:flex; align-items:flex-end; padding:12px;
-  }
-  .imp-card.blue .photo{
-    background:
-      repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 2px, transparent 2px 10px),
-      rgba(255,255,255,.06);
-  }
-  .imp-card .photo .tag{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 10px; letter-spacing:.16em;
-    background: var(--ink); color:var(--cream);
-    padding: 3px 8px;
-  }
-  .imp-card.blue .photo .tag{background:#fff; color:var(--blue)}
-
-  .span-4{grid-column: span 4}
-  .span-5{grid-column: span 5}
-  .span-6{grid-column: span 6}
-  .span-7{grid-column: span 7}
-  .span-8{grid-column: span 8}
-
-  /* Before/after */
-  .ba-card{
-    grid-column: span 12;
-    background:var(--ink); color:#fff; padding: 32px;
-    display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
-    align-items:center;
-  }
-  .ba-card .ba-photo{
-    aspect-ratio: 1/1;
-    background:
-      repeating-linear-gradient(135deg, rgba(255,255,255,.12) 0 2px, transparent 2px 10px),
-      rgba(255,255,255,.04);
-    display:flex; align-items:flex-end; padding:14px;
-  }
-  .ba-card .ba-photo .tag{
-    font-family:"Space Grotesk", sans-serif; font-size:10px;
-    letter-spacing:.16em; background:#fff; color:var(--ink);
-    padding: 3px 8px;
-  }
-  .ba-card .ba-mid{
-    text-align:center;
-  }
-  .ba-card .ba-mid h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    text-transform: uppercase; font-size:36px;
-    letter-spacing:-0.025em; line-height:.95; margin: 0 0 12px;
-  }
-  .ba-card .ba-mid p{
-    margin:0; color:rgba(255,255,255,.7); font-size:14px;
-  }
-  .ba-card .ba-mid .arrow-block{
-    margin: 18px auto;
-    width: 60px; height: 60px; border-radius:50%;
-    background: var(--blue); display:flex; align-items:center; justify-content:center;
-  }
-
-  /* ---------- CONTEUDO ---------- */
-  #conteudo{
-    background: var(--blue-light);
-    color: var(--blue);
-    border-color: rgba(26,26,255,.22);
-  }
-  #conteudo .section-head h2,
-  #conteudo .section-head .meta p{ color: var(--blue); }
-  #conteudo .section-head .num,
-  #conteudo .section-head .eyebrow{ color: rgba(26,26,255,.7); }
-  #conteudo .article .thumb{
-    background:
-      repeating-linear-gradient(135deg, rgba(26,26,255,.12) 0 2px, transparent 2px 10px),
-      rgba(255,255,255,.4);
-    border:1px solid rgba(26,26,255,.25);
-  }
-  #conteudo .article .thumb .cat{
-    background: var(--blue); color: #fff;
-  }
-  #conteudo .article h3{ color: var(--blue); }
-  #conteudo .article .meta{ color: rgba(26,26,255,.7); }
-
-  .content-grid{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
-  }
-  .article{
-    display:flex; flex-direction:column; gap: 16px;
-    cursor:pointer;
-  }
-  .article .thumb{
-    aspect-ratio: 4/3;
-    background:
-      repeating-linear-gradient(135deg, rgba(12,12,26,.08) 0 2px, transparent 2px 10px),
-      var(--cream-2);
-    border:1px solid var(--rule);
-    position:relative;
-    display:flex; align-items:flex-start; padding:14px;
-    transition: transform .25s ease;
-  }
-  .article:hover .thumb{transform: translateY(-4px)}
-  .article .thumb .cat{
-    font-family:"Space Grotesk", sans-serif;
-    font-size: 11px; letter-spacing:.14em; text-transform: uppercase;
-    background: var(--blue); color:#fff;
-    padding: 5px 10px;
-  }
-  .article h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: 22px; line-height:1.05; letter-spacing:-0.015em;
-    text-transform: uppercase; margin:0;
-  }
-  .article .meta{
-    display:flex; gap:14px; font-family:"Space Grotesk", sans-serif;
-    font-size:11px; color: var(--ink-soft); text-transform: uppercase;
-    letter-spacing:.14em;
-  }
-
-  /* ---------- CONTATO ---------- */
-  .contato{
-    background: var(--blue); color:#fff;
-    padding: 96px 0;
-  }
-  .contato .grid{
-    display:grid; grid-template-columns: 1.1fr 1fr; gap: 64px;
-    align-items:start;
-  }
-  .contato h2{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: clamp(56px, 8vw, 128px); line-height:.9;
-    letter-spacing:-0.035em; text-transform:none; margin: 16px 0 32px;
-  }
-  .contato .links{display:flex; flex-direction:column; gap:0; margin-top: 24px}
-  .contato .links a{
-    display:flex; justify-content:space-between; align-items:center;
-    padding: 22px 0;
-    border-top:1px solid rgba(255,255,255,.25);
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    font-size: 22px; text-transform: uppercase; letter-spacing:.01em;
-    transition: padding .15s ease;
-  }
-  .contato .links a:last-child{ border-bottom:1px solid rgba(255,255,255,.25) }
-  .contato .links a:hover{padding-left: 12px}
-  .contato .links a .meta{
-    font-family:"Space Grotesk", sans-serif; font-size: 12px;
-    letter-spacing:.16em; text-transform: uppercase;
-    color: rgba(255,255,255,.7);
-  }
-
-  .form{
-    background: var(--cream); color: var(--ink); padding: 32px;
-    display:flex; flex-direction:column; gap:18px;
-  }
-  .form .row{display:grid; grid-template-columns:1fr 1fr; gap: 16px}
-  .form label{
-    display:flex; flex-direction:column; gap: 6px;
-    font-family:"Space Grotesk", sans-serif; font-size: 11px;
-    letter-spacing:.14em; text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .form input, .form textarea, .form select{
-    border: none; border-bottom: 1px solid var(--ink);
-    background: transparent; padding: 8px 0;
-    font-family:"Space Grotesk", sans-serif; font-size: 16px;
-    color: var(--ink); outline:none;
-  }
-  .form textarea{resize:vertical; min-height: 100px}
-  .form input:focus, .form textarea:focus, .form select:focus{
-    border-color: var(--blue);
-  }
-  .form input::placeholder,
-  .form textarea::placeholder{
-    color: var(--blue);
-    opacity: .3;
-  }
-  .form button .send-icon{ width:16px; height:16px; display:block; }
-  .form button{
-    margin-top: 12px;
-    background: var(--ink); color: var(--cream);
-    border:none; padding: 16px 24px;
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
-    text-transform: uppercase; letter-spacing:.04em;
-    font-size: 14px; cursor:pointer;
-    display:flex; justify-content:space-between; align-items:center;
-    transition:background .15s ease;
-  }
-  .form button:hover{background: var(--blue)}
-
-  /* ---------- FOOTER ---------- */
-  footer{
-    background: var(--blue); color: #fff;
-    border-top:1px solid rgba(255,255,255,.18);
-    padding: 48px 0 24px;
-  }
-  footer .row{
-    display:flex; justify-content:space-between; align-items:stretch;
-    gap: 32px;
-    border-bottom: 1px solid rgba(255,255,255,.18);
-    padding-bottom: 32px;
-  }
-  footer .row .mark{
-    display:flex; align-items:center; justify-content:flex-end;
-  }
-  footer .row .mark img{
-    height: 100%;
-    max-height: 96px;
-    width: auto;
-    display:block;
-  }
-  footer .eyebrow{ color: rgba(255,255,255,.7); }
-
-  /* spot-hero responsive */
-  @media (max-width: 720px){
-    .spot-hero .hero-block{
-      min-height: calc(100svh - 72px);
-      padding: 72px 0 56px;
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+      color: var(--terracotta);
+      background: var(--cream);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
-    .spot-corner, .spot-hint{ display:none; }
-    .areas{ grid-template-columns: 1fr 1fr; }
-    .areas .item:nth-child(2n){ border-right: none; }
-  }
-  footer .copy{
-    display:flex; justify-content:space-between; align-items:center;
-    padding-top: 20px;
-    font-family:"Space Grotesk", sans-serif; font-size:11px;
-    letter-spacing:.14em; text-transform: uppercase; color: rgba(255,255,255,.75);
-  }
 
-  /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 980px){
-    nav .links{display:none}
-    .hero-grid, .sobre-grid, .servicos-grid, .team-grid, .qs-tiles,
-    .content-grid, .areas, .contato .grid{ grid-template-columns: 1fr !important }
-    .section-head{grid-template-columns:1fr; gap:20px}
-    .imp-row{grid-template-columns: 1fr}
-    .span-4,.span-5,.span-6,.span-7,.span-8{grid-column: span 1}
-    .ba-card{grid-template-columns:1fr; grid-column:span 1}
-    .hero-banner{height: 200px}
-    .hero-banner .marquee{font-size: 96px}
+    img { display: block; max-width: 100%; }
+    p { margin: 0; color: var(--terracotta); }
+    h1, h2, h3, h4 { margin: 0; color: var(--terracotta); font-weight: 500; }
+    a { color: inherit; }
 
-    /* Left-align Artigos meta text on mobile */
-    .section-head .meta{ text-align: left; justify-self: start; }
-
-    /* Services: each service becomes a self-contained card with description inline */
-    .servicos-layout{ grid-template-columns: 1fr; gap: 24px; }
-    .servicos-list .group .head h3{ font-size: clamp(22px, 5.5vw, 28px); }
-    .servicos-detail{ display: none; }
-    .servicos-list .group{ cursor: default; padding-left: 0; padding-right: 0; }
-    .servicos-list .group.active{ background: transparent; color: var(--blue); }
-    .servicos-list .group.active .head h3,
-    .servicos-list .group.active ul li{ color: var(--blue); }
-    .servicos-list .group.active ul li{ border-top-color: rgba(26,26,255,.12); }
-    .servicos-list .group.active .head .arrow{
-      background: transparent; color: var(--blue); border-color: rgba(26,26,255,.45);
+    /* Serif reserved for large display text only */
+    .serif {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 500;
+      letter-spacing: -0.012em;
+      line-height: 1.02;
     }
-    .servicos-list .group:hover{ background: transparent; }
-    .servicos-list .group:hover .head .arrow{
-      background: transparent; color: var(--blue); border-color: rgba(26,26,255,.45);
-      transform: none;
+
+    .label {
+      font-family: "DM Sans", sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      opacity: 0.7;
     }
-    .servicos-list .group .head .arrow{ display: none; }
-    .servicos-list .group .mobile-desc{
+
+    .container {
+      max-width: none;
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+    }
+
+    /* ============ NAV (overlay on hero) ============ */
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      color: #fff;
+    }
+    .nav__inner {
+      max-width: none;
+      margin: 0 auto;
+      padding: 26px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav__logo {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+    .nav__logo svg { width: 42px; height: auto; display: block; }
+    .nav__links {
+      display: flex;
+      gap: clamp(20px, 3vw, 52px);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .nav__links a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      position: relative;
+      padding: 4px 0;
+      transition: opacity 0.2s;
+    }
+    .nav__links a::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 100%;
+      bottom: 0;
+      height: 1px;
+      background: currentColor;
+      transition: right 0.35s ease;
+    }
+    .nav__links a:hover::after { right: 0; }
+
+    /* ============ HERO (full-bleed, left-aligned) ============ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      isolation: isolate;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--gutter) clamp(56px, 9vw, 120px);
+    }
+    .hero > .container { max-width: none; margin: 0; padding: 0; }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+    }
+    .hero__bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 72% center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(100deg,
+          rgba(38, 18, 8, 0.65) 0%,
+          rgba(38, 18, 8, 0.45) 30%,
+          rgba(38, 18, 8, 0.20) 55%,
+          rgba(38, 18, 8, 0) 78%),
+        linear-gradient(180deg,
+          rgba(38, 18, 8, 0.40) 0%,
+          rgba(38, 18, 8, 0) 25%,
+          rgba(38, 18, 8, 0) 70%,
+          rgba(38, 18, 8, 0.30) 100%);
+      z-index: -1;
+    }
+    .hero__content {
+      text-align: left;
+      max-width: min(900px, 92vw);
+    }
+    .hero__meta {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+    .hero__meta-rule {
+      width: 56px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+    .hero__meta .label {
+      color: rgba(255, 255, 255, 0.92);
+      opacity: 1;
+    }
+    .hero__title {
+      color: #fff;
+      font-size: clamp(84px, 13.5vw, 210px);
+      letter-spacing: -0.025em;
+      line-height: 0.92;
+      margin: 0 0 clamp(28px, 4vw, 44px);
+      text-align: left;
+    }
+    .hero__tagline {
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(18px, 1.5vw, 22px);
+      line-height: 1.55;
+      max-width: 580px;
+      color: rgba(255, 255, 255, 0.92);
+      margin: 0;
+      text-align: left;
+    }
+
+    /* ============ SECTION ============ */
+    section { position: relative; }
+    .section { padding-top: var(--rhythm); padding-bottom: var(--rhythm); }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: clamp(40px, 6vw, 96px);
+      padding-bottom: clamp(40px, 5vw, 64px);
+      border-bottom: 1px solid var(--line);
+      align-items: end;
+    }
+    .section-head__index { display: flex; align-items: baseline; gap: 14px; }
+    .section-head__num {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 24px;
+      opacity: 0.6;
+    }
+    .section-head__title {
+      font-size: clamp(40px, 5.4vw, 76px);
+      letter-spacing: -0.02em;
+    }
+
+    /* ============ ABOUT / SOBRE ============ */
+    #sobre {
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    #sobre .container { width: 100%; }
+    #sobre::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("assets/fingerprint.png") no-repeat center;
+      background-size: auto 135%;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+    #sobre .container { position: relative; z-index: 1; }
+    .sobre {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 7vw, 110px);
+      align-items: start;
+    }
+    .sobre__head {
+      display: flex;
+      flex-direction: column;
+    }
+    .sobre__head .label { margin-bottom: 20px; }
+    .sobre__title {
+      font-size: clamp(40px, 5.2vw, 70px);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .sobre__head .facts { margin-top: clamp(36px, 4vw, 56px); }
+    .sobre__body {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      max-width: 56ch;
+      margin-top: 46px;
+    }
+    .sobre__body p {
+      font-size: clamp(18px, 1.4vw, 22px);
+      line-height: 1.65;
+    }
+
+    .facts {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .facts li {
+      display: grid;
+      grid-template-columns: 124px 1fr;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 17px;
+    }
+    .facts li:first-child { border-top: 1px solid var(--line); }
+    .facts dt {
+      font-size: 12.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.65;
+    }
+
+    /* ============ PULL QUOTE ============ */
+    .pullquote {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      color: #fff;
+      text-align: left;
+    }
+    .pullquote__bg { position: absolute; inset: 0; z-index: -2; }
+    .pullquote__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 28% center; }
+    .pullquote::before {
+      content: "";
+      position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(90deg, rgba(40,22,12,0) 28%, rgba(40,22,12,0.20) 58%, rgba(40,22,12,0.46) 100%);
+    }
+    .pullquote .container { width: 100%; display: flex; justify-content: flex-end; }
+    .pullquote__box { max-width: 42ch; }
+    .pullquote__text {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(38px, 5.6vw, 88px);
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      max-width: 16ch;
+      margin: 0;
+      color: #fff;
+    }
+    .pullquote__attr {
+      margin-top: 36px;
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+    }
+    .pullquote__caption {
+      margin-top: clamp(22px, 3vw, 32px);
+      max-width: 46ch;
+      font-size: clamp(15px, 1.05vw, 17px);
+      line-height: 1.65;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* ============ OBRAS — editorial index ============ */
+    #obras { padding-top: clamp(44px, 6vw, 96px); }
+    .index {
+      padding-top: clamp(6px, 1.2vw, 14px);
+    }
+    .index__group {
+      padding: clamp(24px, 4vw, 44px) 0;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 1fr 2.4fr;
+      gap: clamp(24px, 4vw, 64px);
+      align-items: start;
+    }
+    .index__group:last-child { border-bottom: 1px solid var(--line); }
+    .index__cat {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: clamp(28px, 3.5vw, 44px);
+      letter-spacing: -0.012em;
+      line-height: 1.05;
+    }
+    .index__count {
       display: block;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(26,26,255,.12);
-      font-family:"Space Grotesk", sans-serif;
-      font-size: 15px; line-height: 1.55;
-      color: rgba(26,26,255,.85);
+      margin-top: 10px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.6;
     }
-  }
-  /* hidden by default — only shown via media query above */
-  .servicos-list .group .mobile-desc{ display: none; }
-
-  /* ---------- MOBILE: text wrap, padding & overflow fixes ---------- */
-  @media (max-width: 720px){
-    .wrap{ padding: 0 20px; }
-    section.block{ padding: 64px 0; }
-
-    /* Sobre */
-    .sobre-title{ width: 100%; font-size: clamp(40px, 11vw, 56px); margin-bottom: 32px; }
-    .sobre-subhead{ font-size: clamp(28px, 8vw, 40px); margin-bottom: 24px; }
-    .sobre-team{ margin-top: 56px; }
-    .sobre-grid h3{ word-wrap: break-word; }
-    .sobre-grid p{ word-wrap: break-word; }
-    .pillar-list .row{ gap: 12px; }
-
-    /* Services intro inline-style override */
-    .servicos-intro{
-      width: 100% !important;
-      font-size: clamp(28px, 8vw, 40px) !important;
-      line-height: 1.05 !important;
-      letter-spacing: -1px !important;
-      margin-bottom: 48px !important;
+    .index__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .index__item {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: clamp(16px, 2.4vw, 32px);
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px dashed var(--line);
+      transition: padding-left 0.25s ease;
+    }
+    .index__item:last-child { border-bottom: none; }
+    .index__item:hover { padding-left: 8px; }
+    .index__year {
+      font-family: "DM Sans", sans-serif;
+      font-variant-numeric: tabular-nums;
+      font-size: 15px;
+      letter-spacing: 0.06em;
+      opacity: 0.75;
+    }
+    .index__title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(20px, 2vw, 26px);
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      line-height: 1.25;
+    }
+    .index__tag {
+      font-family: "DM Sans", sans-serif;
+      font-size: 12.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      white-space: nowrap;
     }
 
-    /* Conteudo */
-    #conteudo .section-head h2{ font-size: clamp(40px, 11vw, 56px); }
-
-    /* Contato */
-    .contato{ padding: 64px 0; }
-    .contato h2{
-      font-size: clamp(40px, 11vw, 56px) !important;
-      font-weight: 600 !important;
-      line-height: .98;
-      margin: 8px 0 20px;
+    /* ============ FIELD / PORTRAIT BAND ============ */
+    .band {
+      padding-top: var(--rhythm);
+      padding-bottom: 0;
     }
-    .contato p{ font-size: 16px !important; max-width: 100%; }
-    .contato .links a{
-      padding: 18px 0; font-size: 18px; gap: 12px;
+    .band__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: clamp(32px, 5vw, 80px);
+      align-items: end;
+    }
+    .band__grid .band__media { width: 100%; max-width: 620px; }
+    .band__media {
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+    }
+    .band__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(10%) contrast(1.02);
+    }
+    .band__text {
+      padding-bottom: clamp(20px, 4vw, 60px);
+      max-width: 48ch;
+    }
+    .band__text p {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: clamp(24px, 2.4vw, 34px);
+      line-height: 1.3;
+    }
+
+    /* ============ CONTACT ============ */
+    .contact {
+      padding-top: 0;
+      padding-bottom: 0;
+      background: var(--terracotta);
+      color: var(--cream);
+    }
+    .contact__title {
+      font-family: "Cormorant Garamond", serif;
+      color: var(--cream);
+      font-size: clamp(40px, 5.5vw, 80px);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      margin: 0 0 clamp(32px, 4vw, 52px);
+    }
+    .contact .label,
+    .contact .contact__item dt,
+    .contact .contact__item dd,
+    .contact .contact__item a { color: var(--cream); }
+    .contact .label { opacity: 0.75; }
+    .contact .contact__item { border-bottom-color: rgba(236, 224, 212, 0.28); }
+    .contact .contact__item:first-child { border-top-color: rgba(236, 224, 212, 0.28); }
+    .contact .contact__item a { border-bottom-color: rgba(236, 224, 212, 0.45); }
+    .contact .contact__item a:hover { border-bottom-color: var(--cream); }
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 100px);
+      align-items: stretch;
+    }
+    .contact__left {
+      padding: clamp(60px, 9vw, 120px) 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .contact__left .label { display: block; margin-bottom: 16px; }
+    .contact__media {
+      margin: 0;
+      width: 100%;
+      align-self: stretch;
+      overflow: hidden;
+    }
+    .contact__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+    .contact__display {
+      font-size: clamp(48px, 7vw, 110px);
+      letter-spacing: -0.025em;
+      line-height: 0.95;
+    }
+    .contact__lede {
+      margin-top: 24px;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: clamp(22px, 2vw, 30px);
+      line-height: 1.35;
+      max-width: 24ch;
+    }
+    .contact__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .contact__item {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+    .contact__item:first-child { border-top: 1px solid var(--line); }
+    .contact__item dt {
+      font-size: 12.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .contact__item dd {
+      margin: 0;
+      font-size: 18px;
+    }
+    .contact__item a {
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .contact__item a:hover { border-bottom-color: var(--terracotta); }
+
+    .socials {
+      margin-top: 32px;
+      display: flex;
+      gap: 12px;
       flex-wrap: wrap;
     }
-    .contato .links a span:first-child{ font-size: 16px !important; }
-    .contato .links a .meta{ font-size: 11px; }
-    .contato .grid{ gap: 40px; }
-
-    /* Form — prevent overflow */
-    .form{ padding: 24px; max-width: 100%; box-sizing: border-box; }
-    .form .row{ grid-template-columns: 1fr; }
-    .form input, .form textarea, .form select{
-      width: 100%; box-sizing: border-box; max-width: 100%;
+    .socials a {
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 22px;
+      border: 1px solid var(--line-strong);
+      transition: background 0.2s, color 0.2s;
+    }
+    .socials a:hover {
+      background: var(--terracotta);
+      color: var(--cream);
+      border-color: var(--terracotta);
     }
 
-    /* Footer */
-    footer{ padding: 40px 0 24px; }
-    footer .row{
-      flex-direction: column; align-items: flex-start; gap: 24px;
-      padding-bottom: 24px;
+    /* ============ FOOTER ============ */
+    footer {
+      background: var(--terracotta);
+      color: var(--cream);
+      padding: 36px var(--gutter);
     }
-    footer .row .mark{ justify-content: flex-start; }
-    footer .row .mark img{ max-height: 56px; height: auto; }
-    footer .copy{
-      flex-direction: column; gap: 10px; align-items: flex-start;
+    .footer__inner .nav__logo { color: var(--cream); }
+    .footer__inner a { color: var(--cream); }
+    .footer__inner {
+      max-width: none;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      letter-spacing: 0.04em;
     }
-  }
+    .footer__inner .nav__logo svg { width: 34px; }
+    .footer__inner span { opacity: 0.7; }
 
-  /* Always: never let inputs/form overflow */
-  .form input, .form textarea, .form select{
-    width: 100%; box-sizing: border-box; max-width: 100%;
-  }
-  .form{ min-width: 0; }
-</style>
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 980px) {
+      .section-head { grid-template-columns: 1fr; gap: 24px; }
+      .about { grid-template-columns: 1fr; gap: 32px; }
+      .sobre { grid-template-columns: 1fr; gap: 32px; }
+      .sobre__body { margin-top: 0; }
+      .index__group { grid-template-columns: 1fr; gap: 16px; }
+      .index__item { grid-template-columns: 50px 1fr; }
+      .index__item .index__tag { grid-column: 2; opacity: 0.45; }
+      .band__grid { grid-template-columns: 1fr; gap: 32px; }
+      .band__media { max-width: 460px; aspect-ratio: 5/4; }
+      .contact__grid { grid-template-columns: 1fr; gap: 0; }
+      .contact__media { aspect-ratio: 4/5; }
+      .contact__left { padding: clamp(48px, 9vw, 80px) 0; }
+    }
+
+    @media (max-width: 720px) {
+      .hero { min-height: 100vh; }
+      .hero::before {
+        background:
+          linear-gradient(180deg,
+            rgba(38, 18, 8, 0.50) 0%,
+            rgba(38, 18, 8, 0.25) 35%,
+            rgba(38, 18, 8, 0.65) 100%);
+      }
+      .hero__bg img { object-position: 68% center; }
+      .nav__logo svg { width: 36px; }
+    }
+
+    @media (max-width: 560px) {
+      .nav__inner { padding: 18px var(--gutter); }
+      .nav__links { gap: 18px; }
+      .nav__links a { font-size: 13px; }
+      .facts li, .contact__item { grid-template-columns: 96px 1fr; }
+      .pullquote__text { max-width: 14ch; }
+      .pullquote::before { background: linear-gradient(90deg, rgba(40,22,12,0.15) 0%, rgba(40,22,12,0.45) 100%); }
+      .index__item { grid-template-columns: 50px 1fr; gap: 14px; padding: 12px 0; }
+      .index__item:hover { padding-left: 4px; }
+    }
+
+    /* Reusable logo paths injected via JS — fallback inline */
+  </style>
 </head>
 <body>
 
-<!-- ========== NAV ========== -->
-<nav class="top top-sticky" id="top-sticky" aria-hidden="true">
-  <div class="wrap row">
-    <a href="#home" class="logo">
-      <img src="/assets/logo-top-bar.svg" alt="Ímpar" class="logo-img" />
-    </a>
-    <div class="links">
-      <a href="#servicos">Serviços</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#conteudo">Artigos</a>
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="#" aria-label="Helena T.">
+        <svg viewBox="0 0 143 68" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <path d="M74.76 0.064L88.37 0.045C92.52 0.040 96.73 -0.245 100.77 0.683C107.56 2.240 112.66 7.934 113.58 14.817C113.82 16.623 113.73 18.840 113.73 20.699L113.73 29.285L113.73 53.906C113.73 58.359 113.64 63.218 113.78 67.635L102.92 67.607C103.04 65.523 102.98 63.000 102.98 60.889L102.98 49.835L102.99 19.878C102.98 18.845 102.93 17.836 102.83 16.808C102.11 9.717 94.32 11.007 89.16 11.007C84.33 10.995 79.50 11.008 74.68 11.046C74.71 7.446 74.62 3.645 74.76 0.064Z"/>
+          <path d="M17.28 33.640C28.06 33.449 39.40 33.927 50.09 33.601C50.13 37.279 50.11 40.957 50.05 44.635L28.10 44.629C24.69 44.631 21.27 44.571 17.87 44.615C15.57 44.644 14.03 45.046 12.42 46.755C10.18 49.705 10.70 52.872 10.71 56.371C10.70 60.112 10.72 63.853 10.75 67.593C7.30 67.689 3.53 67.626 0.05 67.633L0.03 56.221C0.03 49.350 -0.62 44.677 4.53 39.124C8.02 35.365 12.25 33.789 17.28 33.640Z"/>
+          <path d="M56.45 0.061C60.08 0.044 63.71 0.047 67.34 0.072L67.35 67.589C63.92 67.716 59.89 67.625 56.40 67.638L56.40 23.993C56.40 16.152 56.27 7.874 56.45 0.061Z"/>
+          <path d="M0.084 0.055C3.59 0.037 7.11 0.044 10.62 0.075L10.61 33.975C7.47 34.153 3.29 34.016 0.08 34.003C-0.07 29.489 0.04 24.331 0.04 19.780C0.01 13.205 0.03 6.630 0.084 0.055Z"/>
+          <path d="M113.54 0.073C122.99 -0.051 132.65 0.051 142.11 0.050C142.31 3.301 142.17 7.663 142.20 11.021L113.46 11.033C113.36 8.914 113.31 1.926 113.54 0.073Z"/>
+        </svg>
+      </a>
+      <nav>
+        <ul class="nav__links">
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#obras">Obras</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
     </div>
-    <a href="#contato" class="cta-btn">
-      <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg></span>
-      Conversar com a Ímpar
-    </a>
-  </div>
-</nav>
+  </header>
 
-<nav class="top">
-  <div class="wrap row">
-    <a href="#home" class="logo">
-      <img src="/assets/logo-top-bar-white.svg" alt="Ímpar" class="logo-img" />
-    </a>
-    <div class="links">
-      <a href="#servicos">Serviços</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#conteudo">Artigos</a>
+  <!-- ============ HERO ============ -->
+  <section class="hero" data-screen-label="Hero">
+    <div class="hero__bg">
+      <img src="assets/hero-helena.png" alt="Retrato de Helena T." />
     </div>
-    <a href="#contato" class="cta-btn">
-      <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg></span>
-      Conversar com a Ímpar
-    </a>
-  </div>
-</nav>
+    <div class="container">
+      <div class="hero__content">
+        <div class="hero__meta">
+          <span class="label" style="font-size: 15px">ESCRITORA. PSICÓLOGA. NARRADORA DAS DELICADEZAS HUMANAS.</span>
+        </div>
+        <h1 class="serif hero__title">Helena&nbsp;T.</h1>
+        <p class="hero__tagline" style="font-size: 22px">Entre infância, memória, afetos, perdas e recomeços,
+Helena T. constrói uma literatura contemporânea que
+atravessa diferentes fases da existência: do imaginário
+infantil às inquietações da vida adulta.</p>
+      </div>
+    </div>
+  </section>
 
-<!-- ========== HERO / HOME + ÁREAS — interactive spotlight zone ========== -->
-<header id="home" class="spot-hero">
+  <!-- ============ SOBRE ============ -->
+  <section id="sobre" class="section" data-screen-label="Sobre">
+    <div class="container">
+      <div class="sobre">
+        <div class="sobre__head">
+          <span class="label" style="font-size: 16px">Sobre</span>
+          <h2 class="serif sobre__title" style="font-size: 89px">Uma vida marcada pela escuta, pela arte e pela escrita.</h2>
+        </div>
 
-  <!-- SINGLE CONTENT TREE (blue bg + cream text) — sized in normal flow. -->
-  <div class="spot-content">
-
-    <!-- HERO BLOCK -->
-    <div class="hero-block">
-      <div class="wrap">
-        <div class="hero-grid">
-          <div class="hero-left">
-            <h1 class="hero-h1" style="width: 70vw; max-width: 70vw; font-size: clamp(48px, 8.2vw, 180px); font-weight: 500; letter-spacing: -0.04em; line-height: 0.95">Lideranças
-e marcas
-verdadeiramente ímpares.</h1>
-          </div>
+        <div class="sobre__body">
+          <p style="font-size: 22px">Helena T. estreou no mundo editorial em 2006 ao
+transformar sua experiência como psicóloga em
+escrita. Desde então, percorre diferentes
+territórios literários: da infância aos contos, do
+romance às narrativas sobre memória, desejo e
+existência. Carioca, divide atualmente sua vida
+entre São Paulo e Lisboa, cidades que alimentam
+seu olhar estético e sua criação literária.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ÁREAS BLOCK removed -->
+  <!-- ============ PULL QUOTE ============ -->
+  <section class="pullquote" data-screen-label="Citação">
+    <div class="pullquote__bg"><img src="assets/quote-bg.png" alt="Retrato de Helena T. em uma cadeira." /></div>
+    <div class="container">
+      <div class="pullquote__box">
+        <p class="serif pullquote__text" style="font-size: 89px">
+          “Minha escrita é contida, <em>mas ousada</em>.”
+        </p>
+        <div class="pullquote__attr">— Helena T.</div>
+        <p class="pullquote__caption" style="font-size: 20px">Helena escreve de forma intuitiva — uma literatura elegante, urbana e contemporânea, interessada menos em respostas e mais na complexidade humana.</p>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <!-- ============ OBRAS ============ -->
+  <section id="obras" class="section" data-screen-label="Obras" style="padding: 80px 0px 89px">
+    <div class="container">
+      <header class="section-head" style="border-bottom: none; padding-bottom: 0">
+        <div class="section-head__index">
+          <span class="label" style="font-size: 16px">OBRAS</span>
+        </div>
+      </header>
 
-  <!-- CREAM OVERLAY clipped to inverse cone (mask everything outside the beam) -->
-  <div class="spot-overlay" id="spot-overlay" aria-hidden="true"></div>
-
-  <!-- floating brand badge removed -->
-</header>
-
-<!-- ========== SERVIÇOS ========== -->
-<section class="block dark" id="servicos">
-  <div class="wrap">
-    <p class="servicos-intro" style="font-size: 60px; font-weight: 600; letter-spacing: -2px; line-height: 0.95">
-      Quatro frentes integradas para construir reputação, presença e diferenciação real.
-    </p>
-    <div class="servicos-layout">
-      <div class="servicos-list" id="servicos-list">
-        <div class="group" data-key="rep" tabindex="0" role="button" aria-label="Ver detalhes de Reputação">
-          <div class="head">
-            <h3>Reputação</h3>
-            <span class="arrow" aria-hidden="true">→</span>
+      <div class="index">
+        <div class="index__group" style="border-top: none; padding: 6px 0px 44px">
+          <div>
+            <div class="index__cat" style="font-size: 45px">Infantil</div>
+            <span class="index__count" style="font-size: 13px">10 títulos</span>
           </div>
-          <ul>
-            <li>Gestão de reputação</li>
-            <li>Posicionamento institucional</li>
-            <li>Construção de autoridade</li>
+          <ul class="index__list">
+            <li class="index__item"><span class="index__year" style="font-size: 15px">2010</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Girabuba e Zebrinha</span></li>
+            <li class="index__item"><span class="index__year" style="font-size: 16px">2011</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">A história do menino que perdeu as letras do próprio nome</span></li>
+            <li class="index__item"><span class="index__year" style="font-size: 16px">2012</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">A história do Belo Canto</span></li>
+            <li class="index__item"><span class="index__year" style="font-size: 16px">2015</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Encrenca no Olimpo</span></li>
+            <li class="index__item"><span class="index__year" style="font-size: 16px">2016</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Cabeça de vento e nariz empinado</span></li>
+            <li class="index__item"><span class="index__year" style="font-size: 16px">2016</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Jo Aninha e Abelha Bel</span></li>
+            <li class="index__item"><span class="index__year">2017</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Edgarzinho</span></li>
+            <li class="index__item"><span class="index__year">2018</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 19px">Melindrosa: a galinha constipada</span></li>
+            <li class="index__item"><span class="index__year">2019</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">O dia em que Leopoldo Eugênio Augusto Roquefort, rei L.E.A.R., quase perdeu a majestade</span></li>
+            <li class="index__item"><span class="index__year">2026</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Também se chamavam sonhos</span></li>
           </ul>
         </div>
 
-        <div class="group" data-key="marca" tabindex="0" role="button" aria-label="Ver detalhes de Marca">
-          <div class="head">
-            <h3>Marca</h3>
-            <span class="arrow" aria-hidden="true">→</span>
+        <div class="index__group">
+          <div>
+            <div class="index__cat" style="font-size: 46px">Romance</div>
+            <span class="index__count" style="font-size: 13px">01 título</span>
           </div>
-          <ul>
-            <li>Marca pessoal</li>
-            <li>Posicionamento executivo</li>
-            <li>Comunicação para lideranças</li>
+          <ul class="index__list">
+            <li class="index__item"><span class="index__year">2023</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Ilhéus</span></li>
           </ul>
         </div>
 
-        <div class="group" data-key="com" tabindex="0" role="button" aria-label="Ver detalhes de Comunicação">
-          <div class="head">
-            <h3>Comunicação</h3>
-            <span class="arrow" aria-hidden="true">→</span>
+        <div class="index__group">
+          <div>
+            <div class="index__cat" style="font-size: 46px">Contos</div>
+            <span class="index__count" style="font-size: 13px">03 títulos</span>
           </div>
-          <ul>
-            <li>Assessoria estratégica</li>
-            <li>Relações públicas</li>
-            <li>Conteúdo e presença digital</li>
+          <ul class="index__list">
+            <li class="index__item"><span class="index__year">2022</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Luiz de Neón</span></li>
+            <li class="index__item"><span class="index__year">2023</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Máscara para um rosto nu</span></li>
+            <li class="index__item"><span class="index__year">2026</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Enterrei minha mulher num cemitério todo branco</span></li>
           </ul>
         </div>
 
-        <div class="group" data-key="proj" tabindex="0" role="button" aria-label="Ver detalhes de Projetos">
-          <div class="head">
-            <h3>Projetos</h3>
-            <span class="arrow" aria-hidden="true">→</span>
+        <div class="index__group" style="border-width: 1px 0px 0px">
+          <div>
+            <div class="index__cat" style="font-size: 46px">Pedagógico</div>
+            <span class="index__count" style="font-size: 13px">01 título</span>
           </div>
-          <ul>
-            <li>Eventos de relacionamento</li>
-            <li>Ambientes de influência</li>
-            <li>Projetos institucionais</li>
+          <ul class="index__list">
+            <li class="index__item"><span class="index__year">2006</span><span class="index__title" style="font-family: &quot;DM Sans&quot;; font-weight: 400; font-size: 20px">Filhos felizes</span></li>
           </ul>
         </div>
       </div>
-
-      <aside class="servicos-detail" id="servicos-detail">
-        <div class="det-inner">
-        <div class="det-eyebrow" id="det-cat" style="font-size: 13px">Reputação</div>
-        <h4 id="det-title" style="font-size: 50px">Gestão de reputação</h4>
-        <p class="det-desc" id="det-desc" style="font-size: 18px"></p>
-        <div class="det-includes">
-          <ul id="det-list" style="font-size: 20px"></ul>
-        </div>
-        <a href="#contato" class="det-cta" style="font-size: 15px">
-          <svg class="det-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>
-          Conversar sobre este projeto
-        </a>
-        </div>
-      </aside>
     </div>
-  </div>
-</section>
+  </section>
 
+  <!-- ============ BAND ============ -->
 
-<!-- ========== SOBRE A ÍMPAR ========== -->
-<section class="block white-blue" id="sobre">
-  <div class="wrap">
-
-    <h2 class="sobre-title">Somos Ímpar.</h2>
-
-    <div class="sobre-grid">
-      <div>
-        <h3>A origem</h3>
-        <p>
-          A Ímpar nasceu da percepção de que comunicação e reputação deixaram de ser
-          ferramentas e passaram a ser ativos estratégicos. Em um mundo saturado de
-          ruído, o que diferencia lideranças e marcas é a capacidade de serem,
-          verdadeiramente, ímpares.
-        </p>
-
-        <h3>O que significa o nome</h3>
-        <p>
-          <em>Ímpar</em> é aquilo que não tem par: único, singular, indivisível.
-          O nome traduz a tese da casa — construir presença distintiva para quem se
-          recusa a competir pelo lugar-comum.
-        </p>
-
-        <h3>Propósito</h3>
-        <p>
-          Tornar visível o que há de mais relevante em lideranças e instituições —
-          transformando substância em reputação, e reputação em legado.
-        </p>
-      </div>
-
-      <div>
-        <div class="pillar-list">
-          <div class="row">
-            <div class="num">VALOR · 01</div>
-            <div>
-              <h4>Substância antes da forma</h4>
-              <p>Comunicação só sustenta o que é real. Tudo começa por ouvir e entender.</p>
+  <!-- ============ CONTATO ============ -->
+  <section id="contato" class="contact" data-screen-label="Contato">
+    <div class="container" style="padding: 0px 0px 0px 56px">
+      <div class="contact__grid">
+        <div class="contact__left">
+          <span class="label" style="font-size: 16px">Contato</span>
+          <h2 class="serif contact__title" style="font-size: 88px; line-height: 0.85">Vamos conversar</h2>
+          <dl class="contact__list">
+            <div class="contact__item">
+              <dt>E-mail</dt>
+              <dd><a href="mailto:helenatrevisan159@gmail.com">helenatrevisan159@gmail.com</a></dd>
             </div>
-          </div>
-          <div class="row">
-            <div class="num">VALOR · 02</div>
-            <div>
-              <h4>Discrição estratégica</h4>
-              <p>Sabemos quando aparecer — e, sobretudo, quando ficar fora do palco.</p>
+            <div class="contact__item">
+              <dt>Instagram</dt>
+              <dd><a href="#">@helenatrevisan</a></dd>
             </div>
-          </div>
-          <div class="row">
-            <div class="num">VALOR · 03</div>
-            <div>
-              <h4>Consistência editorial</h4>
-              <p>Reputação se constrói por repetição, coerência e tempo. Sem atalhos.</p>
+            <div class="contact__item">
+              <dt>LinkedIn</dt>
+              <dd><a href="#">Helena Trevisan</a></dd>
             </div>
-          </div>
-          <div class="row">
-            <div class="num">VALOR · 04</div>
-            <div>
-              <h4>Singularidade</h4>
-              <p>Cada cliente é tratado como caso único. Modelo não é receita.</p>
-            </div>
-          </div>
+          </dl>
         </div>
 
+        <figure class="contact__media">
+          <img src="assets/contato.jpg" alt="Helena T. folheando um livro." style="border-radius: 0px 0px 0px 100px" />
+        </figure>
       </div>
     </div>
+  </section>
 
-    <div class="sobre-team">
-
-      <div class="team-grid team-grid--three">
-        <div class="founder">
-          <div class="photo" style="height: 328px; background-image: url('/assets/Leticia.png');"></div>
-          <div class="meta">
-            <span class="name">LETÍCIA</span>
-            <span class="role">Sócia-fundadora · Estratégia de Reputação</span>
-          </div>
-          <p class="bio">
-            Mais de vinte anos liderando posicionamento institucional para executivos
-            do setor financeiro, industrial e cultural. Placeholder de biografia curta.
-          </p>
-        </div>
-
-        <div class="founder">
-          <div class="photo" style="height: 328px; background-image: url('/assets/Ricardo.png');"></div>
-          <div class="meta">
-            <span class="name">RICARDO POCETTI</span>
-            <span class="role">Sócio-fundador · Comunicação &amp; Conteúdo</span>
-          </div>
-          <p class="bio">
-            Background em jornalismo econômico e construção editorial de marcas
-            pessoais de alto impacto. Placeholder de biografia curta.
-          </p>
-        </div>
-
-        <aside class="partnerships">
-          <div class="part-eyebrow">PARECEIROS</div>
-          <div class="part-list">
-            <div class="part-item">
-              <span class="part-num">01</span>
-              <h4 style="font-size: 26px">INSTITUIÇÕES</h4>
-              <p style="font-size: 18px">Veículos, instituições culturais, escritórios jurídicos e produtoras com quem operamos há anos.</p>
-            </div>
-            <div class="part-item">
-              <span class="part-num">02</span>
-              <h4 style="font-size: 24px">ESPECIALISTAS</h4>
-              <p style="font-size: 17px">Designers, escritores, produtores, consultores de mídia e pesquisadores acionados sob demanda.</p>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- merged: QUEM SOMOS → SOBRE -->
-
-<!-- IMPACTOS section removed -->
-
-<!-- ========== CONTEUDO ========== -->
-<section class="block" id="conteudo">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Artigos</h2>
-      <div class="meta">
-        <p style="max-width: 50ch; margin-top:14px;">
-          Reputação, comunicação e tendências. Publicações curtas e ensaios
-          assinados por sócios e parceiros da Ímpar.
-        </p>
-      </div>
-    </div>
-
-    <div class="content-grid">
-      <a class="article" href="Article.html?title=O%20sil%C3%AAncio%20tamb%C3%A9m%20comunica%3A%20quando%20n%C3%A3o%20responder%20%C3%A9%20estrat%C3%A9gia.&subtitle=Por%20que%20a%20recusa%20p%C3%BAblica%20%C3%A9%2C%20em%20determinados%20momentos%2C%20a%20resposta%20mais%20bem%20calibrada%20que%20uma%20lideran%C3%A7a%20pode%20oferecer%20%E2%80%94%20e%20como%20decidir%20quando%20guardar%20a%20voz.&cat=Reputa%C3%A7%C3%A3o&format=Ensaio&time=06%20min%20de%20leitura&date=26%20maio%202026">
-        <div class="thumb"><span class="cat">Reputação</span></div>
-        <h3>O silêncio também comunica: quando não responder é estratégia.</h3>
-        <div class="meta"><span>Ensaio</span><span>06 min</span></div>
+  <footer>
+    <div class="footer__inner">
+      <a class="nav__logo" href="#" aria-label="Helena T.">
+        <svg viewBox="0 0 143 68" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <path d="M74.76 0.064L88.37 0.045C92.52 0.040 96.73 -0.245 100.77 0.683C107.56 2.240 112.66 7.934 113.58 14.817C113.82 16.623 113.73 18.840 113.73 20.699L113.73 29.285L113.73 53.906C113.73 58.359 113.64 63.218 113.78 67.635L102.92 67.607C103.04 65.523 102.98 63.000 102.98 60.889L102.98 49.835L102.99 19.878C102.98 18.845 102.93 17.836 102.83 16.808C102.11 9.717 94.32 11.007 89.16 11.007C84.33 10.995 79.50 11.008 74.68 11.046C74.71 7.446 74.62 3.645 74.76 0.064Z"/>
+          <path d="M17.28 33.640C28.06 33.449 39.40 33.927 50.09 33.601C50.13 37.279 50.11 40.957 50.05 44.635L28.10 44.629C24.69 44.631 21.27 44.571 17.87 44.615C15.57 44.644 14.03 45.046 12.42 46.755C10.18 49.705 10.70 52.872 10.71 56.371C10.70 60.112 10.72 63.853 10.75 67.593C7.30 67.689 3.53 67.626 0.05 67.633L0.03 56.221C0.03 49.350 -0.62 44.677 4.53 39.124C8.02 35.365 12.25 33.789 17.28 33.640Z"/>
+          <path d="M56.45 0.061C60.08 0.044 63.71 0.047 67.34 0.072L67.35 67.589C63.92 67.716 59.89 67.625 56.40 67.638L56.40 23.993C56.40 16.152 56.27 7.874 56.45 0.061Z"/>
+          <path d="M0.084 0.055C3.59 0.037 7.11 0.044 10.62 0.075L10.61 33.975C7.47 34.153 3.29 34.016 0.08 34.003C-0.07 29.489 0.04 24.331 0.04 19.780C0.01 13.205 0.03 6.630 0.084 0.055Z"/>
+          <path d="M113.54 0.073C122.99 -0.051 132.65 0.051 142.11 0.050C142.31 3.301 142.17 7.663 142.20 11.021L113.46 11.033C113.36 8.914 113.31 1.926 113.54 0.073Z"/>
+        </svg>
       </a>
-      <a class="article" href="Article.html?title=Para%20al%C3%A9m%20do%20release%3A%20o%20que%20substitui%20a%20assessoria%20tradicional%20em%202026.&subtitle=Da%20m%C3%ADdia%20de%20massa%20%C3%A0%20mediação%20editorial%20cont%C3%ADnua%3A%20um%20mapa%20do%20que%20mudou%20na%20pr%C3%A1tica%20di%C3%A1ria%20de%20assessorar%20lideran%C3%A7as.&cat=Comunica%C3%A7%C3%A3o&format=An%C3%A1lise&time=09%20min%20de%20leitura&date=12%20maio%202026">
-        <div class="thumb"><span class="cat">Comunicação</span></div>
-        <h3>Para além do release: o que substitui a assessoria tradicional em 2026.</h3>
-        <div class="meta"><span>Análise</span><span>09 min</span></div>
-      </a>
-      <a class="article" href="Article.html?title=O%20retorno%20do%20offline%3A%20por%20que%20mesa%20redonda%20voltou%20a%20ser%20m%C3%ADdia.&subtitle=Encontros%20pequenos%2C%20curados%20e%20fora%20do%20gravador%20viraram%20um%20dos%20formatos%20mais%20influentes%20da%20comunica%C3%A7%C3%A3o%20corporativa.&cat=Tend%C3%AAncias&format=Tend%C3%AAncia&time=04%20min%20de%20leitura&date=02%20maio%202026">
-        <div class="thumb"><span class="cat">Tendências</span></div>
-        <h3>O retorno do offline: por que mesa redonda voltou a ser mídia.</h3>
-        <div class="meta"><span>Tendência</span><span>04 min</span></div>
-      </a>
-      <a class="article" href="Article.html?title=Reputa%C3%A7%C3%A3o%20de%20herdeiros%3A%20o%20desafio%20de%20existir%20al%C3%A9m%20do%20sobrenome.&subtitle=Como%20a%20segunda%20e%20a%20terceira%20gera%C3%A7%C3%A3o%20de%20fam%C3%ADlias%20empres%C3%A1rias%20constroem%20uma%20presen%C3%A7a%20p%C3%BAblica%20pr%C3%B3pria%20sem%20negar%20a%20heran%C3%A7a.&cat=Reputa%C3%A7%C3%A3o&format=Ensaio&time=08%20min%20de%20leitura&date=20%20abril%202026">
-        <div class="thumb"><span class="cat">Reputação</span></div>
-        <h3>Reputação de herdeiros: o desafio de existir além do sobrenome.</h3>
-        <div class="meta"><span>Ensaio</span><span>08 min</span></div>
-      </a>
-      <a class="article" href="Article.html?title=Discri%C3%A7%C3%A3o%20como%20vantagem%20competitiva%20em%20comunica%C3%A7%C3%A3o%20executiva.&subtitle=A%20economia%20de%20palavras%20deixou%20de%20ser%20um%20gesto%20de%20estilo%20para%20virar%20instrumento%20estrat%C3%A9gico%20de%20posicionamento%20de%20lideran%C3%A7as.&cat=Comunica%C3%A7%C3%A3o&format=An%C3%A1lise&time=07%20min%20de%20leitura&date=08%20abril%202026">
-        <div class="thumb"><span class="cat">Comunicação</span></div>
-        <h3>Discrição como vantagem competitiva em comunicação executiva.</h3>
-        <div class="meta"><span>Análise</span><span>07 min</span></div>
-      </a>
-      <a class="article" href="Article.html?title=IA%20e%20autoria%3A%20o%20novo%20contrato%20entre%20lideran%C3%A7as%20e%20suas%20vozes.&subtitle=O%20que%20%C3%A9%20delegado%2C%20o%20que%20segue%20sendo%20intransfer%C3%ADvel%20e%20como%20construir%20um%20protocolo%20editorial%20que%20preserve%20a%20assinatura.&cat=Tend%C3%AAncias&format=Tend%C3%AAncia&time=05%20min%20de%20leitura&date=24%20mar%C3%A7o%202026">
-        <div class="thumb"><span class="cat">Tendências</span></div>
-        <h3>IA e autoria: o novo contrato entre lideranças e suas vozes.</h3>
-        <div class="meta"><span>Tendência</span><span>05 min</span></div>
-      </a>
+      <span>© 2026 Helena T.</span>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ========== CONTATO ========== -->
-<section class="contato" id="contato">
-  <div class="wrap">
-    <div class="grid">
-      <div>
-        <h2 style="font-weight: 500; font-size: 80px">Conte sobre o seu desafio</h2>
-        <p style="max-width: 44ch; font-size: 18px; color: rgba(255,255,255,.85);">
-          Atendemos a um número limitado de clientes por ano. Se você acredita que
-          existe um lugar único para a sua marca ou liderança ocupar — fale com a gente.
-        </p>
-
-        <div class="links">
-          <a href="https://wa.me/" target="_blank" rel="noopener">
-            <span style="font-size: 18px">WhatsApp</span>
-            <span class="meta">+55 11 0000-0000 →</span>
-          </a>
-          <a href="mailto:contato@impar.com.br">
-            <span style="font-size: 18px">E-mail</span>
-            <span class="meta">contato@impar.com.br →</span>
-          </a>
-          <a href="#">
-            <span style="font-size: 18px">Instagram</span>
-            <span class="meta">@impar →</span>
-          </a>
-          <a href="#">
-            <span style="font-size: 18px">LinkedIn</span>
-            <span class="meta">/company/impar →</span>
-          </a>
-        </div>
-      </div>
-
-      <form class="form" onsubmit="event.preventDefault(); alert('Mensagem enviada (placeholder).');">
-        <label>
-          Nome completo
-          <input type="text" placeholder="Como devemos te chamar?"/>
-        </label>
-        <div class="row">
-          <label>
-            E-mail
-            <input type="email" placeholder="voce@empresa.com"/>
-          </label>
-          <label>
-            Telefone
-            <input type="tel" placeholder="+55 11 …"/>
-          </label>
-        </div>
-        <label>
-          Empresa / posição
-          <input type="text" placeholder="Onde você atua hoje"/>
-        </label>
-        <label>
-          Frente de interesse
-          <select>
-            <option>Reputação</option>
-            <option>Imagem &amp; marca pessoal</option>
-            <option>Comunicação</option>
-            <option>Projetos especiais</option>
-            <option>Ainda não sei</option>
-          </select>
-        </label>
-        <label>
-          Conte sobre o seu desafio
-          <textarea placeholder="Quanto mais contexto, melhor."></textarea>
-        </label>
-        <button type="submit">
-          <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          <span>Enviar mensagem</span>
-        </button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ========== FOOTER ========== -->
-<footer>
-  <div class="wrap">
-    <div class="row">
-      <div>
-        <div class="eyebrow" style="margin-bottom: 8px;">/ Ímpar Comunicação &amp; Reputação</div>
-        <div style="font-family:'Space Grotesk'; font-weight:700; font-size:18px; text-transform: uppercase; letter-spacing:-0.005em; max-width: 26ch; line-height:1.1;">
-          Boutique de reputação para lideranças e marcas verdadeiramente ímpares.
-        </div>
-      </div>
-      <div class="mark">
-        <img src="/assets/logo-footer-white.svg" alt="Ímpar" />
-      </div>
-    </div>
-    <div class="copy">
-      <span>© 2026 Ímpar · São Paulo</span>
-      <span>CNPJ 00.000.000/0001-00</span>
-      <span>Política de privacidade</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-(function(){
-  const hero    = document.getElementById('home');
-  const overlay = document.getElementById('spot-overlay');
-  const hint    = document.getElementById('spot-hint');
-  if (!hero || !overlay) return;
-
-  // ─────────────────────────────────────────────────────────────
-  // Spotlight model (inverse-clip overlay):
-  //   The hero zone is rendered fully (blue bg, cream text, áreas tiles).
-  //   A cream overlay sits above it, clipped to "the rectangle minus the
-  //   cone" using path(evenodd, ...). Inside the cone the overlay is
-  //   cut out — content shows. Outside, the overlay paints cream.
-  //   The cone has a fixed angular half-width and POINTS AT the mouse.
-  // ─────────────────────────────────────────────────────────────
-  const HALF_ANGLE  = 34 * Math.PI / 180;  // ±34° ⇒ ~68° total beam
-  const APEX_FRAC   = 0.10;                // half-width of the apex slot, as fraction of hero width
-  const EDGE_EPS    = 0.6 * Math.PI / 180; // clamp margin
-
-  let targetX = 0, targetY = 0;
-  let curX = 0,    curY = 0;
-  let raf = null, idleRaf;
-  let interacted = false;
-
-  function rot(x, y, a){
-    const c = Math.cos(a), s = Math.sin(a);
-    return { x: x*c - y*s, y: x*s + y*c };
-  }
-
-  function hitEdge(ax, ay, dx, dy, W, H){
-    let bestT = Infinity, edge = null, x = 0, y = 0;
-    if (dx >  1e-6){ const t = (W - ax) / dx; if (t > 0 && t < bestT){ bestT = t; edge = 'right';  x = W;          y = ay + dy*t; } }
-    if (dx < -1e-6){ const t = (0 - ax) / dx; if (t > 0 && t < bestT){ bestT = t; edge = 'left';   x = 0;          y = ay + dy*t; } }
-    if (dy >  1e-6){ const t = (H - ay) / dy; if (t > 0 && t < bestT){ bestT = t; edge = 'bottom'; x = ax + dx*t;  y = H;          } }
-    return { x, y, edge };
-  }
-
-  function applyPolygon(mx, my){
-    const r = hero.getBoundingClientRect();
-    const W = r.width, H = r.height;
-    const ax = W / 2, ay = 0;
-    const APEX_HALF = Math.max(140, W * APEX_FRAC);
-
-    let vx = mx - ax;
-    let vy = my - ay;
-    if (vy <= 0) vy = 1;
-    let ang = Math.atan2(vy, vx);
-    const minA = HALF_ANGLE + EDGE_EPS;
-    ang = Math.max(minA, Math.min(Math.PI - minA, ang));
-    vx = Math.cos(ang); vy = Math.sin(ang);
-
-    const rR = rot(vx, vy, -HALF_ANGLE);
-    const rL = rot(vx, vy, +HALF_ANGLE);
-    const hR = hitEdge(ax, ay, rR.x, rR.y, W, H);
-    const hL = hitEdge(ax, ay, rL.x, rL.y, W, H);
-
-    const idx = { right: 1, bottom: 2, left: 3 };
-    const sI = idx[hR.edge], eI = idx[hL.edge];
-    const cone = [];
-    cone.push([ax + APEX_HALF, 0]);
-    cone.push([hR.x, hR.y]);
-    if (sI <= 1 && eI >= 2) cone.push([W, H]); // bottom-right corner
-    if (sI <= 2 && eI >= 3) cone.push([0, H]); // bottom-left corner
-    cone.push([hL.x, hL.y]);
-    cone.push([ax - APEX_HALF, 0]);
-
-    const fix = n => n.toFixed(2);
-    const conePath = 'M' + cone.map(p => fix(p[0]) + ' ' + fix(p[1])).join(' L') + ' Z';
-    const outerPath = `M0 0 L${fix(W)} 0 L${fix(W)} ${fix(H)} L0 ${fix(H)} Z`;
-    const cp = `path(evenodd, "${outerPath} ${conePath}")`;
-    overlay.style.clipPath = cp;
-    overlay.style.webkitClipPath = cp;
-  }
-
-  function tick(){
-    curX += (targetX - curX) * 0.18;
-    curY += (targetY - curY) * 0.18;
-    applyPolygon(curX, curY);
-    if (Math.hypot(targetX - curX, targetY - curY) > 0.4){
-      raf = requestAnimationFrame(tick);
-    } else { raf = null; }
-  }
-  function schedule(){ if (raf == null) raf = requestAnimationFrame(tick); }
-
-  function moveTo(clientX, clientY){
-    const r = hero.getBoundingClientRect();
-    targetX = clientX - r.left;
-    targetY = clientY - r.top;
-    if (!interacted){
-      interacted = true;
-      hint && hint.classList.add('hide');
-      cancelAnimationFrame(idleRaf);
-    }
-    schedule();
-  }
-
-  hero.addEventListener('mousemove', e => moveTo(e.clientX, e.clientY));
-  // Touch input intentionally NOT bound — keep spotlight fixed on touch devices.
-  window.addEventListener('resize', () => applyPolygon(curX, curY));
-
-  // Initial position — diagonal, points cone toward bottom-left to fully reveal hero text
-  const r0 = hero.getBoundingClientRect();
-  curX = targetX = r0.width  * 0.28;
-  curY = targetY = r0.height * 0.78;
-  applyPolygon(curX, curY);
-})();
-
-/* ---------- SERVICOS detail panel ---------- */
-(function(){
-  const list = document.getElementById('servicos-list');
-  const elCat = document.getElementById('det-cat');
-  const elTitle = document.getElementById('det-title');
-  const elDesc = document.getElementById('det-desc');
-  const elList = document.getElementById('det-list');
-  if (!list || !elTitle) return;
-
-  const DATA = {
-    'rep': {
-      cat: 'Reputação · 01 / 04',
-      title: 'Reputação',
-      desc: 'Construímos e protegemos o capital reputacional de lideranças e instituições. Lemos cenário em tempo real, definimos a tese pública da casa e transformamos substância em autoridade reconhecida pelo mercado.',
-      list: [
-        'Gestão de reputação',
-        'Posicionamento institucional',
-        'Construção de autoridade',
-      ],
-    },
-    'marca': {
-      cat: 'Marca · 02 / 04',
-      title: 'Marca',
-      desc: 'Tradução entre quem a liderança é, o que faz e como o mercado precisa enxergá-la. Trabalhamos marca pessoal e executiva com substância — não fórmula — para que a presença pública sustente as decisões de negócio.',
-      list: [
-        'Marca pessoal',
-        'Posicionamento executivo',
-        'Comunicação para lideranças',
-      ],
-    },
-    'com': {
-      cat: 'Comunicação · 03 / 04',
-      title: 'Comunicação',
-      desc: 'Mais do que assessoria de imprensa: pensamos com a liderança o que vale a pena ser dito, em que canal e em que momento — alinhando agenda pública e objetivos de negócio com relacionamento real, sem ruído.',
-      list: [
-        'Assessoria estratégica',
-        'Relações públicas',
-        'Conteúdo e presença digital',
-      ],
-    },
-    'proj': {
-      cat: 'Projetos · 04 / 04',
-      title: 'Projetos',
-      desc: 'Plataformas próprias — encontros, ambientes de influência e iniciativas institucionais — concebidas como projetos editoriais. Eventos não são agenda social: são instrumentos de reputação com curadoria, conceito e desdobramento.',
-      list: [
-        'Eventos de relacionamento',
-        'Ambientes de influência',
-        'Projetos institucionais',
-      ],
-    },
-    /* legacy keys removed below */
-    'rep-gestao': {
-      cat: 'Reputação · 01',
-      title: 'Gestão de reputação',
-      desc: 'Construímos e protegemos o capital reputacional de lideranças e instituições — com leitura permanente de cenário, posicionamento intencional e resposta planejada para os momentos que importam.',
-      list: [
-        'Diagnóstico e monitoramento contínuo',
-        'Mapa de stakeholders e narrativas-chave',
-        'Plano de posicionamento e mensagens',
-        'Protocolo de crise e contingência',
-      ],
-    },
-    'rep-posic': {
-      cat: 'Reputação · 01',
-      title: 'Posicionamento institucional',
-      desc: 'Definimos a tese pública da organização — como ela quer ser lida, em que territórios disputa autoridade e que provas sustentam essa narrativa.',
-      list: [
-        'Manifesto e narrativa institucional',
-        'Territórios de autoridade',
-        'Provas, dados e cases de sustentação',
-        'Mensagens-chave por público',
-      ],
-    },
-    'rep-autor': {
-      cat: 'Reputação · 01',
-      title: 'Construção de autoridade',
-      desc: 'Transformamos substância em presença pública relevante: pautas, palcos e canais que projetam expertise real e geram reconhecimento setorial.',
-      list: [
-        'Calendário editorial de autoridade',
-        'Pautas e ângulos para mídia tier-1',
-        'Curadoria de palestras e painéis',
-        'Plano de relacionamento com formadores de opinião',
-      ],
-    },
-    'mp-pessoal': {
-      cat: 'Marca · 02',
-      title: 'Marca pessoal',
-      desc: 'Tradução entre quem a pessoa é, o que ela faz e o que o mercado precisa enxergar. Uma marca pessoal construída com substância, não com fórmula.',
-      list: [
-        'Diagnóstico de imagem e percepção',
-        'Tese pessoal e arquétipo de marca',
-        'Identidade visual e tom de voz',
-        'Plano de presença on e off-line',
-      ],
-    },
-    'mp-exec': {
-      cat: 'Marca · 02',
-      title: 'Posicionamento executivo',
-      desc: 'Para CEOs, sócios e lideranças sêniores: como aparecer, sobre o que falar e onde estar — alinhado à estratégia da companhia que representam.',
-      list: [
-        'Tese de liderança e bandeiras',
-        'Plano editorial e de aparições',
-        'Preparação para entrevistas e palcos',
-        'Gestão da presença digital executiva',
-      ],
-    },
-    'mp-lider': {
-      cat: 'Marca · 02',
-      title: 'Comunicação para lideranças',
-      desc: 'Apoio recorrente à voz da liderança: discursos, manifestos, posicionamentos internos e externos — sempre com a mesma assinatura.',
-      list: [
-        'Ghostwriting de artigos e cartas',
-        'Discursos, keynotes e pronunciamentos',
-        'Comunicados internos sensíveis',
-        'Q&A para momentos críticos',
-      ],
-    },
-    'com-assess': {
-      cat: 'Comunicação · 03',
-      title: 'Assessoria estratégica',
-      desc: 'Mais do que clipping: pensamos com a liderança o que vale a pena ser dito, para quem, e em que momento — alinhando agenda pública e objetivos de negócio.',
-      list: [
-        'Plano anual de comunicação',
-        'Calendário de pautas e momentos',
-        'Indicadores de reputação e share of voice',
-        'Reuniões estratégicas mensais',
-      ],
-    },
-    'com-rp': {
-      cat: 'Comunicação · 03',
-      title: 'Relações públicas',
-      desc: 'Trabalho de mídia consistente, com relacionamento real entre jornalistas, formadores de opinião e a casa. Sem disparos em massa, sem ruído.',
-      list: [
-        'Pitch curado por veículo e jornalista',
-        'Press kits e materiais de apoio',
-        'Mediação de entrevistas e coletivas',
-        'Relacionamento com mídia tier-1 e setorial',
-      ],
-    },
-    'com-digital': {
-      cat: 'Comunicação · 03',
-      title: 'Conteúdo e presença digital',
-      desc: 'Conteúdo editorial pensado para canais digitais — LinkedIn, newsletter, podcasts e ensaios — com a mesma régua de qualidade da imprensa.',
-      list: [
-        'Estratégia editorial por canal',
-        'Produção de posts, ensaios e cartas',
-        'Curadoria visual e fotográfica',
-        'Métricas e ajustes mensais',
-      ],
-    },
-    'proj-eventos': {
-      cat: 'Projetos · 04',
-      title: 'Eventos de relacionamento',
-      desc: 'Jantares, encontros e formatos íntimos que aproximam a liderança das pessoas certas — concebidos como projetos editoriais, não como agendas sociais.',
-      list: [
-        'Curadoria de convidados',
-        'Conceito, roteiro e direção criativa',
-        'Produção integral do encontro',
-        'Pós-evento e desdobramentos',
-      ],
-    },
-    'proj-influ': {
-      cat: 'Projetos · 04',
-      title: 'Ambientes de influência',
-      desc: 'Construção de plataformas próprias — séries, fóruns, prêmios — que posicionam a marca como articuladora de um debate, não apenas participante dele.',
-      list: [
-        'Concepção da plataforma',
-        'Identidade e narrativa do projeto',
-        'Parcerias e curadoria de speakers',
-        'Estratégia de cobertura e desdobramento',
-      ],
-    },
-    'proj-instit': {
-      cat: 'Projetos · 04',
-      title: 'Projetos institucionais',
-      desc: 'Iniciativas de propósito conectadas à tese da casa — pesquisas, manifestos, publicações e ações que deixam marca para além do ciclo de comunicação.',
-      list: [
-        'Pesquisas e estudos de autoria',
-        'Manifestos e publicações',
-        'Campanhas institucionais',
-        'Documentação e legado',
-      ],
-    },
-  };
-
-  function render(key){
-    const d = DATA[key]; if (!d) return;
-    elCat.textContent = d.cat;
-    elTitle.textContent = d.title;
-    elDesc.textContent = d.desc;
-    elList.innerHTML = d.list.map(x => '<li>' + x + '</li>').join('');
-    list.querySelectorAll('.group').forEach(g => {
-      g.classList.toggle('active', g.dataset.key === key);
-    });
-  }
-
-  list.addEventListener('click', e => {
-    const g = e.target.closest('.group[data-key]');
-    if (!g) return;
-    render(g.dataset.key);
-    currentKey = g.dataset.key;
-  });
-  list.addEventListener('keydown', e => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    const g = e.target.closest('.group[data-key]');
-    if (!g) return;
-    e.preventDefault();
-    render(g.dataset.key);
-    currentKey = g.dataset.key;
-  });
-
-  // Inject mobile descriptions into each top-level group
-  ['rep','marca','com','proj'].forEach(key => {
-    const g = list.querySelector(`.group[data-key="${key}"]`);
-    if (!g || g.querySelector('.mobile-desc')) return;
-    const d = DATA[key];
-    if (!d) return;
-    const desc = document.createElement('p');
-    desc.className = 'mobile-desc';
-    desc.textContent = d.desc;
-    g.appendChild(desc);
-  });
-
-  // initial state
-  let currentKey = 'rep';
-  render(currentKey);
-
-  // CTA: prefill the contact form with the current selection
-  const FRENTE_FOR_KEY = {
-    rep:   'Reputação',
-    marca: 'Imagem & marca pessoal',
-    com:   'Comunicação',
-    proj:  'Projetos especiais',
-  };
-  const cta = document.querySelector('.det-cta');
-  if (cta){
-    cta.addEventListener('click', (e) => {
-      const d = DATA[currentKey]; if (!d) return;
-      const prefix = currentKey.split('-')[0];
-      const frente = FRENTE_FOR_KEY[prefix];
-      const form = document.querySelector('#contato .form');
-      if (!form) return;
-      const select = form.querySelector('select');
-      const textarea = form.querySelector('textarea');
-      if (select && frente){
-        const opt = [...select.options].find(o => o.textContent.trim() === frente);
-        if (opt) select.value = opt.value || opt.textContent;
-      }
-      if (textarea){
-        textarea.value =
-          'Gostaria de conversar sobre ' + d.title + ' (' + (frente || '') + '). ' +
-          'Podemos marcar uma conversa?';
-        textarea.focus({ preventScroll: true });
-      }
-    });
-  }
-})();
-</script>
-<script>
-(function(){
-  const sticky = document.getElementById('top-sticky');
-  const servicos = document.getElementById('servicos');
-  const footer = document.querySelector('footer');
-  if (!sticky || !servicos || !footer) return;
-
-  let raf = null;
-  function update(){
-    raf = null;
-    const servicosTop = servicos.getBoundingClientRect().top;
-    const footerTop   = footer.getBoundingClientRect().top;
-    const vh = window.innerHeight;
-    const show = servicosTop <= 0 && footerTop > vh;
-    sticky.classList.toggle('is-visible', show);
-  }
-  function schedule(){
-    if (raf == null) raf = requestAnimationFrame(update);
-  }
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
-  update();
-})();
-</script>
-
-<script src="/cms-content.js"></script>
-
+  <script src="/cms-content.js"></script>
 </body>
 </html>
-
-<style id="__om-edit-overrides">
-#det-list >li:nth-child(1) { font-size: 18px !important }
-#det-list >li:nth-child(2) { font-size: 18px !important }
-#det-list >li:nth-child(3) { font-size: 18px !important }
-#det-list >li:nth-child(4) { font-size: 17px !important }
-</style>
