@@ -1,18 +1,18 @@
 :root{
-  --blue:#1a1aff;
-  --blue-deep:#1010c9;
-  --blue-light:#eef0ff;
+  --blue:#0C35C3;
+  --blue-deep:#082AAF;
+  --blue-light:#EBEEFA;
   --lavender:#e2dffc;
-  --ink:#1a1aff;
-  --ink-soft:rgba(26,26,255,.7);
-  --rule:rgba(26,26,255,.18);
+  --ink:#0C35C3;
+  --ink-soft:rgba(12,53,195,.7);
+  --rule:rgba(12,53,195,.18);
   --bg:#ffffff;
   --bg-2:#f7f8ff;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);}
 body{
-  font-family:"Space Grotesk",system-ui,sans-serif;
+  font-family:"PP Telegraf",system-ui,sans-serif;
   font-size:15px; line-height:1.5;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
@@ -108,7 +108,7 @@ button{font-family:inherit}
   gap:24px; margin-bottom:32px; flex-wrap:wrap;
 }
 .page-head h1{
-  font-family:"Space Grotesk",sans-serif; font-weight:700;
+  font-family:"PP Telegraf",sans-serif; font-weight:700;
   font-size:clamp(36px,5vw,64px); line-height:.95; letter-spacing:-0.025em;
   margin:0;
 }
@@ -140,7 +140,7 @@ button{font-family:inherit}
 .post-row:hover{ background:var(--bg-2); }
 .post-row .thumb{
   width:88px; height:66px; border-radius:2px;
-  background:var(--lavender) repeating-linear-gradient(135deg, rgba(26,26,255,.08) 0 2px, transparent 2px 10px);
+  background:var(--lavender) repeating-linear-gradient(135deg, rgba(12,53,195,.08) 0 2px, transparent 2px 10px);
   background-size:cover; background-position:center;
 }
 .post-row .meta-col{ display:flex; flex-direction:column; gap:6px; min-width:0; }
@@ -192,17 +192,17 @@ button{font-family:inherit}
 .field input[type=text]:focus, .field textarea:focus{ border-color:var(--blue); }
 
 .title-input{
-  font-family:"Space Grotesk",sans-serif !important; font-weight:400 !important;
+  font-family:"PP Telegraf",sans-serif !important; font-weight:400 !important;
   font-size:18px !important; line-height:1.62 !important;
   letter-spacing:-0.005em !important; color:var(--blue) !important;
   border:none !important; padding:8px 0 14px !important;
-  border-bottom:1px dashed rgba(26,26,255,.18) !important;
+  border-bottom:1px dashed rgba(12,53,195,.18) !important;
   background:transparent;
   width:100%; box-sizing:border-box;
   resize:none; overflow:hidden;
   word-break:break-word; overflow-wrap:break-word;
 }
-.title-input::placeholder{ color:rgba(26,26,255,.30); font-size:18px; }
+.title-input::placeholder{ color:rgba(12,53,195,.30); font-size:18px; }
 
 /* Article-style editor mode: makes the editor visually mirror the article page */
 .editor-article{
@@ -214,22 +214,22 @@ button{font-family:inherit}
   font-size:10.5px; letter-spacing:.18em;
 }
 .editor-article .subtitle-input{
-  font-family:"Space Grotesk",sans-serif !important; font-weight:400;
+  font-family:"PP Telegraf",sans-serif !important; font-weight:400;
   font-size:18px !important; line-height:1.62 !important;
   letter-spacing:-0.005em !important;
-  color:rgba(26,26,255,.85) !important;
+  color:rgba(12,53,195,.85) !important;
   border:none !important;
-  border-bottom:1px dashed rgba(26,26,255,.18) !important;
+  border-bottom:1px dashed rgba(12,53,195,.18) !important;
   padding:10px 0 14px !important;
 }
-.editor-article .subtitle-input::placeholder{ color:rgba(26,26,255,.30); }
+.editor-article .subtitle-input::placeholder{ color:rgba(12,53,195,.30); }
 .editor-article .author-input{
-  font-family:"Space Grotesk",sans-serif !important;
+  font-family:"PP Telegraf",sans-serif !important;
   font-size:18px !important; line-height:1.62 !important;
   letter-spacing:-0.005em !important;
   color:var(--blue) !important;
 }
-.editor-article .author-input::placeholder{ color:rgba(26,26,255,.30); }
+.editor-article .author-input::placeholder{ color:rgba(12,53,195,.30); }
 
 /* tag chip input */
 .tagbox{
@@ -253,7 +253,7 @@ button{font-family:inherit}
   flex:1; min-width:120px; padding:4px 0 !important;
   color:var(--blue); font-family:inherit; font-size:15px;
 }
-.tagbox input::placeholder{ color:rgba(26,26,255,.30); }
+.tagbox input::placeholder{ color:rgba(12,53,195,.30); }
 
 /* cover image dropzone */
 .cover{
@@ -295,42 +295,42 @@ button{font-family:inherit}
   border-top:none !important;
   border-radius:0 0 4px 4px;
   min-height:480px;
-  font-family:"Space Grotesk",sans-serif !important;
+  font-family:"PP Telegraf",sans-serif !important;
   font-size:18px; line-height:1.62; color:var(--blue);
 }
 .body-editor .ql-editor{
   padding:32px;
-  font-family:"Space Grotesk",sans-serif;
+  font-family:"PP Telegraf",sans-serif;
   color:var(--blue);
 }
 .body-editor .ql-editor.ql-blank::before{
-  color:rgba(26,26,255,.30); font-style:normal; left:32px;
-  font-family:"Space Grotesk",sans-serif;
+  color:rgba(12,53,195,.30); font-style:normal; left:32px;
+  font-family:"PP Telegraf",sans-serif;
   font-size:18px;
 }
 .body-editor .ql-editor p{
   font-size:18px; line-height:1.62; color:var(--blue); margin:0 0 24px;
 }
 .body-editor .ql-editor p:first-child{
-  font-family:"Space Grotesk",sans-serif; font-weight:500;
+  font-family:"PP Telegraf",sans-serif; font-weight:500;
   font-size:clamp(20px,1.8vw,24px); line-height:1.35;
   letter-spacing:-0.008em; color:var(--blue);
   margin-bottom:32px;
 }
 .body-editor .ql-editor h2{
-  font-family:"Space Grotesk",sans-serif; font-weight:600;
+  font-family:"PP Telegraf",sans-serif; font-weight:600;
   font-size:clamp(26px,2.4vw,34px); letter-spacing:-0.02em; line-height:1.1;
   margin:48px 0 16px; color:var(--blue);
 }
 .body-editor .ql-editor h3{
-  font-family:"Space Grotesk",sans-serif; font-weight:600;
+  font-family:"PP Telegraf",sans-serif; font-weight:600;
   font-size:clamp(20px,1.9vw,24px); letter-spacing:-0.012em; line-height:1.2;
   margin:32px 0 12px; color:var(--blue);
 }
 .body-editor .ql-editor blockquote{
   margin:32px 0; padding:20px 0 20px 24px;
   border-left:2px solid var(--blue);
-  font-family:"Space Grotesk",sans-serif; font-weight:500;
+  font-family:"PP Telegraf",sans-serif; font-weight:500;
   font-size:clamp(20px,2vw,26px); line-height:1.25;
   letter-spacing:-0.015em; color:var(--blue);
 }
@@ -418,7 +418,7 @@ button{font-family:inherit}
   color:var(--ink-soft); margin-bottom:12px;
 }
 .login-title{
-  font-family:"Space Grotesk",sans-serif; font-weight:700;
+  font-family:"PP Telegraf",sans-serif; font-weight:700;
   font-size:48px; line-height:.95; letter-spacing:-0.03em;
   margin:0 0 40px; color:var(--blue);
 }
@@ -494,7 +494,7 @@ button{font-family:inherit}
   color:var(--ink-soft);
 }
 .lineitems-foot .total-value{
-  font-family:"Space Grotesk",sans-serif; font-weight:700;
+  font-family:"PP Telegraf",sans-serif; font-weight:700;
   font-size:28px; letter-spacing:-0.015em; color:var(--blue);
 }
 .btn-add{

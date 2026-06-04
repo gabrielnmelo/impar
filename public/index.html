@@ -4,27 +4,25 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ímpar — Comunicação & Reputação</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts.css">
 <style>
   :root{
-    --blue: #1a1aff;
-    --blue-deep:#1010c9;
-    --blue-dark:#0a0a66;
-    --blue-light:#eef0ff;
+    --blue: #0C35C3;
+    --blue-deep:#082AAF;
+    --blue-dark:#06195D;
+    --blue-light:#EBEEFA;
     --cream:#ffffff;
     --cream-2:#f5f5f5;
     --lavender:#e2dffc;
-    --ink:#1a1aff;
-    --ink-soft:rgba(26,26,255,.7);
-    --rule: rgba(26,26,255,.18);
+    --ink:#0C35C3;
+    --ink-soft:rgba(12,53,195,.7);
+    --rule: rgba(12,53,195,.18);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    font-family:"Space Grotesk", system-ui, sans-serif;
+    font-family:"PP Telegraf", system-ui, sans-serif;
     background:var(--cream);
     color:var(--ink);
     font-size:17px;
@@ -33,14 +31,14 @@
     text-rendering:optimizeLegibility;
   }
   .display{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-weight:700;
     letter-spacing:-0.02em;
     line-height:.92;
     text-transform: uppercase;
   }
   .eyebrow{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size:11px;
     letter-spacing:.18em;
     text-transform: uppercase;
@@ -53,7 +51,7 @@
   nav.top.top-sticky{
     position: fixed; top: 0; left: 0; right: 0; z-index: 60;
     background: #fff;
-    border-bottom: 1px solid rgba(26,26,255,.18);
+    border-bottom: 1px solid rgba(12,53,195,.18);
     transform: translateY(-100%);
     transition: transform .25s ease;
     pointer-events: none;
@@ -84,7 +82,7 @@
   }
   .logo{
     display:flex; align-items:center; gap:10px;
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size:22px; letter-spacing:-0.01em;
     color:#fff;
   }
@@ -153,7 +151,7 @@
     align-items: end;
   }
   .hero h1, .hero-h1{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: clamp(64px, 10.5vw, 176px);
     line-height:.92;
     letter-spacing:-0.038em;
@@ -174,7 +172,7 @@
   .hero-tag .pill{
     border:1px solid currentColor; padding:5px 12px 6px;
     border-radius:999px; font-size:12px;
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     text-transform: uppercase; letter-spacing:.14em;
     color: var(--cream);
   }
@@ -216,7 +214,7 @@
     transform: translateX(-50%);
     display:flex; align-items:center; gap:10px;
     color: var(--blue);
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
     pointer-events:none; z-index: 5;
     mix-blend-mode: difference;
@@ -236,7 +234,7 @@
   .spot-corner{
     position:absolute; top: 88px; right: 32px; z-index:4;
     color: var(--blue);
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
     text-align:right;
     pointer-events:none;
@@ -252,7 +250,7 @@
   }
   section.block.dark{
     background:#fff; color:var(--blue);
-    border-color: rgba(26,26,255,.18);
+    border-color: rgba(12,53,195,.18);
   }
   section.block.lavender{ background:var(--lavender) }
   section.block.white-blue{ background:#fff; color:var(--blue); }
@@ -262,7 +260,7 @@
   section.block.white-blue h4{ color:var(--blue); }
   section.block.white-blue p{ color:var(--blue); }
   section.block.white-blue .pillar-list .num{ color:var(--blue); opacity:.7; }
-  section.block.white-blue .pillar-list .row{ border-top-color: rgba(26,26,255,.18); }
+  section.block.white-blue .pillar-list .row{ border-top-color: rgba(12,53,195,.18); }
   section.block.white-blue .visao-card{ background:var(--blue); color:#fff; }
   section.block.white-blue .visao-card .spot-bg{ color: #fff; opacity:.15; }
 
@@ -274,7 +272,7 @@
     align-items:start;
   }
   .section-head h2{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: clamp(40px, 5.4vw, 84px);
     line-height:.95; letter-spacing:-0.025em;
     text-transform:none;
@@ -288,13 +286,13 @@
     width: 100%;
   }
   .section-head .num{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 13px;
     color:var(--ink-soft);
   }
   .section-head .meta p{ margin-top: 14px; max-width: none !important; }
   section.block.dark .section-head .num,
-  section.block.dark .eyebrow{color: rgba(26,26,255,.7)}
+  section.block.dark .eyebrow{color: rgba(12,53,195,.7)}
 
   /* ---------- AREAS ---------- */
   .areas{
@@ -315,11 +313,11 @@
   .areas .item:last-child{ border-right: none; }
   .areas .item:hover{ background: rgba(255,255,255,.06); }
   .areas .item .n{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size:12px; color: rgba(244,238,227,.6);
   }
   .areas .item h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: 24px; letter-spacing:-0.01em;
     text-transform:none; margin:0;
     line-height:1.05;
@@ -344,7 +342,7 @@
     align-items:start;
   }
   .sobre-grid h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: 14px; text-transform: uppercase; letter-spacing:.12em;
     margin: 0 0 12px;
   }
@@ -365,11 +363,11 @@
     align-items:start;
   }
   .pillar-list .num{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 12px; color:var(--ink-soft); padding-top:4px;
   }
   .pillar-list h4{
-    margin:0 0 4px; font-family:"Space Grotesk", sans-serif;
+    margin:0 0 4px; font-family:"PP Telegraf", sans-serif;
     font-weight:700; font-size:17px; text-transform: uppercase;
     letter-spacing:-0.005em;
   }
@@ -383,13 +381,13 @@
     margin-top: 28px;
   }
   .visao-card .quote{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: 28px; line-height:1.05; letter-spacing:-0.02em;
     text-transform: uppercase;
     margin:0;
   }
   .visao-card .by{
-    margin-top: 28px; font-family:"Space Grotesk", sans-serif;
+    margin-top: 28px; font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
     color:rgba(255,255,255,.65);
   }
@@ -405,7 +403,7 @@
     border-top: none;
   }
   .sobre-subhead{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-weight: 600;
     font-size: clamp(36px, 4.4vw, 64px);
     line-height: .98;
@@ -415,7 +413,7 @@
   }
 
   .sobre-title{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-weight: 600;
     font-size: clamp(48px, 6vw, 96px);
     line-height: .98;
@@ -432,7 +430,7 @@
     width: 70%;
     margin: 0 0 112px;
     padding: 0;
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-weight: 500;
     font-size: clamp(18px, 1.6vw, 22px);
     line-height: 1.35;
@@ -449,10 +447,10 @@
   }
   .servicos-list{
     display:flex; flex-direction:column;
-    border-top: 1px solid rgba(26,26,255,.18);
+    border-top: 1px solid rgba(12,53,195,.18);
   }
   .servicos-list .group{
-    border-bottom: 1px solid rgba(26,26,255,.18);
+    border-bottom: 1px solid rgba(12,53,195,.18);
     padding: 28px 24px 24px;
     transition: background-color .15s ease, color .15s ease;
     cursor: pointer;
@@ -477,7 +475,7 @@
     margin-bottom: 18px;
   }
   .servicos-list .group .head h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: clamp(28px, 3vw, 40px); line-height:.95; letter-spacing:-0.025em;
     text-transform: uppercase;
     color: var(--blue);
@@ -485,7 +483,7 @@
   }
   .servicos-list .group .head .arrow{
     width: 38px; height: 38px; border-radius: 50%;
-    border: 1px solid rgba(26,26,255,.45);
+    border: 1px solid rgba(12,53,195,.45);
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0; font-size: 16px;
     color: var(--blue);
@@ -504,10 +502,10 @@
   }
   .servicos-list .group ul li{
     padding: 12px 0;
-    font-family:"Space Grotesk", sans-serif; font-weight:500;
+    font-family:"PP Telegraf", sans-serif; font-weight:500;
     font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
     color: var(--blue);
-    border-top: 1px solid rgba(26,26,255,.12);
+    border-top: 1px solid rgba(12,53,195,.12);
   }
   .servicos-list .group ul li:first-child{ border-top: none; padding-top: 4px; }
 
@@ -516,7 +514,7 @@
     background: #fff; color: var(--blue);
     padding: 40px 40px 44px;
     border-radius: 2px;
-    border: 1px solid rgba(26,26,255,.18);
+    border: 1px solid rgba(12,53,195,.18);
     overflow: visible;
   }
   .servicos-detail .det-inner{
@@ -525,12 +523,12 @@
     display: flex; flex-direction: column; gap: 24px;
   }
   .servicos-detail .det-eyebrow{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
-    color: rgba(26,26,255,.7);
+    color: rgba(12,53,195,.7);
   }
   .servicos-detail h4{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: clamp(32px, 3.4vw, 48px);
     line-height:.98; letter-spacing:-0.025em;
     margin: 0;
@@ -538,18 +536,18 @@
   }
   .servicos-detail .det-desc{
     font-size: 16px; line-height: 1.5;
-    color: rgba(26,26,255,.85);
+    color: rgba(12,53,195,.85);
     max-width: 52ch;
     margin: 0;
   }
   .servicos-detail .det-includes{
-    border-top:1px solid rgba(26,26,255,.18);
+    border-top:1px solid rgba(12,53,195,.18);
     padding-top: 18px;
   }
   .servicos-detail .det-includes .lbl{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing:.18em; text-transform: uppercase;
-    color: rgba(26,26,255,.7);
+    color: rgba(12,53,195,.7);
     margin-bottom: 12px;
   }
   .servicos-detail .det-includes ul{
@@ -566,7 +564,7 @@
     content: "";
     position:absolute; left:0; top:.65em;
     width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(26,26,255,.55);
+    background: rgba(12,53,195,.55);
   }
   .servicos-detail .det-cta{
     margin-top: 40px;
@@ -575,7 +573,7 @@
     background: var(--blue); color: #fff;
     padding: 12px 18px;
     border-radius: 999px;
-    font-family:"Space Grotesk", sans-serif; font-weight:600;
+    font-family:"PP Telegraf", sans-serif; font-weight:600;
     font-size: 13.5px;
     transition: transform .15s ease, background-color .15s ease;
   }
@@ -608,7 +606,7 @@
     overflow:hidden;
   }
   .founder .photo .tag{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 10.5px; letter-spacing:.16em;
     text-transform: uppercase;
     background: var(--ink); color:var(--cream);
@@ -616,7 +614,7 @@
   }
   .founder .meta{ display:flex; flex-direction:column; gap:4px }
   .founder .meta .name{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: 26px; text-transform: uppercase; letter-spacing:-0.015em;
     line-height: 1;
   }
@@ -639,13 +637,13 @@
     min-height: 220px;
   }
   .qs-tiles .tile h4{
-    margin:0; font-family:"Space Grotesk", sans-serif; font-weight:700;
+    margin:0; font-family:"PP Telegraf", sans-serif; font-weight:700;
     text-transform: uppercase; font-size:18px;
     letter-spacing:-0.005em;
   }
   .qs-tiles .tile p{ margin:0; font-size:14px; color:var(--ink-soft); }
   .qs-tiles .tile .num{
-    font-family:"Space Grotesk", sans-serif; font-size: 11px;
+    font-family:"PP Telegraf", sans-serif; font-size: 11px;
     letter-spacing:.16em; text-transform: uppercase;
     color: var(--blue);
   }
@@ -655,17 +653,17 @@
   }
 
   .partnerships{
-    border: 1px solid rgba(26,26,255,.22);
+    border: 1px solid rgba(12,53,195,.22);
     padding: 24px 22px;
     display:flex; flex-direction:column; gap: 22px;
     background: transparent;
   }
   .partnerships .part-eyebrow{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
     color: var(--blue);
     padding-bottom: 14px;
-    border-bottom: 1px solid rgba(26,26,255,.22);
+    border-bottom: 1px solid rgba(12,53,195,.22);
   }
   .partnerships .part-list{
     display:flex; flex-direction:column; gap: 22px;
@@ -674,13 +672,13 @@
     display:flex; flex-direction:column; gap: 8px;
   }
   .partnerships .part-item .part-num{
-    font-family:"Space Grotesk", sans-serif; font-size: 11px;
+    font-family:"PP Telegraf", sans-serif; font-size: 11px;
     letter-spacing: .16em; text-transform: uppercase;
     color: var(--blue);
   }
   .partnerships .part-item h4{
     margin: 0;
-    font-family:"Space Grotesk", sans-serif; font-weight: 700;
+    font-family:"PP Telegraf", sans-serif; font-weight: 700;
     text-transform: uppercase; font-size: 18px;
     letter-spacing: -0.005em;
     color: var(--blue);
@@ -700,7 +698,7 @@
   }
   .imp-card{
     background:var(--lavender);
-    border:1px solid rgba(26,26,255,.12);
+    border:1px solid rgba(12,53,195,.12);
     padding: 24px;
     display:flex; flex-direction:column; gap: 14px;
     color:var(--ink);
@@ -710,12 +708,12 @@
   .imp-card.blue{ background:var(--blue); color:#fff; border-color:transparent }
   .imp-card.cream{ background:var(--cream); border:1px solid var(--rule) }
   .imp-card .label{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing:.16em; text-transform: uppercase;
     color: inherit; opacity:.7;
   }
   .imp-card h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: 28px; text-transform: uppercase;
     letter-spacing:-0.02em; line-height:.95;
     margin: 0;
@@ -735,7 +733,7 @@
       rgba(255,255,255,.06);
   }
   .imp-card .photo .tag{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 10px; letter-spacing:.16em;
     background: var(--ink); color:var(--cream);
     padding: 3px 8px;
@@ -763,7 +761,7 @@
     display:flex; align-items:flex-end; padding:14px;
   }
   .ba-card .ba-photo .tag{
-    font-family:"Space Grotesk", sans-serif; font-size:10px;
+    font-family:"PP Telegraf", sans-serif; font-size:10px;
     letter-spacing:.16em; background:#fff; color:var(--ink);
     padding: 3px 8px;
   }
@@ -771,7 +769,7 @@
     text-align:center;
   }
   .ba-card .ba-mid h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     text-transform: uppercase; font-size:36px;
     letter-spacing:-0.025em; line-height:.95; margin: 0 0 12px;
   }
@@ -788,23 +786,23 @@
   #conteudo{
     background: var(--blue-light);
     color: var(--blue);
-    border-color: rgba(26,26,255,.22);
+    border-color: rgba(12,53,195,.22);
   }
   #conteudo .section-head h2,
   #conteudo .section-head .meta p{ color: var(--blue); }
   #conteudo .section-head .num,
-  #conteudo .section-head .eyebrow{ color: rgba(26,26,255,.7); }
+  #conteudo .section-head .eyebrow{ color: rgba(12,53,195,.7); }
   #conteudo .article .thumb{
     background:
-      repeating-linear-gradient(135deg, rgba(26,26,255,.12) 0 2px, transparent 2px 10px),
+      repeating-linear-gradient(135deg, rgba(12,53,195,.12) 0 2px, transparent 2px 10px),
       rgba(255,255,255,.4);
-    border:1px solid rgba(26,26,255,.25);
+    border:1px solid rgba(12,53,195,.25);
   }
   #conteudo .article .thumb .cat{
     background: var(--blue); color: #fff;
   }
   #conteudo .article h3{ color: var(--blue); }
-  #conteudo .article .meta{ color: rgba(26,26,255,.7); }
+  #conteudo .article .meta{ color: rgba(12,53,195,.7); }
 
   .content-grid{
     display:grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
@@ -825,18 +823,18 @@
   }
   .article:hover .thumb{transform: translateY(-4px)}
   .article .thumb .cat{
-    font-family:"Space Grotesk", sans-serif;
+    font-family:"PP Telegraf", sans-serif;
     font-size: 11px; letter-spacing:.14em; text-transform: uppercase;
     background: var(--blue); color:#fff;
     padding: 5px 10px;
   }
   .article h3{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: 22px; line-height:1.05; letter-spacing:-0.015em;
     text-transform: uppercase; margin:0;
   }
   .article .meta{
-    display:flex; gap:14px; font-family:"Space Grotesk", sans-serif;
+    display:flex; gap:14px; font-family:"PP Telegraf", sans-serif;
     font-size:11px; color: var(--ink-soft); text-transform: uppercase;
     letter-spacing:.14em;
   }
@@ -851,7 +849,7 @@
     align-items:start;
   }
   .contato h2{
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: clamp(56px, 8vw, 128px); line-height:.9;
     letter-spacing:-0.035em; text-transform:none; margin: 16px 0 32px;
   }
@@ -860,14 +858,14 @@
     display:flex; justify-content:space-between; align-items:center;
     padding: 22px 0;
     border-top:1px solid rgba(255,255,255,.25);
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     font-size: 22px; text-transform: uppercase; letter-spacing:.01em;
     transition: padding .15s ease;
   }
   .contato .links a:last-child{ border-bottom:1px solid rgba(255,255,255,.25) }
   .contato .links a:hover{padding-left: 12px}
   .contato .links a .meta{
-    font-family:"Space Grotesk", sans-serif; font-size: 12px;
+    font-family:"PP Telegraf", sans-serif; font-size: 12px;
     letter-spacing:.16em; text-transform: uppercase;
     color: rgba(255,255,255,.7);
   }
@@ -879,14 +877,14 @@
   .form .row{display:grid; grid-template-columns:1fr 1fr; gap: 16px}
   .form label{
     display:flex; flex-direction:column; gap: 6px;
-    font-family:"Space Grotesk", sans-serif; font-size: 11px;
+    font-family:"PP Telegraf", sans-serif; font-size: 11px;
     letter-spacing:.14em; text-transform: uppercase;
     color: var(--ink-soft);
   }
   .form input, .form textarea, .form select{
     border: none; border-bottom: 1px solid var(--ink);
     background: transparent; padding: 8px 0;
-    font-family:"Space Grotesk", sans-serif; font-size: 16px;
+    font-family:"PP Telegraf", sans-serif; font-size: 16px;
     color: var(--ink); outline:none;
   }
   .form textarea{resize:vertical; min-height: 100px}
@@ -903,7 +901,7 @@
     margin-top: 12px;
     background: var(--ink); color: var(--cream);
     border:none; padding: 16px 24px;
-    font-family:"Space Grotesk", sans-serif; font-weight:700;
+    font-family:"PP Telegraf", sans-serif; font-weight:700;
     text-transform: uppercase; letter-spacing:.04em;
     font-size: 14px; cursor:pointer;
     display:flex; justify-content:space-between; align-items:center;
@@ -947,7 +945,7 @@
   footer .copy{
     display:flex; justify-content:space-between; align-items:center;
     padding-top: 20px;
-    font-family:"Space Grotesk", sans-serif; font-size:11px;
+    font-family:"PP Telegraf", sans-serif; font-size:11px;
     letter-spacing:.14em; text-transform: uppercase; color: rgba(255,255,255,.75);
   }
 
@@ -974,13 +972,13 @@
     .servicos-list .group.active{ background: transparent; color: var(--blue); }
     .servicos-list .group.active .head h3,
     .servicos-list .group.active ul li{ color: var(--blue); }
-    .servicos-list .group.active ul li{ border-top-color: rgba(26,26,255,.12); }
+    .servicos-list .group.active ul li{ border-top-color: rgba(12,53,195,.12); }
     .servicos-list .group.active .head .arrow{
-      background: transparent; color: var(--blue); border-color: rgba(26,26,255,.45);
+      background: transparent; color: var(--blue); border-color: rgba(12,53,195,.45);
     }
     .servicos-list .group:hover{ background: transparent; }
     .servicos-list .group:hover .head .arrow{
-      background: transparent; color: var(--blue); border-color: rgba(26,26,255,.45);
+      background: transparent; color: var(--blue); border-color: rgba(12,53,195,.45);
       transform: none;
     }
     .servicos-list .group .head .arrow{ display: none; }
@@ -988,10 +986,10 @@
       display: block;
       margin-top: 18px;
       padding-top: 16px;
-      border-top: 1px solid rgba(26,26,255,.12);
-      font-family:"Space Grotesk", sans-serif;
+      border-top: 1px solid rgba(12,53,195,.12);
+      font-family:"PP Telegraf", sans-serif;
       font-size: 15px; line-height: 1.55;
-      color: rgba(26,26,255,.85);
+      color: rgba(12,53,195,.85);
     }
   }
   /* hidden by default — only shown via media query above */
@@ -1452,7 +1450,7 @@ verdadeiramente ímpares.</h1>
     <div class="row">
       <div>
         <div class="eyebrow" style="margin-bottom: 8px;">/ Ímpar Comunicação &amp; Reputação</div>
-        <div style="font-family:'Space Grotesk'; font-weight:700; font-size:18px; text-transform: uppercase; letter-spacing:-0.005em; max-width: 26ch; line-height:1.1;">
+        <div style="font-family:'PP Telegraf'; font-weight:700; font-size:18px; text-transform: uppercase; letter-spacing:-0.005em; max-width: 26ch; line-height:1.1;">
           Boutique de reputação para lideranças e marcas verdadeiramente ímpares.
         </div>
       </div>

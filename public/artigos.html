@@ -4,21 +4,19 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Artigos · Ímpar</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts.css">
 <style>
   :root{
-    --blue:#1a1aff;
-    --blue-deep:#1010c9;
-    --blue-light:#eef0ff;
-    --ink-soft:rgba(26,26,255,.7);
-    --rule:rgba(26,26,255,.18);
+    --blue:#0C35C3;
+    --blue-deep:#082AAF;
+    --blue-light:#EBEEFA;
+    --ink-soft:rgba(12,53,195,.7);
+    --rule:rgba(12,53,195,.18);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    font-family:"Space Grotesk",system-ui,sans-serif;
+    font-family:"PP Telegraf",system-ui,sans-serif;
     background:#fff;color:var(--blue);
     font-size:17px;line-height:1.5;
     -webkit-font-smoothing:antialiased;
@@ -86,7 +84,7 @@
     cursor:pointer;white-space:nowrap;
     transition:background .15s,color .15s,border-color .15s;
   }
-  .tag-chip:hover{background:rgba(26,26,255,.07);border-color:rgba(26,26,255,.5)}
+  .tag-chip:hover{background:rgba(12,53,195,.07);border-color:rgba(12,53,195,.5)}
   .tag-chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
   /* ── ARTICLES AREA ── */
@@ -106,9 +104,9 @@
   .article-featured .feat-thumb{
     aspect-ratio:4/3;
     background-color:var(--blue-light);
-    background-image:repeating-linear-gradient(135deg,rgba(26,26,255,.12) 0 2px,transparent 2px 10px);
+    background-image:repeating-linear-gradient(135deg,rgba(12,53,195,.12) 0 2px,transparent 2px 10px);
     background-size:cover;background-position:center;
-    border:1px solid rgba(26,26,255,.2);
+    border:1px solid rgba(12,53,195,.2);
     overflow:hidden;
     transition:transform .35s ease;
   }
@@ -117,7 +115,7 @@
   .feat-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
   .feat-tags .cat,
   .article .thumb .cat{
-    font-family:"Space Grotesk",sans-serif;
+    font-family:"PP Telegraf",sans-serif;
     font-size:11px;letter-spacing:.14em;text-transform:uppercase;
     background:var(--blue);color:#fff;
     padding:5px 10px;
@@ -156,9 +154,9 @@
   .article .thumb{
     aspect-ratio:4/3;
     background-color:var(--blue-light);
-    background-image:repeating-linear-gradient(135deg,rgba(26,26,255,.12) 0 2px,transparent 2px 10px);
+    background-image:repeating-linear-gradient(135deg,rgba(12,53,195,.12) 0 2px,transparent 2px 10px);
     background-size:cover;background-position:center;
-    border:1px solid rgba(26,26,255,.2);
+    border:1px solid rgba(12,53,195,.2);
     position:relative;
     display:flex;align-items:flex-start;padding:14px;
     transition:transform .25s ease;
