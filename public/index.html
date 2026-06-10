@@ -351,8 +351,11 @@
   }
   .sobre-grid p:last-child{margin-bottom:0}
 
-  /* outline around the left text column */
-  .sobre-grid > div:first-child{
+  /* left column: text box + pillar box stacked */
+  .sobre-left{
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .sobre-text-box{
     border: 1px solid var(--rule);
     padding: 36px;
   }
@@ -378,18 +381,22 @@
   }
   .pillar-list p{ margin:0; font-size:14.5px; color:var(--ink-soft); max-width:50ch }
 
-  /* Nossos Pilares blue box */
+  /* Nossos Pilares blue box — sits flush below .sobre-text-box */
   .pillar-box{
     background: var(--blue);
     color: #fff;
-    margin-top: 56px;
-    padding: 48px 0;
+    padding: 36px;
   }
+  /* Beat the section.block.white-blue h3/h4/p overrides */
+  .pillar-box .pillar-box-title,
+  section.block.white-blue .pillar-box h3,
+  section.block.white-blue .pillar-box h4{ color: #fff !important; }
+  section.block.white-blue .pillar-box p{ color: rgba(255,255,255,.7) !important; }
   .pillar-box-title{
     font-family:"PP Telegraf", sans-serif; font-weight:400;
     font-size: 14px; text-transform: uppercase; letter-spacing:.12em;
     color: rgba(255,255,255,.55);
-    margin: 0 0 0;
+    margin: 0;
   }
   .pillar-list--white{
     border-top-color: rgba(255,255,255,.18);
@@ -398,6 +405,7 @@
   .pillar-list--white .row{
     border-bottom-color: rgba(255,255,255,.18);
   }
+  section.block.white-blue .pillar-list--white .num{ color: rgba(255,255,255,.45) !important; opacity: 1; }
   .pillar-list--white .num{ color: rgba(255,255,255,.45); }
   .pillar-list--white h4{ color: #fff; }
   .pillar-list--white p{ color: rgba(255,255,255,.7); }
@@ -1307,24 +1315,74 @@ verdadeiramente ímpares.</h1>
     <h2 class="sobre-title">Somos Ímpar.</h2>
 
     <div class="sobre-grid">
-      <div>
-        <h3>Quem somos</h3>
-        <p>
-          Na Ímpar Comunicação e Reputação, transformamos posicionamento em autoridade,
-          relacionamento em valor e reputação em ativo estratégico.
-        </p>
+      <div class="sobre-left">
+        <div class="sobre-text-box">
+          <h3>Quem somos</h3>
+          <p>
+            Na Ímpar Comunicação e Reputação, transformamos posicionamento em autoridade,
+            relacionamento em valor e reputação em ativo estratégico.
+          </p>
 
-        <h3>O que fazemos</h3>
-        <p>
-          Somos uma consultoria criativa de comunicação e reputação que conecta marcas,
-          líderes e negócios às conversas que realmente importam.
-        </p>
+          <h3>O que fazemos</h3>
+          <p>
+            Somos uma consultoria criativa de comunicação e reputação que conecta marcas,
+            líderes e negócios às conversas que realmente importam.
+          </p>
 
-        <h3>No que acreditamos</h3>
-        <p>
-          Acreditamos que reputação se constrói com estratégia, relações e narrativa
-          que geram valor e resultam em legado.
-        </p>
+          <h3>No que acreditamos</h3>
+          <p>
+            Acreditamos que reputação se constrói com estratégia, relações e narrativa
+            que geram valor e resultam em legado.
+          </p>
+        </div>
+
+        <div class="pillar-box">
+          <h3 class="pillar-box-title">Nossos Pilares</h3>
+          <div class="pillar-list pillar-list--white">
+            <div class="row">
+              <div class="num">PILAR · 01</div>
+              <div>
+                <h4>Reputação</h4>
+                <p>Construída com estratégia e consistência.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="num">PILAR · 02</div>
+              <div>
+                <h4>Relacionamento</h4>
+                <p>Relações que geram influência e valor.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="num">PILAR · 03</div>
+              <div>
+                <h4>Comunicação</h4>
+                <p>Conectada a negócio, imagem e posicionamento.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="num">PILAR · 04</div>
+              <div>
+                <h4>Autoridade</h4>
+                <p>Construída com credibilidade e presença.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="num">PILAR · 05</div>
+              <div>
+                <h4>Conexões</h4>
+                <p>Entre marcas, líderes, mídia e poder.</p>
+              </div>
+            </div>
+            <div class="row" style="border-bottom:none">
+              <div class="num">PILAR · 06</div>
+              <div>
+                <h4>Projetos</h4>
+                <p>Personalizados, com visão estratégica e execução próxima.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="founder-col">
@@ -1356,56 +1414,6 @@ verdadeiramente ímpares.</h1>
           </p>
         </div>
       </div>
-  </div>
-
-  <div class="pillar-box">
-    <div class="wrap">
-      <h3 class="pillar-box-title">Nossos Pilares</h3>
-      <div class="pillar-list pillar-list--white">
-        <div class="row">
-          <div class="num">PILAR · 01</div>
-          <div>
-            <h4>Reputação</h4>
-            <p>Construída com estratégia e consistência.</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="num">PILAR · 02</div>
-          <div>
-            <h4>Relacionamento</h4>
-            <p>Relações que geram influência e valor.</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="num">PILAR · 03</div>
-          <div>
-            <h4>Comunicação</h4>
-            <p>Conectada a negócio, imagem e posicionamento.</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="num">PILAR · 04</div>
-          <div>
-            <h4>Autoridade</h4>
-            <p>Construída com credibilidade e presença.</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="num">PILAR · 05</div>
-          <div>
-            <h4>Conexões</h4>
-            <p>Entre marcas, líderes, mídia e poder.</p>
-          </div>
-        </div>
-        <div class="row" style="border-bottom:none">
-          <div class="num">PILAR · 06</div>
-          <div>
-            <h4>Projetos</h4>
-            <p>Personalizados, com visão estratégica e execução próxima.</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
