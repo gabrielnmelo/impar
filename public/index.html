@@ -65,10 +65,10 @@
   nav.top.top-sticky .links a{ color: var(--blue); }
   nav.top.top-sticky .links a:hover{ color: var(--blue-deep); }
   nav.top.top-sticky .cta-btn{
-    background: var(--blue); color: #fff; border-color: var(--blue);
+    background: transparent; color: var(--blue); border-color: var(--blue);
   }
   nav.top.top-sticky .cta-btn:hover{
-    background: var(--blue-deep); color: #fff; border-color: var(--blue-deep);
+    background: var(--blue); color: #fff; border-color: var(--blue);
   }
 
   /* ---------- NAV ---------- */
@@ -339,7 +339,7 @@
 
   /* ---------- SOBRE ---------- */
   .sobre-grid{
-    display:grid; grid-template-columns: 1.2fr 1fr; gap: 72px;
+    display:grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 56px;
     align-items:start;
   }
   .sobre-grid h3{
@@ -352,6 +352,12 @@
     max-width: 60ch;
   }
   .sobre-grid p:last-child{margin-bottom:0}
+
+  /* outline around the left text column */
+  .sobre-grid > div:first-child{
+    border: 1px solid var(--rule);
+    padding: 36px;
+  }
 
   .pillar-list{
     display:grid; grid-template-columns: 1fr; gap: 0;
@@ -443,7 +449,7 @@
   .servicos-layout{
     display:grid;
     grid-template-columns: 1fr 1.15fr;
-    gap: 32px;
+    gap: 0;
     align-items: stretch;
   }
   .servicos-list{
@@ -478,7 +484,7 @@
   .servicos-list .group .head h3{
     font-family:"PP Telegraf", sans-serif; font-weight:400;
     font-size: clamp(28px, 3vw, 40px); line-height:.95; letter-spacing:-0.025em;
-    text-transform: uppercase;
+    text-transform: none;
     color: var(--blue);
     margin:0;
   }
@@ -510,6 +516,10 @@
   }
   .servicos-list .group ul li:first-child{ border-top: none; padding-top: 4px; }
 
+  /* mobile-only elements — hidden on desktop, revealed in the ≤980px media query */
+  .servicos-list .group .mobile-desc{ display: none; }
+  .servicos-list .group .mobile-num{ display: none; }
+
   .servicos-detail{
     position: relative;
     background: #fff; color: var(--blue);
@@ -536,9 +546,9 @@
     color: var(--blue);
   }
   .servicos-detail .det-desc{
-    font-size: 16px; line-height: 1.5;
+    font-size: clamp(20px, 1.7vw, 26px); line-height: 1.45;
     color: rgba(12,53,195,.85);
-    max-width: 52ch;
+    max-width: 40ch;
     margin: 0;
   }
   .servicos-detail .det-includes{
@@ -592,14 +602,21 @@
   .team-grid{
     display:grid; grid-template-columns: repeat(2,1fr); gap: 32px;
   }
+  /* founder-col dissolves so its two founders become columns 2 & 3 of sobre-grid */
+  .founder-col{ display: contents; }
   .founder{
     display:flex; flex-direction:column; gap: 16px;
+    /* sticky: the partners are the shorter side, so they pin while the
+       taller text column scrolls past — same effect as the services section */
+    position: sticky;
+    top: 96px;
+    align-self: start;
   }
   .founder .photo{
-    aspect-ratio: 4/5;
+    aspect-ratio: 2/3;
     background-color: var(--cream-2);
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
     border:1px solid var(--rule);
     display:flex; align-items:flex-end; padding: 16px;
@@ -616,7 +633,7 @@
   .founder .meta{ display:flex; flex-direction:column; gap:4px }
   .founder .meta .name{
     font-family:"PP Telegraf", sans-serif; font-weight:400;
-    font-size: 26px; text-transform: uppercase; letter-spacing:-0.015em;
+    font-size: 26px; text-transform: none; letter-spacing:-0.015em;
     line-height: 1;
   }
   .founder .meta .role{
@@ -791,6 +808,10 @@
   }
   #conteudo .section-head h2,
   #conteudo .section-head .meta p{ color: var(--blue); }
+  #conteudo .section-head .meta{
+    text-align: left; justify-self: start; padding-top: 6px;
+  }
+  #conteudo .section-head .meta p{ margin-top: 0; }
   #conteudo .section-head .num,
   #conteudo .section-head .eyebrow{ color: rgba(12,53,195,.7); }
   #conteudo .article .thumb{
@@ -832,7 +853,7 @@
   .article h3{
     font-family:"PP Telegraf", sans-serif; font-weight:400;
     font-size: 22px; line-height:1.05; letter-spacing:-0.015em;
-    text-transform: uppercase; margin:0;
+    text-transform: none; margin:0;
   }
   .article .meta{
     display:flex; gap:14px; font-family:"PP Telegraf", sans-serif;
@@ -955,6 +976,8 @@
     nav .links{display:none}
     .hero-grid, .sobre-grid, .servicos-grid, .team-grid, .qs-tiles,
     .content-grid, .areas, .contato .grid{ grid-template-columns: 1fr !important }
+    .founder{ position: static; top: auto; }
+    .founder-col{ display: flex; flex-direction: column; gap: 56px; }
     .section-head{grid-template-columns:1fr; gap:20px}
     .imp-row{grid-template-columns: 1fr}
     .span-4,.span-5,.span-6,.span-7,.span-8{grid-column: span 1}
@@ -983,18 +1006,26 @@
       transform: none;
     }
     .servicos-list .group .head .arrow{ display: none; }
+    .servicos-list .group ul{ display: none; }
+    .servicos-list .group .mobile-num{
+      display: block;
+      font-family:"PP Telegraf", sans-serif;
+      font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(12,53,195,.6);
+      margin-bottom: 14px;
+    }
+    .servicos-list .group .head{ margin-bottom: 0; }
     .servicos-list .group .mobile-desc{
       display: block;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(12,53,195,.12);
+      margin-top: 14px;
+      padding-top: 0;
+      border-top: none;
       font-family:"PP Telegraf", sans-serif;
       font-size: 15px; line-height: 1.55;
       color: rgba(12,53,195,.85);
     }
   }
-  /* hidden by default — only shown via media query above */
-  .servicos-list .group .mobile-desc{ display: none; }
+  /* base styles for mobile-only elements live above the media query */
 
   /* ---------- MOBILE: text wrap, padding & overflow fixes ---------- */
   @media (max-width: 720px){
@@ -1074,7 +1105,7 @@
       <img src="/assets/logo-top-bar.svg" alt="Ímpar" class="logo-img" />
     </a>
     <div class="links">
-      <a href="#servicos">Serviços</a>
+      <a href="#servicos">Jornada</a>
       <a href="#sobre">Sobre</a>
       <a href="#conteudo">Artigos</a>
     </div>
@@ -1091,9 +1122,9 @@
       <img src="/assets/logo-top-bar-white.svg" alt="Ímpar" class="logo-img" />
     </a>
     <div class="links">
-      <a href="#servicos">Serviços</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#conteudo">Artigos</a>
+      <a href="#servicos" style="font-size: 16px">Jornada</a>
+      <a href="#sobre" style="font-size: 16px">Sobre</a>
+      <a href="#conteudo" style="font-size: 16px">Artigos</a>
     </div>
     <a href="#contato" class="cta-btn">
       <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg></span>
@@ -1135,71 +1166,100 @@ verdadeiramente ímpares.</h1>
 <section class="block dark" id="servicos">
   <div class="wrap">
     <p class="servicos-intro" style="font-size: 60px; font-weight: 400; letter-spacing: -2px; line-height: 0.95">
-      Quatro frentes integradas para construir reputação, presença e diferenciação real.
+      Da identidade ao legado — uma jornada integrada que transforma posicionamento em autoridade e reputação em ativo estratégico.
     </p>
-    <div class="servicos-layout">
+    <div class="servicos-layout" style="border-width: 0px 0px 0px 1px; border-style: solid; border-color: rgba(12, 53, 195, 0.18)">
       <div class="servicos-list" id="servicos-list">
-        <div class="group" data-key="rep" tabindex="0" role="button" aria-label="Ver detalhes de Reputação">
+        <div class="group" data-key="j1" tabindex="0" role="button" aria-label="Ver detalhes de Identidade" style="border-width: 0px 0px 1px 1px">
+          <div class="head">
+            <h3>Identidade</h3>
+            <span class="arrow" aria-hidden="true">→</span>
+          </div>
+          <ul>
+            <li>Imagem</li>
+            <li>Posicionamento</li>
+            <li>Narrativa</li>
+          </ul>
+        </div>
+
+        <div class="group" data-key="j2" tabindex="0" role="button" aria-label="Ver detalhes de Relacionamento" style="border-width: 0px 0px 1px 1px">
+          <div class="head">
+            <h3>Relacionamento</h3>
+            <span class="arrow" aria-hidden="true">→</span>
+          </div>
+          <ul>
+            <li>Stakeholders estratégicos</li>
+            <li>Imprensa e mercado</li>
+            <li>Ambientes de influência</li>
+          </ul>
+        </div>
+
+        <div class="group" data-key="j3" tabindex="0" role="button" aria-label="Ver detalhes de Reputação">
           <div class="head">
             <h3>Reputação</h3>
             <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li>Gestão de reputação</li>
-            <li>Posicionamento institucional</li>
-            <li>Construção de autoridade</li>
+            <li>Comunicação e imagem</li>
+            <li>Conteúdo</li>
+            <li>Relacionamento institucional</li>
           </ul>
         </div>
 
-        <div class="group" data-key="marca" tabindex="0" role="button" aria-label="Ver detalhes de Marca">
+        <div class="group" data-key="j4" tabindex="0" role="button" aria-label="Ver detalhes de Posicionamento">
           <div class="head">
-            <h3>Marca</h3>
+            <h3>Posicionamento</h3>
             <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li>Marca pessoal</li>
-            <li>Posicionamento executivo</li>
-            <li>Comunicação para lideranças</li>
+            <li>Narrativas e discursos</li>
+            <li>Presença digital</li>
+            <li>Ações de visibilidade</li>
           </ul>
         </div>
 
-        <div class="group" data-key="com" tabindex="0" role="button" aria-label="Ver detalhes de Comunicação">
+        <div class="group" data-key="j5" tabindex="0" role="button" aria-label="Ver detalhes de Presença Digital">
           <div class="head">
-            <h3>Comunicação</h3>
+            <h3>Presença Digital</h3>
             <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li>Assessoria estratégica</li>
-            <li>Relações públicas</li>
-            <li>Conteúdo e presença digital</li>
+            <li>Canais e redes sociais</li>
+            <li>Conteúdo estratégico</li>
+            <li>Percepção pública</li>
           </ul>
         </div>
 
-        <div class="group" data-key="proj" tabindex="0" role="button" aria-label="Ver detalhes de Projetos">
+        <div class="group" data-key="j6" tabindex="0" role="button" aria-label="Ver detalhes de Influência">
           <div class="head">
-            <h3>Projetos</h3>
+            <h3>Influência</h3>
             <span class="arrow" aria-hidden="true">→</span>
           </div>
           <ul>
-            <li>Eventos de relacionamento</li>
-            <li>Ambientes de influência</li>
-            <li>Projetos institucionais</li>
+            <li>Oportunidades</li>
+            <li>Conexões</li>
+            <li>Inserções estratégicas</li>
+          </ul>
+        </div>
+
+        <div class="group" data-key="j7" tabindex="0" role="button" aria-label="Ver detalhes de Legado">
+          <div class="head">
+            <h3>Legado</h3>
+            <span class="arrow" aria-hidden="true">→</span>
+          </div>
+          <ul>
+            <li>Reputação sólida</li>
+            <li>Presença estratégica</li>
+            <li>Conexões relevantes</li>
           </ul>
         </div>
       </div>
 
       <aside class="servicos-detail" id="servicos-detail">
         <div class="det-inner">
-        <div class="det-eyebrow" id="det-cat" style="font-size: 13px">Reputação</div>
-        <h4 id="det-title" style="font-size: 50px">Gestão de reputação</h4>
-        <p class="det-desc" id="det-desc" style="font-size: 18px"></p>
-        <div class="det-includes">
-          <ul id="det-list" style="font-size: 20px"></ul>
-        </div>
-        <a href="#contato" class="det-cta" style="font-size: 15px">
-          <svg class="det-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.15L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>
-          Conversar sobre este projeto
-        </a>
+        <div class="det-eyebrow" id="det-cat" style="font-size: 13px">Jornada · 01 / 07</div>
+        <h4 id="det-title" style="font-size: 50px">Identidade</h4>
+        <p class="det-desc" id="det-desc"></p>
         </div>
       </aside>
     </div>
@@ -1215,108 +1275,100 @@ verdadeiramente ímpares.</h1>
 
     <div class="sobre-grid">
       <div>
-        <h3>A origem</h3>
+        <h3>Quem somos</h3>
         <p>
-          A Ímpar nasceu da percepção de que comunicação e reputação deixaram de ser
-          ferramentas e passaram a ser ativos estratégicos. Em um mundo saturado de
-          ruído, o que diferencia lideranças e marcas é a capacidade de serem,
-          verdadeiramente, ímpares.
+          Na Ímpar Comunicação e Reputação, transformamos posicionamento em autoridade,
+          relacionamento em valor e reputação em ativo estratégico.
         </p>
 
-        <h3>O que significa o nome</h3>
+        <h3>O que fazemos</h3>
         <p>
-          <em>Ímpar</em> é aquilo que não tem par: único, singular, indivisível.
-          O nome traduz a tese da casa — construir presença distintiva para quem se
-          recusa a competir pelo lugar-comum.
+          Somos uma consultoria criativa de comunicação e reputação que conecta marcas,
+          líderes e negócios às conversas que realmente importam.
         </p>
 
-        <h3>Propósito</h3>
+        <h3>No que acreditamos</h3>
         <p>
-          Tornar visível o que há de mais relevante em lideranças e instituições —
-          transformando substância em reputação, e reputação em legado.
+          Acreditamos que reputação se constrói com estratégia, relações e narrativa
+          que geram valor e resultam em legado.
         </p>
-      </div>
 
-      <div>
-        <div class="pillar-list">
-          <div class="row">
-            <div class="num">VALOR · 01</div>
+        <h3 style="padding: 40px 0px 0px">NOSSOS PILARES</h3>
+        <div class="pillar-list" style="border-width: 0px">
+          <div class="row" style="border-width: 0px 0px 1px">
+            <div class="num">PILAR · 01</div>
             <div>
-              <h4>Substância antes da forma</h4>
-              <p>Comunicação só sustenta o que é real. Tudo começa por ouvir e entender.</p>
+              <h4>Reputação</h4>
+              <p>Construída com estratégia e consistência.</p>
             </div>
           </div>
           <div class="row">
-            <div class="num">VALOR · 02</div>
+            <div class="num">PILAR · 02</div>
             <div>
-              <h4>Discrição estratégica</h4>
-              <p>Sabemos quando aparecer — e, sobretudo, quando ficar fora do palco.</p>
+              <h4>Relacionamento</h4>
+              <p>Relações que geram influência e valor.</p>
             </div>
           </div>
           <div class="row">
-            <div class="num">VALOR · 03</div>
+            <div class="num">PILAR · 03</div>
             <div>
-              <h4>Consistência editorial</h4>
-              <p>Reputação se constrói por repetição, coerência e tempo. Sem atalhos.</p>
+              <h4>Comunicação</h4>
+              <p>Conectada a negócio, imagem e posicionamento.</p>
             </div>
           </div>
           <div class="row">
-            <div class="num">VALOR · 04</div>
+            <div class="num">PILAR · 04</div>
             <div>
-              <h4>Singularidade</h4>
-              <p>Cada cliente é tratado como caso único. Modelo não é receita.</p>
+              <h4>Autoridade</h4>
+              <p>Construída com credibilidade e presença.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">PILAR · 05</div>
+            <div>
+              <h4>Conexões</h4>
+              <p>Entre marcas, líderes, mídia e poder.</p>
+            </div>
+          </div>
+          <div class="row" style="border-width: 0px">
+            <div class="num">PILAR · 06</div>
+            <div>
+              <h4>Projetos</h4>
+              <p>Personalizados, com visão estratégica e execução próxima.</p>
             </div>
           </div>
         </div>
-
       </div>
-    </div>
 
-    <div class="sobre-team">
-
-      <div class="team-grid team-grid--three">
+      <div class="founder-col">
         <div class="founder">
-          <div class="photo" style="height: 328px; background-image: url('/assets/Leticia.png');"></div>
+          <div class="photo" style="background-image: url('/assets/Leticia.png');"></div>
           <div class="meta">
-            <span class="name">LETÍCIA</span>
-            <span class="role">Sócia-fundadora · Estratégia de Reputação</span>
+            <span class="name">Letícia Sangaletti</span>
+            <span class="role">Sócia-fundadora</span>
           </div>
           <p class="bio">
-            Mais de vinte anos liderando posicionamento institucional para executivos
-            do setor financeiro, industrial e cultural. Placeholder de biografia curta.
+            Mais de quinze anos de experiência em redação de TV e agências de
+            comunicação, com passagens pelas principais agências de relações públicas
+            do país. Jornalista formada pela Universidade Presbiteriana Mackenzie,
+            com pós-graduação em Marketing pela Faculdade Cásper Líbero.
           </p>
         </div>
 
         <div class="founder">
-          <div class="photo" style="height: 328px; background-image: url('/assets/Ricardo.png');"></div>
+          <div class="photo" style="background-image: url('/assets/Ricardo.png');"></div>
           <div class="meta">
-            <span class="name">RICARDO POCETTI</span>
-            <span class="role">Sócio-fundador · Comunicação &amp; Conteúdo</span>
+            <span class="name">Ricardo Pocetti</span>
+            <span class="role">Sócio-fundador</span>
           </div>
           <p class="bio">
-            Background em jornalismo econômico e construção editorial de marcas
-            pessoais de alto impacto. Placeholder de biografia curta.
+            Sólida experiência em gestão de projetos institucionais e eventos
+            corporativos. Formado em Ciências Contábeis pela Trevisan Escola de
+            Negócios, é especialista em Relações Públicas pela Faculdade Cásper Líbero
+            e em Relações Governamentais pelo IDP.
           </p>
         </div>
-
-        <aside class="partnerships">
-          <div class="part-eyebrow">PARECEIROS</div>
-          <div class="part-list">
-            <div class="part-item">
-              <span class="part-num">01</span>
-              <h4 style="font-size: 26px">INSTITUIÇÕES</h4>
-              <p style="font-size: 18px">Veículos, instituições culturais, escritórios jurídicos e produtoras com quem operamos há anos.</p>
-            </div>
-            <div class="part-item">
-              <span class="part-num">02</span>
-              <h4 style="font-size: 24px">ESPECIALISTAS</h4>
-              <p style="font-size: 17px">Designers, escritores, produtores, consultores de mídia e pesquisadores acionados sob demanda.</p>
-            </div>
-          </div>
-        </aside>
       </div>
-
-    </div>
   </div>
 </section>
 
@@ -1330,7 +1382,7 @@ verdadeiramente ímpares.</h1>
     <div class="section-head">
       <h2>Artigos</h2>
       <div class="meta">
-        <p style="max-width: 50ch; margin-top:14px;">
+        <p style="max-width: 50ch; margin-top:0;">
           Reputação, comunicação e tendências. Publicações curtas e ensaios
           assinados por sócios e parceiros da Ímpar.
         </p>
@@ -1379,8 +1431,9 @@ verdadeiramente ímpares.</h1>
       <div>
         <h2 style="font-weight: 400; font-size: 80px">Conte sobre o seu desafio</h2>
         <p style="max-width: 44ch; font-size: 18px; color: rgba(255,255,255,.85);">
-          Atendemos a um número limitado de clientes por ano. Se você acredita que
-          existe um lugar único para a sua marca ou liderança ocupar — fale com a gente.
+          Conectamos marcas, líderes e negócios às conversas que realmente importam.
+          Se você busca transformar posicionamento em autoridade e reputação em ativo
+          estratégico — fale com a Ímpar.
         </p>
 
         <div class="links">
@@ -1426,9 +1479,9 @@ verdadeiramente ímpares.</h1>
           Frente de interesse
           <select>
             <option>Reputação</option>
-            <option>Imagem &amp; marca pessoal</option>
-            <option>Comunicação</option>
-            <option>Projetos especiais</option>
+            <option>Marca e posicionamento</option>
+            <option>Comunicação e conteúdo</option>
+            <option>Relacionamento e influência</option>
             <option>Ainda não sei</option>
           </select>
         </label>
@@ -1450,9 +1503,9 @@ verdadeiramente ímpares.</h1>
   <div class="wrap">
     <div class="row">
       <div>
-        <div class="eyebrow" style="margin-bottom: 8px;">/ Ímpar Comunicação &amp; Reputação</div>
+        <div class="eyebrow" style="margin-bottom: 8px;">ÍMPAR COMUNICAÇÃO &amp; REPUTAÇÃO</div>
         <div style="font-family:'PP Telegraf'; font-weight:400; font-size:18px; text-transform: uppercase; letter-spacing:-0.005em; max-width: 26ch; line-height:1.1;">
-          Boutique de reputação para lideranças e marcas verdadeiramente ímpares.
+          Grandes marcas ocupam espaço. Marcas ímpares constroem relevância.
         </div>
       </div>
       <div class="mark">
@@ -1584,179 +1637,27 @@ verdadeiramente ímpares.</h1>
   if (!list || !elTitle) return;
 
   const DATA = {
-    'rep': {
-      cat: 'Reputação · 01 / 04',
-      title: 'Reputação',
-      desc: 'Construímos e protegemos o capital reputacional de lideranças e instituições. Lemos cenário em tempo real, definimos a tese pública da casa e transformamos substância em autoridade reconhecida pelo mercado.',
-      list: [
-        'Gestão de reputação',
-        'Posicionamento institucional',
-        'Construção de autoridade',
-      ],
-    },
-    'marca': {
-      cat: 'Marca · 02 / 04',
-      title: 'Marca',
-      desc: 'Tradução entre quem a liderança é, o que faz e como o mercado precisa enxergá-la. Trabalhamos marca pessoal e executiva com substância — não fórmula — para que a presença pública sustente as decisões de negócio.',
-      list: [
-        'Marca pessoal',
-        'Posicionamento executivo',
-        'Comunicação para lideranças',
-      ],
-    },
-    'com': {
-      cat: 'Comunicação · 03 / 04',
-      title: 'Comunicação',
-      desc: 'Mais do que assessoria de imprensa: pensamos com a liderança o que vale a pena ser dito, em que canal e em que momento — alinhando agenda pública e objetivos de negócio com relacionamento real, sem ruído.',
-      list: [
-        'Assessoria estratégica',
-        'Relações públicas',
-        'Conteúdo e presença digital',
-      ],
-    },
-    'proj': {
-      cat: 'Projetos · 04 / 04',
-      title: 'Projetos',
-      desc: 'Plataformas próprias — encontros, ambientes de influência e iniciativas institucionais — concebidas como projetos editoriais. Eventos não são agenda social: são instrumentos de reputação com curadoria, conceito e desdobramento.',
-      list: [
-        'Eventos de relacionamento',
-        'Ambientes de influência',
-        'Projetos institucionais',
-      ],
-    },
-    /* legacy keys removed below */
-    'rep-gestao': {
-      cat: 'Reputação · 01',
-      title: 'Gestão de reputação',
-      desc: 'Construímos e protegemos o capital reputacional de lideranças e instituições — com leitura permanente de cenário, posicionamento intencional e resposta planejada para os momentos que importam.',
-      list: [
-        'Diagnóstico e monitoramento contínuo',
-        'Mapa de stakeholders e narrativas-chave',
-        'Plano de posicionamento e mensagens',
-        'Protocolo de crise e contingência',
-      ],
-    },
-    'rep-posic': {
-      cat: 'Reputação · 01',
-      title: 'Posicionamento institucional',
-      desc: 'Definimos a tese pública da organização — como ela quer ser lida, em que territórios disputa autoridade e que provas sustentam essa narrativa.',
-      list: [
-        'Manifesto e narrativa institucional',
-        'Territórios de autoridade',
-        'Provas, dados e cases de sustentação',
-        'Mensagens-chave por público',
-      ],
-    },
-    'rep-autor': {
-      cat: 'Reputação · 01',
-      title: 'Construção de autoridade',
-      desc: 'Transformamos substância em presença pública relevante: pautas, palcos e canais que projetam expertise real e geram reconhecimento setorial.',
-      list: [
-        'Calendário editorial de autoridade',
-        'Pautas e ângulos para mídia tier-1',
-        'Curadoria de palestras e painéis',
-        'Plano de relacionamento com formadores de opinião',
-      ],
-    },
-    'mp-pessoal': {
-      cat: 'Marca · 02',
-      title: 'Marca pessoal',
-      desc: 'Tradução entre quem a pessoa é, o que ela faz e o que o mercado precisa enxergar. Uma marca pessoal construída com substância, não com fórmula.',
-      list: [
-        'Diagnóstico de imagem e percepção',
-        'Tese pessoal e arquétipo de marca',
-        'Identidade visual e tom de voz',
-        'Plano de presença on e off-line',
-      ],
-    },
-    'mp-exec': {
-      cat: 'Marca · 02',
-      title: 'Posicionamento executivo',
-      desc: 'Para CEOs, sócios e lideranças sêniores: como aparecer, sobre o que falar e onde estar — alinhado à estratégia da companhia que representam.',
-      list: [
-        'Tese de liderança e bandeiras',
-        'Plano editorial e de aparições',
-        'Preparação para entrevistas e palcos',
-        'Gestão da presença digital executiva',
-      ],
-    },
-    'mp-lider': {
-      cat: 'Marca · 02',
-      title: 'Comunicação para lideranças',
-      desc: 'Apoio recorrente à voz da liderança: discursos, manifestos, posicionamentos internos e externos — sempre com a mesma assinatura.',
-      list: [
-        'Ghostwriting de artigos e cartas',
-        'Discursos, keynotes e pronunciamentos',
-        'Comunicados internos sensíveis',
-        'Q&A para momentos críticos',
-      ],
-    },
-    'com-assess': {
-      cat: 'Comunicação · 03',
-      title: 'Assessoria estratégica',
-      desc: 'Mais do que clipping: pensamos com a liderança o que vale a pena ser dito, para quem, e em que momento — alinhando agenda pública e objetivos de negócio.',
-      list: [
-        'Plano anual de comunicação',
-        'Calendário de pautas e momentos',
-        'Indicadores de reputação e share of voice',
-        'Reuniões estratégicas mensais',
-      ],
-    },
-    'com-rp': {
-      cat: 'Comunicação · 03',
-      title: 'Relações públicas',
-      desc: 'Trabalho de mídia consistente, com relacionamento real entre jornalistas, formadores de opinião e a casa. Sem disparos em massa, sem ruído.',
-      list: [
-        'Pitch curado por veículo e jornalista',
-        'Press kits e materiais de apoio',
-        'Mediação de entrevistas e coletivas',
-        'Relacionamento com mídia tier-1 e setorial',
-      ],
-    },
-    'com-digital': {
-      cat: 'Comunicação · 03',
-      title: 'Conteúdo e presença digital',
-      desc: 'Conteúdo editorial pensado para canais digitais — LinkedIn, newsletter, podcasts e ensaios — com a mesma régua de qualidade da imprensa.',
-      list: [
-        'Estratégia editorial por canal',
-        'Produção de posts, ensaios e cartas',
-        'Curadoria visual e fotográfica',
-        'Métricas e ajustes mensais',
-      ],
-    },
-    'proj-eventos': {
-      cat: 'Projetos · 04',
-      title: 'Eventos de relacionamento',
-      desc: 'Jantares, encontros e formatos íntimos que aproximam a liderança das pessoas certas — concebidos como projetos editoriais, não como agendas sociais.',
-      list: [
-        'Curadoria de convidados',
-        'Conceito, roteiro e direção criativa',
-        'Produção integral do encontro',
-        'Pós-evento e desdobramentos',
-      ],
-    },
-    'proj-influ': {
-      cat: 'Projetos · 04',
-      title: 'Ambientes de influência',
-      desc: 'Construção de plataformas próprias — séries, fóruns, prêmios — que posicionam a marca como articuladora de um debate, não apenas participante dele.',
-      list: [
-        'Concepção da plataforma',
-        'Identidade e narrativa do projeto',
-        'Parcerias e curadoria de speakers',
-        'Estratégia de cobertura e desdobramento',
-      ],
-    },
-    'proj-instit': {
-      cat: 'Projetos · 04',
-      title: 'Projetos institucionais',
-      desc: 'Iniciativas de propósito conectadas à tese da casa — pesquisas, manifestos, publicações e ações que deixam marca para além do ciclo de comunicação.',
-      list: [
-        'Pesquisas e estudos de autoria',
-        'Manifestos e publicações',
-        'Campanhas institucionais',
-        'Documentação e legado',
-      ],
-    },
+    j1: { cat: 'Jornada · 01 / 07', title: 'Identidade',
+      desc: 'Construção estratégica de imagem, posicionamento e narrativa, fortalecendo a percepção de valor, autoridade e diferenciação de marcas e lideranças.',
+      list: ['Imagem', 'Posicionamento', 'Narrativa'] },
+    j2: { cat: 'Jornada · 02 / 07', title: 'Relacionamento',
+      desc: 'Mapeamento e conexão com stakeholders estratégicos, imprensa, mercado e ambientes de influência para ampliar relevância e presença.',
+      list: ['Stakeholders estratégicos', 'Imprensa e mercado', 'Ambientes de influência'] },
+    j3: { cat: 'Jornada · 03 / 07', title: 'Reputação',
+      desc: 'Gestão contínua de reputação com atuação integrada entre comunicação, imagem, conteúdo e relacionamento institucional.',
+      list: ['Comunicação e imagem', 'Conteúdo', 'Relacionamento institucional'] },
+    j4: { cat: 'Jornada · 04 / 07', title: 'Posicionamento',
+      desc: 'Desenvolvimento de narrativas, discursos, presença digital e ações de visibilidade alinhadas aos objetivos de negócio e imagem.',
+      list: ['Narrativas e discursos', 'Presença digital', 'Ações de visibilidade'] },
+    j5: { cat: 'Jornada · 05 / 07', title: 'Presença Digital',
+      desc: 'Curadoria de canais, redes sociais e conteúdo estratégico para fortalecer autoridade, consistência e percepção pública.',
+      list: ['Canais e redes sociais', 'Conteúdo estratégico', 'Percepção pública'] },
+    j6: { cat: 'Jornada · 06 / 07', title: 'Influência',
+      desc: 'Criação de oportunidades, conexões e inserções estratégicas que aproximam líderes e marcas dos espaços onde as decisões acontecem.',
+      list: ['Oportunidades', 'Conexões', 'Inserções estratégicas'] },
+    j7: { cat: 'Jornada · 07 / 07', title: 'Legado',
+      desc: 'Construção de valor de longo prazo por meio de reputação sólida, presença estratégica e conexões relevantes.',
+      list: ['Reputação sólida', 'Presença estratégica', 'Conexões relevantes'] },
   };
 
   function render(key){
@@ -1764,7 +1665,7 @@ verdadeiramente ímpares.</h1>
     elCat.textContent = d.cat;
     elTitle.textContent = d.title;
     elDesc.textContent = d.desc;
-    elList.innerHTML = d.list.map(x => '<li>' + x + '</li>').join('');
+    if (elList) elList.innerHTML = d.list.map(x => '<li>' + x + '</li>').join('');
     list.querySelectorAll('.group').forEach(g => {
       g.classList.toggle('active', g.dataset.key === key);
     });
@@ -1785,35 +1686,46 @@ verdadeiramente ímpares.</h1>
     currentKey = g.dataset.key;
   });
 
-  // Inject mobile descriptions into each top-level group
-  ['rep','marca','com','proj'].forEach(key => {
+  // Inject mobile number + description into each top-level group
+  ['j1','j2','j3','j4','j5','j6','j7'].forEach(key => {
     const g = list.querySelector(`.group[data-key="${key}"]`);
-    if (!g || g.querySelector('.mobile-desc')) return;
+    if (!g) return;
     const d = DATA[key];
     if (!d) return;
-    const desc = document.createElement('p');
-    desc.className = 'mobile-desc';
-    desc.textContent = d.desc;
-    g.appendChild(desc);
+    if (!g.querySelector('.mobile-num')){
+      const num = document.createElement('span');
+      num.className = 'mobile-num';
+      const parts = d.cat.split('·');
+      num.textContent = parts.length > 1 ? parts[1].trim() : d.cat;
+      g.insertBefore(num, g.firstChild);
+    }
+    if (!g.querySelector('.mobile-desc')){
+      const desc = document.createElement('p');
+      desc.className = 'mobile-desc';
+      desc.textContent = d.desc;
+      g.appendChild(desc);
+    }
   });
 
   // initial state
-  let currentKey = 'rep';
+  let currentKey = 'j1';
   render(currentKey);
 
   // CTA: prefill the contact form with the current selection
   const FRENTE_FOR_KEY = {
-    rep:   'Reputação',
-    marca: 'Imagem & marca pessoal',
-    com:   'Comunicação',
-    proj:  'Projetos especiais',
+    j1: 'Marca e posicionamento',
+    j2: 'Relacionamento e influência',
+    j3: 'Reputação',
+    j4: 'Marca e posicionamento',
+    j5: 'Comunicação e conteúdo',
+    j6: 'Relacionamento e influência',
+    j7: 'Reputação',
   };
   const cta = document.querySelector('.det-cta');
   if (cta){
     cta.addEventListener('click', (e) => {
       const d = DATA[currentKey]; if (!d) return;
-      const prefix = currentKey.split('-')[0];
-      const frente = FRENTE_FOR_KEY[prefix];
+      const frente = FRENTE_FOR_KEY[currentKey];
       const form = document.querySelector('#contato .form');
       if (!form) return;
       const select = form.querySelector('select');
@@ -1862,9 +1774,3 @@ verdadeiramente ímpares.</h1>
 </body>
 </html>
 
-<style id="__om-edit-overrides">
-#det-list >li:nth-child(1) { font-size: 18px !important }
-#det-list >li:nth-child(2) { font-size: 18px !important }
-#det-list >li:nth-child(3) { font-size: 18px !important }
-#det-list >li:nth-child(4) { font-size: 17px !important }
-</style>
