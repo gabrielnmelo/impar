@@ -337,7 +337,7 @@
 
   /* ---------- SOBRE ---------- */
   .sobre-grid{
-    display:grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 56px;
+    display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px;
     align-items:start;
   }
   .sobre-grid h3{
@@ -452,13 +452,13 @@
   .sobre-title{
     font-family:"PP Telegraf", sans-serif;
     font-weight: 400;
-    font-size: clamp(48px, 6vw, 96px);
-    line-height: .98;
+    font-size: clamp(40px, 4.5vw, 80px);
+    line-height: .95;
     letter-spacing: -0.035em;
     color: var(--blue);
-    margin: 0 0 56px;
-    width: 70%;
+    margin: 0;
     max-width: none;
+    align-self: start;
   }
 
   .servicos-intro{
@@ -1077,7 +1077,7 @@
     section.block{ padding: 64px 0; }
 
     /* Sobre */
-    .sobre-title{ width: 100%; font-size: clamp(40px, 11vw, 56px); margin-bottom: 32px; }
+    .sobre-title{ font-size: clamp(40px, 11vw, 56px); margin-bottom: 32px; }
     .sobre-subhead{ font-size: clamp(28px, 8vw, 40px); margin-bottom: 24px; }
     .sobre-team{ margin-top: 56px; }
     .sobre-grid h3{ word-wrap: break-word; }
@@ -1312,9 +1312,9 @@ verdadeiramente ímpares.</h1>
 <section class="block white-blue" id="sobre">
   <div class="wrap">
 
-    <h2 class="sobre-title">Somos Ímpar.</h2>
-
     <div class="sobre-grid">
+      <h2 class="sobre-title">Somos<br>Ímpar.</h2>
+
       <div class="sobre-left">
         <div class="sobre-text-box">
           <h3>Quem somos</h3>
@@ -1385,9 +1385,8 @@ verdadeiramente ímpares.</h1>
         </div>
       </div>
 
-      <div class="founder-col">
-        <!-- Letícia temporarily hidden; restore when ready
-        <div class="founder">
+      <!-- Letícia temporarily hidden; restore when ready
+      <div class="founder">
           <div class="photo" style="background-image: url('/assets/Leticia.png');"></div>
           <div class="meta">
             <span class="name">Letícia Sangaletti</span>
@@ -1400,22 +1399,22 @@ verdadeiramente ímpares.</h1>
             com pós-graduação em Marketing pela Faculdade Cásper Líbero.
           </p>
         </div>
-        -->
+      -->
 
-        <div class="founder">
-          <div class="photo" style="background-image: url('/assets/Ricardo.png');"></div>
-          <div class="meta">
-            <span class="name">Ricardo Pocetti</span>
-            <span class="role">Sócio-fundador</span>
-          </div>
-          <p class="bio">
-            Sólida experiência em gestão de projetos institucionais e eventos
-            corporativos. Formado em Ciências Contábeis pela Trevisan Escola de
-            Negócios, é especialista em Relações Públicas pela Faculdade Cásper Líbero
-            e em Relações Governamentais pelo IDP.
-          </p>
+      <div class="founder">
+        <div class="photo" style="background-image: url('/assets/Ricardo.png');"></div>
+        <div class="meta">
+          <span class="name">Ricardo Pocetti</span>
+          <span class="role">Sócio-fundador</span>
         </div>
+        <p class="bio">
+          Sólida experiência em gestão de projetos institucionais e eventos
+          corporativos. Formado em Ciências Contábeis pela Trevisan Escola de
+          Negócios, é especialista em Relações Públicas pela Faculdade Cásper Líbero
+          e em Relações Governamentais pelo IDP.
+        </p>
       </div>
+    </div>
   </div>
 </section>
 
@@ -1423,7 +1422,8 @@ verdadeiramente ímpares.</h1>
 
 <!-- IMPACTOS section removed -->
 
-<!-- ========== CONTEUDO ========== -->
+<!-- ========== CONTEUDO — temporarily hidden; restore when ready ========== -->
+<!--
 <section class="block" id="conteudo">
   <div class="wrap">
     <div class="section-head">
@@ -1470,6 +1470,7 @@ verdadeiramente ímpares.</h1>
     </div>
   </div>
 </section>
+-->
 
 <!-- ========== CONTATO ========== -->
 <section class="contato" id="contato">
