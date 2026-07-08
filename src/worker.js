@@ -22,6 +22,56 @@ async function handleApi(request, env, url) {
   const { pathname } = url;
   const method = request.method;
 
+  // Public: contact form submission — sends email via Resend.
+  if (pathname === '/api/contact' && method === 'POST') {
+    const body = await readJson(request);
+    const { nome, email, telefone, empresa, interesse, desafio } = body;
+
+    if (!nome || !email) {
+      return json({ error: 'Nome e e-mail são obrigatórios.' }, { status: 400 });
+    }
+
+    if (!env.RESEND_API_KEY) {
+      return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
+    }
+
+    const emailBody = `
+Nova mensagem do formulário de contato — imparcom.com
+
+Nome:              ${nome}
+E-mail:            ${email}
+Telefone:          ${telefone || '—'}
+Empresa / posição: ${empresa || '—'}
+Frente de interesse: ${interesse || '—'}
+
+Mensagem:
+${desafio || '—'}
+    `.trim();
+
+    const resendRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Formulário Ímpar <formulario@imparcom.com>',
+        to: ['ricardo@imparcom.com'],
+        reply_to: email,
+        subject: `Novo contato: ${nome}`,
+        text: emailBody,
+      }),
+    });
+
+    if (!resendRes.ok) {
+      const err = await resendRes.text();
+      console.error('Resend error:', err);
+      return json({ error: 'Falha ao enviar mensagem. Tente novamente.' }, { status: 502 });
+    }
+
+    return json({ ok: true });
+  }
+
   // Public: list published posts.
   if (pathname === '/api/posts' && method === 'GET') {
     const limit = Math.min(parseInt(url.searchParams.get('limit') || '12', 10) || 12, 50);

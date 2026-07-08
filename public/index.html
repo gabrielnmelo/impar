@@ -1496,28 +1496,28 @@ verdadeiramente ímpares.</h1>
         </div>
       </div>
 
-      <form class="form" onsubmit="event.preventDefault(); alert('Mensagem enviada (placeholder).');">
+      <form class="form" id="contact-form">
         <label>
           Nome completo
-          <input type="text" placeholder="Como devemos te chamar?"/>
+          <input type="text" name="nome" placeholder="Como devemos te chamar?" required/>
         </label>
         <div class="row">
           <label>
             E-mail
-            <input type="email" placeholder="voce@empresa.com"/>
+            <input type="email" name="email" placeholder="voce@empresa.com" required/>
           </label>
           <label>
             Telefone
-            <input type="tel" placeholder="+55 11 …"/>
+            <input type="tel" name="telefone" placeholder="+55 11 …"/>
           </label>
         </div>
         <label>
           Empresa / posição
-          <input type="text" placeholder="Onde você atua hoje"/>
+          <input type="text" name="empresa" placeholder="Onde você atua hoje"/>
         </label>
         <label>
           Frente de interesse
-          <select>
+          <select name="interesse">
             <option>Reputação</option>
             <option>Marca e posicionamento</option>
             <option>Comunicação e conteúdo</option>
@@ -1527,11 +1527,11 @@ verdadeiramente ímpares.</h1>
         </label>
         <label>
           Conte sobre o seu desafio
-          <textarea placeholder="Quanto mais contexto, melhor."></textarea>
+          <textarea name="desafio" placeholder="Quanto mais contexto, melhor."></textarea>
         </label>
-        <button type="submit">
+        <button type="submit" id="contact-btn">
           <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          <span>Enviar mensagem</span>
+          <span id="contact-btn-label">Enviar mensagem</span>
         </button>
       </form>
     </div>
@@ -1810,6 +1810,42 @@ verdadeiramente ímpares.</h1>
 </script>
 
 <script src="/cms-content.js"></script>
+<script>
+(function(){
+  const form = document.getElementById('contact-form');
+  const btn  = document.getElementById('contact-btn');
+  const lbl  = document.getElementById('contact-btn-label');
+  if (!form) return;
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    btn.disabled = true;
+    lbl.textContent = 'Enviando…';
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        lbl.textContent = 'Mensagem enviada ✓';
+        form.reset();
+        setTimeout(() => { lbl.textContent = 'Enviar mensagem'; btn.disabled = false; }, 4000);
+      } else {
+        const { error } = await res.json().catch(() => ({}));
+        lbl.textContent = error || 'Erro ao enviar. Tente novamente.';
+        btn.disabled = false;
+      }
+    } catch {
+      lbl.textContent = 'Erro de conexão. Tente novamente.';
+      btn.disabled = false;
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
