@@ -1026,6 +1026,21 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 980px){
     nav .links{display:none}
+    /* On mobile the 3-col grid becomes logo + button; switch to flex so
+       the button snaps to the right edge */
+    nav.top .row{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    /* Somos Ímpar: larger, no sticky (just flows with the stacked column) */
+    .sobre-title{
+      position: static;
+      font-size: clamp(56px, 18vw, 96px);
+      margin-bottom: 32px;
+    }
+    /* Standardise body text across sections to match the Somos Ímpar copy */
+    section.block p, .founder .bio, .pillar-list p{ font-size: 17px; line-height: 1.6; }
     .hero-grid, .sobre-grid, .servicos-grid, .team-grid, .qs-tiles,
     .content-grid, .areas, .contato .grid{ grid-template-columns: 1fr !important }
     .founder{ position: static; top: auto; }
@@ -1115,11 +1130,13 @@
     }
     .contato p{ font-size: 16px !important; max-width: 100%; }
     .contato .links a{
-      padding: 18px 0; font-size: 18px; gap: 12px;
-      flex-wrap: wrap;
+      padding: 18px 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
     }
-    .contato .links a span:first-child{ font-size: 16px !important; }
-    .contato .links a .meta{ font-size: 11px; }
+    .contato .links a span:first-child{ font-size: 13px !important; letter-spacing: .12em; }
+    .contato .links a .meta{ font-size: 16px; opacity: 1; }
     .contato .grid{ gap: 40px; }
 
     /* Form — prevent overflow */
