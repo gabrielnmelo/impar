@@ -36,7 +36,7 @@ async function handleApi(request, env, url) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    const lbl = 'display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;';
+    const lbl = 'display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;';
     const val = 'font-size:17px;color:#111827;';
     const link = 'font-size:17px;color:#111827;text-decoration:underline;';
 
