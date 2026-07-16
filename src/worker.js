@@ -36,27 +36,55 @@ async function handleApi(request, env, url) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    // Compact info line: name · email · phone
-    const infoLine = [nome, email, telefone].filter(Boolean).join(' · ');
-    const labelStyle = 'font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;';
+    const lbl = 'display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;';
+    const val = 'font-size:17px;color:#0C35C3;';
 
-    const bodyRows = [
-      infoLine  ? { value: infoLine }  : null,
-      interesse ? { value: interesse } : null,
-    ].filter(Boolean);
+    // Message section (with border below if contact info follows)
+    const contactExists = nome || email || telefone;
+    const msgRow = desafio ? `<tr><td style="padding:0 0 28px;${contactExists ? 'border-bottom:1px solid #e8eaf6;' : ''}">
+      <span style="${lbl}">Mensagem</span>
+      <span style="${val}line-height:1.65;">${desafio}</span>
+    </td></tr>` : '';
 
-    const bodyHtml = bodyRows.map((r, i) => {
-      const isLast = i === bodyRows.length - 1;
-      const border = (isLast && !desafio) ? '' : 'border-bottom:1px solid #e8eaf6;';
-      return `<tr><td style="padding:14px 0;${border}">
-        <span style="${labelStyle}">${r.value}</span>
-      </td></tr>`;
-    }).join('');
+    // Interest row (between message and contact, if present)
+    const hasContactSection = contactExists;
+    const interestRow = interesse ? `<tr><td style="padding:20px 0 0;${hasContactSection ? 'border-bottom:1px solid #e8eaf6;padding-bottom:20px;' : ''}">
+      <span style="${lbl}">Interesse</span>
+      <span style="${val}">${interesse}</span>
+    </td></tr>` : '';
 
-    const msgHtml = desafio ? `<tr><td style="padding:16px 0 0;">
-        <span style="display:block;${labelStyle}margin-bottom:10px;">Mensagem</span>
-        <span style="font-size:15px;color:#111827;line-height:1.65;">${desafio}</span>
-      </td></tr>` : '';
+    // Contact columns — nome alone if all 3 present, then email+phone below
+    const allThree = nome && email && telefone;
+    let contactHtml = '';
+    if (contactExists) {
+      if (allThree) {
+        contactHtml = `<tr><td style="padding-top:20px;">
+          <span style="${lbl}">Nome</span>
+          <span style="${val}">${nome}</span>
+        </td></tr>
+        <tr><td style="padding-top:16px;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td width="50%" style="vertical-align:top;padding-right:16px;">
+              <span style="${lbl}">E-mail</span>
+              <span style="${val}">${email}</span>
+            </td>
+            <td width="50%" style="vertical-align:top;">
+              <span style="${lbl}">Telefone</span>
+              <span style="${val}">${telefone}</span>
+            </td>
+          </tr></table>
+        </td></tr>`;
+      } else {
+        const cols = [
+          nome     ? `<td style="vertical-align:top;padding-right:16px;"><span style="${lbl}">Nome</span><span style="${val}">${nome}</span></td>` : '',
+          email    ? `<td style="vertical-align:top;padding-right:16px;"><span style="${lbl}">E-mail</span><span style="${val}">${email}</span></td>` : '',
+          telefone ? `<td style="vertical-align:top;"><span style="${lbl}">Telefone</span><span style="${val}">${telefone}</span></td>` : '',
+        ].filter(Boolean).join('');
+        contactHtml = `<tr><td style="padding-top:${desafio || interesse ? '20px' : '0'};">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${cols}</tr></table>
+        </td></tr>`;
+      }
+    }
 
     const emailHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -71,20 +99,21 @@ async function handleApi(request, env, url) {
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td style="vertical-align:middle;">
-              <img src="https://imparcom.com/assets/email-nova-mensagem.svg" alt="Nova mensagem" height="20" style="display:block;border:0;">
+              <img src="https://imparcom.com/assets/email-nova-mensagem.svg" alt="Nova mensagem" height="24" style="display:block;border:0;">
             </td>
             <td style="vertical-align:middle;text-align:right;">
-              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="20" style="display:block;border:0;margin-left:auto;">
+              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="24" style="display:block;border:0;margin-left:auto;">
             </td>
           </tr>
         </table>
       </td></tr>
 
       <!-- Body -->
-      <tr><td style="background:#ffffff;padding:20px 40px 32px;border-radius:0 0 6px 6px;">
+      <tr><td style="background:#ffffff;padding:28px 40px 32px;border-radius:0 0 6px 6px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          ${bodyHtml}
-          ${msgHtml}
+          ${msgRow}
+          ${interestRow}
+          ${contactHtml}
         </table>
       </td></tr>
 
