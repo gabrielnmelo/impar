@@ -48,16 +48,16 @@ async function handleApi(request, env, url) {
 
     const contactSection = contactExists ? (() => {
       const cols = [
-        nome     ? `<td style="vertical-align:top;padding-right:20px;"><span style="${lbl}">Nome</span><span style="${val}">${nome}</span></td>`     : '',
-        email    ? `<td style="vertical-align:top;padding-right:20px;"><span style="${lbl}">E-mail</span>${emailVal}</td>`    : '',
-        telefone ? `<td style="vertical-align:top;"><span style="${lbl}">Telefone</span>${telefoneVal}</td>` : '',
+        nome     ? `<td style="vertical-align:top;padding-right:20px;"><span class="lbl" style="${lbl}">Nome</span><span style="${val}">${nome}</span></td>`     : '',
+        email    ? `<td style="vertical-align:top;padding-right:20px;"><span class="lbl" style="${lbl}">E-mail</span>${emailVal}</td>`    : '',
+        telefone ? `<td style="vertical-align:top;"><span class="lbl" style="${lbl}">Telefone</span>${telefoneVal}</td>` : '',
       ].filter(Boolean).join('');
       return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:44px;"><tr>${cols}</tr></table>`;
     })() : '';
 
     const msgSection = desafio ? `
       <div style="margin-top:44px;">
-        <span style="${lbl}">Mensagem</span>
+        <span class="lbl" style="${lbl}">Mensagem</span>
         <div style="font-size:32px;color:#ffffff;line-height:1.25;letter-spacing:-0.02em;">${desafio}</div>
       </div>` : '';
 
