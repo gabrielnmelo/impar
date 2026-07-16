@@ -67,6 +67,8 @@ async function handleApi(request, env, url) {
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
 <style>
+  @font-face{font-family:'PPTelegraf';src:url('https://imparcom.com/assets/fonts/PPTelegraf-Regular.otf') format('opentype');font-weight:400;font-style:normal;}
+  body,td,div,span,p{font-family:'PPTelegraf',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;}
   a{color:#ffffff!important;text-decoration:underline!important;}
   @media (prefers-color-scheme:dark){
     .card{background-color:#0C35C3!important;}
@@ -74,7 +76,7 @@ async function handleApi(request, env, url) {
     .card .lbl{color:#EBEEFA!important;}
   }
 </style></head>
-<body style="margin:0;padding:0;background:#f0f1f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#f0f1f8;font-family:'PPTelegraf',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
