@@ -46,12 +46,6 @@ async function handleApi(request, env, url) {
       <span style="${val}line-height:1.65;">${desafio}</span>
     </td></tr>` : '';
 
-    // Interest row (between message and contact, if present)
-    const hasContactSection = contactExists;
-    const interestRow = interesse ? `<tr><td style="padding:20px 0 0;${hasContactSection ? 'border-bottom:1px solid #e8eaf6;padding-bottom:20px;' : ''}">
-      <span style="${lbl}">Interesse</span>
-      <span style="${val}">${interesse}</span>
-    </td></tr>` : '';
 
     // Contact columns — nome alone if all 3 present, then email+phone below
     const allThree = nome && email && telefone;
@@ -99,10 +93,10 @@ async function handleApi(request, env, url) {
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td style="vertical-align:middle;">
-              <img src="https://imparcom.com/assets/email-nova-mensagem.svg" alt="Nova mensagem" height="24" style="display:block;border:0;">
+              <img src="https://imparcom.com/assets/email-nova-mensagem.svg" alt="Nova mensagem" height="28" style="display:block;border:0;">
             </td>
             <td style="vertical-align:middle;text-align:right;">
-              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="24" style="display:block;border:0;margin-left:auto;">
+              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="28" style="display:block;border:0;margin-left:auto;">
             </td>
           </tr>
         </table>
@@ -112,7 +106,6 @@ async function handleApi(request, env, url) {
       <tr><td style="background:#ffffff;padding:28px 40px 32px;border-radius:0 0 6px 6px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           ${msgRow}
-          ${interestRow}
           ${contactHtml}
         </table>
       </td></tr>
