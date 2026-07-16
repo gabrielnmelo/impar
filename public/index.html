@@ -965,7 +965,9 @@
   .form textarea{resize:vertical; min-height: 80px}
   .chips-group{ display:flex; flex-direction:column; gap:10px; }
   .chips-label{ font-family:"PP Telegraf",sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
-  .chips{ display:flex; flex-wrap:wrap; column-gap:5px; row-gap:7px; }
+  .chips-section{ display:flex; flex-direction:column; gap:14px; }
+  .chips-section-label{ font-family:"PP Telegraf",sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
+  .chips{ display:flex; flex-wrap:wrap; column-gap:5px; row-gap:7px; margin-left:-16px; }
   .form button.chip{
     border:1px solid var(--blue); background:transparent;
     padding:8px 16px; font-family:"PP Telegraf",sans-serif; font-size:14px;
@@ -976,7 +978,6 @@
   }
   .form button.chip:hover{ background:var(--blue-light); opacity:1; }
   .form button.chip.active{ background:var(--blue); color:#fff; opacity:1; }
-  #desafio{ margin-top:12px; }
   .form input:focus, .form textarea:focus, .form select:focus{
     border-color: var(--blue);
   }
@@ -1552,8 +1553,8 @@ verdadeiramente ímpares.</h1>
           </label>
         </div>
         <input type="hidden" name="interesse" id="interesse-hidden" value=""/>
-        <label>
-          Como podemos ajudar?
+        <div class="chips-section">
+          <span class="chips-section-label">Como podemos ajudar?</span>
           <div class="chips">
             <button type="button" class="chip" data-interesse="Entender a Ímpar">Entender a Ímpar</button>
             <button type="button" class="chip" data-interesse="Identidade">Identidade</button>
@@ -1565,6 +1566,8 @@ verdadeiramente ímpares.</h1>
             <button type="button" class="chip" data-interesse="Legado">Legado</button>
             <button type="button" class="chip" data-interesse="Outro motivo">Outro motivo</button>
           </div>
+        </div>
+        <label>
           <textarea name="desafio" id="desafio" placeholder="Selecione os temas acima ou escreva diretamente — quanto mais contexto você compartilhar, melhor."></textarea>
         </label>
         <button type="submit" id="contact-btn">
@@ -1843,13 +1846,13 @@ verdadeiramente ímpares.</h1>
   // Multi-select chips
   const SINGLE_MSG = {
     'Entender a Ímpar': 'Quero saber mais sobre a Ímpar e entender como vocês podem contribuir para os meus objetivos. Podemos conversar?',
-    'Identidade': 'Gostaria de conversar sobre identidade de marca.',
-    'Relacionamento': 'Gostaria de conversar sobre relacionamento com stakeholders.',
-    'Reputação': 'Gostaria de conversar sobre gestão de reputação.',
-    'Posicionamento': 'Gostaria de conversar sobre posicionamento de marca.',
+    'Identidade': 'Gostaria de conversar sobre identidade.',
+    'Relacionamento': 'Gostaria de conversar sobre relacionamento.',
+    'Reputação': 'Gostaria de conversar sobre reputação.',
+    'Posicionamento': 'Gostaria de conversar sobre posicionamento.',
     'Presença Digital': 'Gostaria de conversar sobre presença digital.',
-    'Influência': 'Gostaria de conversar sobre estratégias de influência.',
-    'Legado': 'Gostaria de conversar sobre construção de legado.',
+    'Influência': 'Gostaria de conversar sobre influência.',
+    'Legado': 'Gostaria de conversar sobre legado.',
     'Outro motivo': 'Tenho um assunto específico que gostaria de discutir com a equipe da Ímpar. Podemos agendar uma conversa?',
   };
   function buildMessage(active) {
