@@ -56,7 +56,7 @@ ${desafio || '—'}
       },
       body: JSON.stringify({
         from: 'Formulário Ímpar <formulario@imparcom.com>',
-        to: ['ricardo@imparcom.com'],
+        to: ['gnevesmelo@gmail.com'],
         reply_to: email,
         subject: `Novo contato: ${nome}`,
         text: emailBody,
