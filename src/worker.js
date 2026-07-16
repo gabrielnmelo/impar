@@ -162,22 +162,26 @@ async function handleApi(request, env, url) {
       const confirmSubject = nome ? `Recebemos sua mensagem, ${nome}` : 'Mensagem recebida — Ímpar';
 
       try {
-        await fetch('https://api.resend.com/emails', {
+        const confirmRes = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${env.RESEND_API_KEY}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: 'Ímpar <formulario@imparcom.com>',
+            from: 'Impar <formulario@imparcom.com>',
             to: [email],
             subject: confirmSubject,
             html: confirmHtml,
             text: confirmText,
           }),
         });
+        if (!confirmRes.ok) {
+          const errBody = await confirmRes.text();
+          console.error('Confirmation email error:', confirmRes.status, errBody);
+        }
       } catch (e) {
-        console.error('Confirmation email error:', e);
+        console.error('Confirmation email fetch error:', e);
       }
     }
 
