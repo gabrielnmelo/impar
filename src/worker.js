@@ -71,10 +71,11 @@ async function handleApi(request, env, url) {
   body,td,div,span,p{font-family:'PPTelegraf',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;}
   a{color:#ffffff!important;text-decoration:underline!important;}
   @media (prefers-color-scheme:dark){
+    body,table{background-color:#1a1a2e!important;}
     .card{background-color:#0C35C3!important;}
-    .card *{color:#ffffff!important;}
     .card .lbl{color:#7A97FE!important;}
   }
+  [data-ogsc] body,[data-ogsc] table{background-color:#1a1a2e!important;}
   [data-ogsc] .card{background-color:#0C35C3!important;}
   [data-ogsc] .card *{color:#ffffff!important;}
   [data-ogsc] .card .lbl{color:#7A97FE!important;}
