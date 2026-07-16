@@ -965,7 +965,7 @@
   .form textarea{resize:vertical; min-height: 80px}
   .chips-group{ display:flex; flex-direction:column; gap:10px; }
   .chips-label{ font-family:"PP Telegraf",sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
-  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chips{ display:flex; flex-wrap:wrap; column-gap:5px; row-gap:5px; }
   .chip{
     border:1px solid var(--ink); background:transparent;
     padding:8px 16px; font-family:"PP Telegraf",sans-serif; font-size:14px;
@@ -1548,9 +1548,14 @@ verdadeiramente ímpares.</h1>
           <span class="chips-label">Qual é o seu desafio?</span>
           <div class="chips">
             <button type="button" class="chip" data-msg="Quero entender como a Ímpar pode ajudar minha empresa." data-interesse="Entender a Ímpar">Entender a Ímpar</button>
+            <button type="button" class="chip" data-msg="Tenho um desafio de identidade para discutir." data-interesse="Identidade">Identidade</button>
+            <button type="button" class="chip" data-msg="Quero trabalhar relacionamento e influência com stakeholders." data-interesse="Relacionamento">Relacionamento</button>
             <button type="button" class="chip" data-msg="Tenho um desafio de reputação para discutir." data-interesse="Reputação">Reputação</button>
-            <button type="button" class="chip" data-msg="Quero uma proposta para o meu setor." data-interesse="Proposta">Proposta</button>
-            <button type="button" class="chip" data-msg="" data-interesse="Outro">Outro motivo</button>
+            <button type="button" class="chip" data-msg="Preciso de ajuda com posicionamento de marca." data-interesse="Posicionamento">Posicionamento</button>
+            <button type="button" class="chip" data-msg="Quero fortalecer minha presença digital." data-interesse="Presença Digital">Presença Digital</button>
+            <button type="button" class="chip" data-msg="Gostaria de conversar sobre estratégia de influência." data-interesse="Influência">Influência</button>
+            <button type="button" class="chip" data-msg="Quero construir um legado de longo prazo." data-interesse="Legado">Legado</button>
+            <button type="button" class="chip" data-msg="Tenho outro assunto que gostaria de discutir com a Ímpar." data-interesse="Outro">Outro motivo</button>
           </div>
         </div>
         <label>
