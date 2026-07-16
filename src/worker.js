@@ -36,23 +36,29 @@ async function handleApi(request, env, url) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    const allRows = [
-      interesse ? { label: 'Interesse', value: interesse } : null,
-      desafio   ? { label: 'Mensagem',  value: desafio }   : null,
+    const fieldsRows = [
       nome      ? { label: 'Nome',      value: nome }      : null,
       email     ? { label: 'E-mail',    value: email }     : null,
       telefone  ? { label: 'Telefone',  value: telefone }  : null,
+      interesse ? { label: 'Interesse', value: interesse } : null,
     ].filter(Boolean);
 
-    const rowsHtml = allRows.map((r, i) => {
-      const isLast = i === allRows.length - 1;
+    const fieldsHtml = fieldsRows.map((r, i) => {
+      const isLast = i === fieldsRows.length - 1;
       const border = isLast ? '' : 'border-bottom:1px solid #e8eaf6;';
-      const lh = r.label === 'Mensagem' ? 'line-height:1.65;' : '';
       return `<tr><td style="padding:16px 0;${border}">
         <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;">${r.label}</span>
-        <span style="font-size:15px;color:#111827;${lh}">${r.value}</span>
+        <span style="font-size:15px;color:#111827;">${r.value}</span>
       </td></tr>`;
     }).join('');
+
+    const hasMsg = Boolean(desafio);
+    const bodyBottomStyle = hasMsg ? 'padding:20px 40px 0;' : 'padding:20px 40px 32px;border-radius:0 0 6px 6px;';
+    const msgSection = hasMsg ? `
+      <tr><td style="background:#ebeefa;padding:20px 40px 32px;border-radius:0 0 6px 6px;">
+        <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;margin-bottom:8px;">Mensagem</span>
+        <span style="font-size:15px;color:#111827;line-height:1.65;">${desafio}</span>
+      </td></tr>` : '';
 
     const emailHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -76,12 +82,15 @@ async function handleApi(request, env, url) {
         </table>
       </td></tr>
 
-      <!-- Body -->
-      <tr><td style="background:#ffffff;padding:32px 40px;border-radius:0 0 6px 6px;">
+      <!-- Body: contact + interest fields -->
+      <tr><td style="background:#ffffff;${bodyBottomStyle}">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          ${rowsHtml}
+          ${fieldsHtml}
         </table>
       </td></tr>
+
+      <!-- Message section (light blue, only if present) -->
+      ${msgSection}
 
     </table>
   </td></tr>
@@ -91,11 +100,11 @@ async function handleApi(request, env, url) {
     const emailText = [
       'Nova mensagem — imparcom.com',
       '',
-      desafio ? `Mensagem:\n${desafio}\n` : '',
       nome      ? `Nome:      ${nome}`      : '',
       email     ? `E-mail:    ${email}`     : '',
       telefone  ? `Telefone:  ${telefone}`  : '',
       interesse ? `Interesse: ${interesse}` : '',
+      desafio   ? `\nMensagem:\n${desafio}` : '',
     ].filter(Boolean).join('\n').trim();
 
     const subject = nome ? `Novo contato: ${nome}` : interesse ? `Novo contato — ${interesse}` : 'Novo contato via imparcom.com';
