@@ -171,7 +171,7 @@ async function handleApi(request, env, url) {
           },
           body: JSON.stringify({
             from: 'Ímpar <formulario@imparcom.com>',
-            reply_to: 'contato@imparcom.com',
+            reply_to: 'ricardo@imparcom.com',
             to: [email],
             subject: confirmSubject,
             html: confirmHtml,
