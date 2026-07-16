@@ -974,7 +974,7 @@
     line-height:1.3; margin-top:0; text-transform:none; letter-spacing:0;
     display:inline; justify-content:unset; align-items:unset;
   }
-  .form button.chip:hover{ background:transparent; opacity:.7; }
+  .form button.chip:hover{ background:var(--blue-light); opacity:1; }
   .form button.chip.active{ background:var(--blue); color:#fff; opacity:1; }
   #desafio{ margin-top:12px; }
   .form input:focus, .form textarea:focus, .form select:focus{
@@ -1843,13 +1843,13 @@ verdadeiramente ímpares.</h1>
   // Multi-select chips
   const SINGLE_MSG = {
     'Entender a Ímpar': 'Quero saber mais sobre a Ímpar e entender como vocês podem contribuir para os meus objetivos. Podemos conversar?',
-    'Identidade': 'Estou buscando apoio para trabalhar a identidade da minha marca e acredito que a Ímpar pode ser a parceira certa para isso. Gostaria de explorar essa possibilidade.',
-    'Relacionamento': 'Quero desenvolver uma estratégia mais robusta de relacionamento com stakeholders e gostaria de entender como a Ímpar pode contribuir nesse processo.',
-    'Reputação': 'Tenho um desafio de reputação que precisa de atenção e gostaria de conversar com a Ímpar para encontrar o melhor caminho a seguir.',
-    'Posicionamento': 'Preciso de apoio para definir e fortalecer o posicionamento da minha marca no mercado. Gostaria de entender como a Ímpar trabalha esse tema.',
-    'Presença Digital': 'Quero ampliar e qualificar a presença digital da minha marca. Gostaria de conversar sobre como a Ímpar pode ajudar nessa jornada.',
-    'Influência': 'Estou buscando desenvolver uma estratégia de influência mais consistente e acredito que a Ímpar tem o expertise para isso. Podemos conversar?',
-    'Legado': 'Penso em construir um legado de longo prazo e quero entender como a Ímpar pode contribuir nessa construção.',
+    'Identidade': 'Gostaria de conversar sobre identidade de marca.',
+    'Relacionamento': 'Gostaria de conversar sobre relacionamento com stakeholders.',
+    'Reputação': 'Gostaria de conversar sobre gestão de reputação.',
+    'Posicionamento': 'Gostaria de conversar sobre posicionamento de marca.',
+    'Presença Digital': 'Gostaria de conversar sobre presença digital.',
+    'Influência': 'Gostaria de conversar sobre estratégias de influência.',
+    'Legado': 'Gostaria de conversar sobre construção de legado.',
     'Outro motivo': 'Tenho um assunto específico que gostaria de discutir com a equipe da Ímpar. Podemos agendar uma conversa?',
   };
   function buildMessage(active) {
@@ -1867,6 +1867,14 @@ verdadeiramente ímpares.</h1>
 
   form.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
+      const isOutro = chip.dataset.interesse === 'Outro motivo';
+      if (isOutro) {
+        // Outro motivo is exclusive — deselect everything else first
+        form.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      } else {
+        // Deselect Outro motivo when selecting any specific topic
+        form.querySelectorAll('.chip[data-interesse="Outro motivo"]').forEach(c => c.classList.remove('active'));
+      }
       chip.classList.toggle('active');
       const active = [...form.querySelectorAll('.chip.active')];
       const textarea = document.getElementById('desafio');
