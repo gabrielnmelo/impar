@@ -58,7 +58,7 @@ async function handleApi(request, env, url) {
     const msgSection = desafio ? `
       <div style="margin-top:44px;">
         <span style="${lbl}">Mensagem</span>
-        <div style="font-size:30px;color:#ffffff;line-height:1.4;">${desafio}</div>
+        <div style="font-size:30px;color:#ffffff;line-height:1.25;">${desafio}</div>
       </div>` : '';
 
     const emailHtml = `<!DOCTYPE html>
@@ -81,7 +81,7 @@ async function handleApi(request, env, url) {
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
       <tr><td class="card" style="background:#0C35C3;padding:32px 40px 52px;border-radius:12px;">
-        <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="28" style="display:block;border:0;">
+        <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="25" style="display:block;border:0;">
         ${msgSection}
         ${contactSection}
       </td></tr>
