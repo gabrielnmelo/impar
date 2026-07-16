@@ -47,12 +47,15 @@ async function handleApi(request, env, url) {
     const telefoneVal = telefone ? `<a href="tel:${telefone}" style="${link}"><span style="color:#ffffff;">${telefone}</span></a>` : '';
 
     const contactSection = contactExists ? (() => {
-      const cols = [
-        nome     ? `<td style="vertical-align:top;padding-right:20px;"><span class="lbl" style="${lbl}">Nome</span><span style="${val}">${nome}</span></td>`     : '',
-        email    ? `<td style="vertical-align:top;padding-right:20px;"><span class="lbl" style="${lbl}">E-mail</span>${emailVal}</td>`    : '',
-        telefone ? `<td style="vertical-align:top;"><span class="lbl" style="${lbl}">Telefone</span>${telefoneVal}</td>` : '',
+      const nomeRow = nome
+        ? `<tr><td style="padding-bottom:${(email || telefone) ? '20px' : '0'};"><span class="lbl" style="${lbl}">Nome</span><span style="${val}">${nome}</span></td></tr>`
+        : '';
+      const contactParts = [
+        email    ? `<div style="display:inline-block;vertical-align:top;padding-right:${telefone ? '28px' : '0'};"><span class="lbl" style="${lbl}">E-mail</span>${emailVal}</div>` : '',
+        telefone ? `<div style="display:inline-block;vertical-align:top;"><span class="lbl" style="${lbl}">Telefone</span>${telefoneVal}</div>` : '',
       ].filter(Boolean).join('');
-      return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:44px;"><tr>${cols}</tr></table>`;
+      const contactRow = contactParts ? `<tr><td>${contactParts}</td></tr>` : '';
+      return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:44px;">${nomeRow}${contactRow}</table>`;
     })() : '';
 
     const msgSection = desafio ? `
