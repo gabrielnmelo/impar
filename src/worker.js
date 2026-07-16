@@ -76,7 +76,7 @@ async function handleApi(request, env, url) {
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-      <tr><td class="card" style="background:#0C35C3;padding:32px 44px 52px 40px;border-radius:12px;">
+      <tr><td class="card" style="background:#0C35C3;padding:32px 44px 52px 40px;">
         <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="25" style="display:block;border:0;">
         ${msgSection}
         ${contactSection}
@@ -144,7 +144,7 @@ async function handleApi(request, env, url) {
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-      <tr><td class="card" style="background:#0C35C3;padding:32px 44px 52px 40px;border-radius:12px;">
+      <tr><td class="card" style="background:#0C35C3;padding:32px 44px 52px 40px;">
         <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="25" style="display:block;border:0;">
         <div style="margin-top:44px;">
           <div style="font-size:32px;color:#ffffff;line-height:1.25;letter-spacing:-0.02em;">${nome ? `Obrigado pela mensagem, ${firstName}. Em breve entraremos em contato com você.` : 'Obrigado pela mensagem. Em breve entraremos em contato com você.'}</div>
@@ -160,7 +160,7 @@ async function handleApi(request, env, url) {
         desafio ? `\nSua mensagem:\n${desafio}` : '',
       ].filter(Boolean).join('\n').trim();
 
-      const confirmSubject = nome ? `Recebemos sua mensagem, ${nome}` : 'Mensagem recebida — Ímpar';
+      const confirmSubject = firstName ? `Recebemos sua mensagem, ${firstName}` : 'Mensagem recebida — Ímpar';
 
       try {
         const confirmRes = await fetch('https://api.resend.com/emails', {
