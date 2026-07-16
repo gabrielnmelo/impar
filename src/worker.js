@@ -146,7 +146,7 @@ async function handleApi(request, env, url) {
       <tr><td class="card" style="background:#0C35C3;padding:32px 44px 52px 40px;border-radius:12px;">
         <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="25" style="display:block;border:0;">
         <div style="margin-top:44px;">
-          <div style="font-size:32px;color:#ffffff;line-height:1.25;letter-spacing:-0.02em;">Em breve você receberá uma resposta.</div>
+          <div style="font-size:32px;color:#ffffff;line-height:1.25;letter-spacing:-0.02em;">${nome ? `Obrigado pela mensagem, ${nome}. Em breve entraremos em contato com você.` : 'Obrigado pela mensagem. Em breve entraremos em contato com você.'}</div>
         </div>${confirmSection}
       </td></tr>
     </table>
@@ -155,7 +155,7 @@ async function handleApi(request, env, url) {
 </body></html>`;
 
       const confirmText = [
-        'Em breve você receberá uma resposta.',
+        nome ? `Obrigado pela mensagem, ${nome}. Em breve entraremos em contato com você.` : 'Obrigado pela mensagem. Em breve entraremos em contato com você.',
         desafio ? `\nSua mensagem:\n${desafio}` : '',
       ].filter(Boolean).join('\n').trim();
 
@@ -170,6 +170,7 @@ async function handleApi(request, env, url) {
           },
           body: JSON.stringify({
             from: 'Impar <formulario@imparcom.com>',
+            reply_to: 'contato@imparcom.com',
             to: [email],
             subject: confirmSubject,
             html: confirmHtml,
