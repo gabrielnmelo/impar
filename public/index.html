@@ -998,6 +998,8 @@
     transition:background .15s ease;
   }
   .form button:hover{background: var(--blue)}
+  .form button.btn-error{ background: #b91c1c; }
+  .form button.btn-error:hover{ background: #991b1b; }
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -1537,10 +1539,10 @@ verdadeiramente ímpares.</h1>
         </div>
       </div>
 
-      <form class="form" id="contact-form">
+      <form class="form" id="contact-form" novalidate>
         <label>
           Nome completo
-          <input type="text" name="nome" placeholder="Como devemos te chamar?" required/>
+          <input type="text" name="nome" placeholder="Como devemos te chamar?"/>
         </label>
         <div class="row">
           <label>
@@ -1894,14 +1896,29 @@ verdadeiramente ímpares.</h1>
     });
   });
 
+  function showBtnError(msg) {
+    btn.classList.add('btn-error');
+    lbl.textContent = msg;
+    setTimeout(() => {
+      btn.classList.remove('btn-error');
+      lbl.textContent = 'Enviar mensagem';
+    }, 3500);
+  }
+
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const emailInput = document.getElementById('field-email');
-    const telInput = document.getElementById('field-telefone');
-    if (!emailInput.value.trim() && !telInput.value.trim()) {
-      lbl.textContent = 'Informe e-mail ou telefone.';
-      setTimeout(() => { lbl.textContent = 'Enviar mensagem'; }, 3000);
-      return;
+    const hasContact = document.getElementById('field-email').value.trim() ||
+                       document.getElementById('field-telefone').value.trim();
+    const hasMessage = document.getElementById('desafio').value.trim() ||
+                       form.querySelectorAll('.chip.active').length > 0;
+    if (!hasContact && !hasMessage) {
+      showBtnError('Informe um contato e selecione um tema'); return;
+    }
+    if (!hasContact) {
+      showBtnError('Informe e-mail ou telefone'); return;
+    }
+    if (!hasMessage) {
+      showBtnError('Selecione um tema ou escreva uma mensagem'); return;
     }
     btn.disabled = true;
     lbl.textContent = 'Enviando…';
