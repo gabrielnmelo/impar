@@ -1539,13 +1539,19 @@ verdadeiramente ímpares.</h1>
           Nome completo
           <input type="text" name="nome" placeholder="Como devemos te chamar?" required/>
         </label>
-        <label>
-          E-mail
-          <input type="email" name="email" placeholder="voce@empresa.com" required/>
-        </label>
+        <div class="row">
+          <label>
+            E-mail
+            <input type="email" name="email" placeholder="voce@empresa.com" required/>
+          </label>
+          <label>
+            Telefone
+            <input type="tel" name="telefone" placeholder="+55 11 …" required/>
+          </label>
+        </div>
         <input type="hidden" name="interesse" id="interesse-hidden" value=""/>
         <label>
-          Mensagem
+          Qual é o seu desafio?
           <div class="chips">
             <button type="button" class="chip" data-interesse="Entender a Ímpar">Entender a Ímpar</button>
             <button type="button" class="chip" data-interesse="Identidade">Identidade</button>
