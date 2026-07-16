@@ -48,9 +48,9 @@ async function handleApi(request, env, url) {
 
     const contactSection = contactExists ? (() => {
       const items = [
-        nome     ? `<div style="display:inline-block;vertical-align:top;padding-right:28px;white-space:nowrap;"><span class="lbl" style="${lbl}">Nome</span><span style="${val}">${nome}</span></div>`     : '',
-        email    ? `<div style="display:inline-block;vertical-align:top;padding-right:28px;white-space:nowrap;"><span class="lbl" style="${lbl}">E-mail</span>${emailVal}</div>`    : '',
-        telefone ? `<div style="display:inline-block;vertical-align:top;white-space:nowrap;"><span class="lbl" style="${lbl}">Telefone</span>${telefoneVal}</div>` : '',
+        nome     ? `<div style="display:inline-block;vertical-align:top;padding-right:28px;margin-bottom:20px;white-space:nowrap;"><span class="lbl" style="${lbl}">Nome</span><span style="${val}">${nome}</span></div>`     : '',
+        email    ? `<div style="display:inline-block;vertical-align:top;padding-right:28px;margin-bottom:20px;white-space:nowrap;"><span class="lbl" style="${lbl}">E-mail</span>${emailVal}</div>`    : '',
+        telefone ? `<div style="display:inline-block;vertical-align:top;margin-bottom:20px;white-space:nowrap;"><span class="lbl" style="${lbl}">Telefone</span>${telefoneVal}</div>` : '',
       ].filter(Boolean).join('');
       return `<div style="margin-top:44px;">${items}</div>`;
     })() : '';
