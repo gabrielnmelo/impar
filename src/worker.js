@@ -36,13 +36,23 @@ async function handleApi(request, env, url) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    const row = (label, value) => value ? `
-      <tr>
-        <td style="padding:14px 0;border-bottom:1px solid #e8eaf6;">
-          <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:4px;">${label}</span>
-          <span style="font-size:15px;color:#111827;">${value}</span>
-        </td>
-      </tr>` : '';
+    const allRows = [
+      interesse ? { label: 'Interesse', value: interesse } : null,
+      desafio   ? { label: 'Mensagem',  value: desafio }   : null,
+      nome      ? { label: 'Nome',      value: nome }      : null,
+      email     ? { label: 'E-mail',    value: email }     : null,
+      telefone  ? { label: 'Telefone',  value: telefone }  : null,
+    ].filter(Boolean);
+
+    const rowsHtml = allRows.map((r, i) => {
+      const isLast = i === allRows.length - 1;
+      const border = isLast ? '' : 'border-bottom:1px solid #e8eaf6;';
+      const lh = r.label === 'Mensagem' ? 'line-height:1.65;' : '';
+      return `<tr><td style="padding:16px 0;${border}">
+        <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;">${r.label}</span>
+        <span style="font-size:15px;color:#111827;${lh}">${r.value}</span>
+      </td></tr>`;
+    }).join('');
 
     const emailHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -60,29 +70,17 @@ async function handleApi(request, env, url) {
               <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="20" style="display:block;border:0;">
             </td>
             <td style="vertical-align:middle;text-align:right;">
-              <span style="font-size:22px;color:#ffffff;letter-spacing:-0.01em;">Nova mensagem</span>
+              <span style="font-size:16px;color:#ffffff;letter-spacing:0.01em;">Nova mensagem</span>
             </td>
           </tr>
         </table>
       </td></tr>
 
       <!-- Body -->
-      <tr><td style="background:#ffffff;padding:40px 40px 40px;">
-
+      <tr><td style="background:#ffffff;padding:32px 40px;border-radius:0 0 6px 6px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          ${row('Interesse', interesse)}
-          ${desafio ? `
-          <tr>
-            <td style="padding:14px 0;border-bottom:1px solid #e8eaf6;">
-              <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Mensagem</span>
-              <span style="font-size:15px;color:#111827;line-height:1.65;">${desafio}</span>
-            </td>
-          </tr>` : ''}
-          ${row('Nome', nome)}
-          ${row('E-mail', email)}
-          ${row('Telefone', telefone)}
+          ${rowsHtml}
         </table>
-
       </td></tr>
 
     </table>
