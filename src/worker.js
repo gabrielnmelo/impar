@@ -56,7 +56,7 @@ async function handleApi(request, env, url) {
           <span style="${lbl}">Nome</span>
           <span style="${val}">${nome}</span>
         </td></tr>
-        <tr><td style="padding-top:16px;">
+        <tr><td style="padding-top:16px;padding-bottom:4px;">
           <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
             <td width="50%" style="vertical-align:top;padding-right:16px;">
               <span style="${lbl}">E-mail</span>
@@ -74,7 +74,7 @@ async function handleApi(request, env, url) {
           email    ? `<td style="vertical-align:top;padding-right:16px;"><span style="${lbl}">E-mail</span><span style="${val}">${email}</span></td>` : '',
           telefone ? `<td style="vertical-align:top;"><span style="${lbl}">Telefone</span><span style="${val}">${telefone}</span></td>` : '',
         ].filter(Boolean).join('');
-        contactHtml = `<tr><td style="padding-top:${desafio || interesse ? '20px' : '0'};">
+        contactHtml = `<tr><td style="padding-top:${desafio || interesse ? '20px' : '0'};padding-bottom:4px;">
           <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${cols}</tr></table>
         </td></tr>`;
       }
