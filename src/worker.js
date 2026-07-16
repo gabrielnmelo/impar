@@ -52,38 +52,37 @@ async function handleApi(request, env, url) {
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
 
-      <!-- Header -->
-      <tr><td style="background:#0C35C3;padding:32px 40px;border-radius:6px 6px 0 0;">
-        <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="22" style="display:block;border:0;">
+      <!-- Header: logo left, title right -->
+      <tr><td style="background:#0C35C3;padding:28px 40px;border-radius:6px 6px 0 0;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td style="vertical-align:middle;">
+              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="20" style="display:block;border:0;">
+            </td>
+            <td style="vertical-align:middle;text-align:right;">
+              <span style="font-size:22px;color:#ffffff;letter-spacing:-0.01em;">Nova mensagem</span>
+            </td>
+          </tr>
+        </table>
       </td></tr>
 
       <!-- Body -->
-      <tr><td style="background:#ffffff;padding:40px 40px 32px;">
+      <tr><td style="background:#ffffff;padding:40px 40px 40px;">
 
-        <p style="margin:0 0 28px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#0C35C3;">Nova mensagem — imparcom.com</p>
-
-        ${desafio ? `
-        <!-- Message block -->
-        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:32px;">
-          <tr><td style="background:#EBEEFA;padding:20px 24px;border-left:3px solid #0C35C3;">
-            <p style="margin:0 0 6px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;">Mensagem</p>
-            <p style="margin:0;font-size:16px;color:#111827;line-height:1.65;">${desafio}</p>
-          </td></tr>
-        </table>` : ''}
-
-        <!-- Contact fields -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          ${row('Interesse', interesse)}
+          ${desafio ? `
+          <tr>
+            <td style="padding:14px 0;border-bottom:1px solid #e8eaf6;">
+              <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Mensagem</span>
+              <span style="font-size:15px;color:#111827;line-height:1.65;">${desafio}</span>
+            </td>
+          </tr>` : ''}
           ${row('Nome', nome)}
           ${row('E-mail', email)}
           ${row('Telefone', telefone)}
-          ${row('Interesse', interesse)}
         </table>
 
-      </td></tr>
-
-      <!-- Footer -->
-      <tr><td style="background:#0C35C3;padding:24px 40px;border-radius:0 0 6px 6px;text-align:center;">
-        <a href="https://imparcom.com" style="color:rgba(235,238,250,0.7);font-size:12px;text-decoration:none;letter-spacing:0.06em;">imparcom.com</a>
       </td></tr>
 
     </table>
