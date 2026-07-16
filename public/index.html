@@ -1859,11 +1859,17 @@ verdadeiramente ímpares.</h1>
     if (active.length === 0) return '';
     const topics = active.map(c => c.dataset.interesse);
     if (topics.length === 1) return SINGLE_MSG[topics[0]] || '';
-    const named = topics.map(t => {
-      if (t === 'Entender a Ímpar') return 'a Ímpar';
+    const hasEntender = topics.includes('Entender a Ímpar');
+    const others = topics.filter(t => t !== 'Entender a Ímpar').map(t => {
       if (t === 'Outro assunto') return 'outro assunto';
       return t.toLowerCase();
     });
+    if (hasEntender && others.length > 0) {
+      const last = others.pop();
+      const rest = others.length > 0 ? others.join(', ') + ' e ' + last : last;
+      return 'Quero saber mais sobre a Ímpar e falar sobre ' + rest + '. Quando podemos agendar uma conversa?';
+    }
+    const named = others.length ? others : topics.map(t => t.toLowerCase());
     const last = named.pop();
     return 'Quero falar sobre ' + named.join(', ') + ' e ' + last + '. Quando podemos agendar uma conversa?';
   }
