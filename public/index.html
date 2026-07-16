@@ -1879,12 +1879,14 @@ verdadeiramente ímpares.</h1>
   form.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       const isOutro = chip.dataset.interesse === 'Outro assunto';
+      const wasActive = chip.classList.contains('active');
       if (isOutro) {
         form.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        if (!wasActive) chip.classList.add('active');
       } else {
         form.querySelectorAll('.chip[data-interesse="Outro assunto"]').forEach(c => c.classList.remove('active'));
+        chip.classList.toggle('active');
       }
-      chip.classList.toggle('active');
       const active = [...form.querySelectorAll('.chip.active')];
       const textarea = document.getElementById('desafio');
       const hidden = document.getElementById('interesse-hidden');
