@@ -75,6 +75,9 @@ async function handleApi(request, env, url) {
     .card *{color:#ffffff!important;}
     .card .lbl{color:#7A97FE!important;}
   }
+  [data-ogsc] .card{background-color:#0C35C3!important;}
+  [data-ogsc] .card *{color:#ffffff!important;}
+  [data-ogsc] .card .lbl{color:#7A97FE!important;}
 </style></head>
 <body style="margin:0;padding:0;background:#f0f1f8;font-family:'PPTelegraf',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
