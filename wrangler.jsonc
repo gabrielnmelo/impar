@@ -22,5 +22,8 @@
       "binding": "IMAGES",
       "bucket_name": "impar-images"
     }
-  ]
+  ],
+  "observability": {
+    "enabled": true
+  }
 }
