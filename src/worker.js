@@ -58,7 +58,7 @@ async function handleApi(request, env, url) {
     const msgSection = desafio ? `
       <div style="margin-top:44px;">
         <span style="${lbl}">Mensagem</span>
-        <div style="font-size:30px;color:#ffffff;line-height:1.25;">${desafio}</div>
+        <div style="font-size:30px;color:#ffffff;line-height:1.25;letter-spacing:-0.02em;">${desafio}</div>
       </div>` : '';
 
     const emailHtml = `<!DOCTYPE html>
