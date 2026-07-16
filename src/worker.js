@@ -44,9 +44,9 @@ async function handleApi(request, env, url) {
 
     // Blue card: message
     const msgCard = desafio ? `
-      <tr><td style="background:#0C35C3;padding:32px 40px;border-radius:10px;">
-        <span style="display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">Mensagem</span>
-        <span style="font-size:18px;color:#ffffff;line-height:1.65;">${desafio}</span>
+      <tr><td class="msg-card" style="background:#0C35C3;padding:32px 40px;border-radius:10px;">
+        <span class="msg-lbl" style="display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">Mensagem</span>
+        <span class="msg-text" style="font-size:18px;color:#ffffff;line-height:1.65;">${desafio}</span>
       </td></tr>
       ${contactExists ? '<tr><td height="12" style="font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}` : '';
 
@@ -72,7 +72,16 @@ async function handleApi(request, env, url) {
     const emailHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<style>a{color:#111827!important;text-decoration:underline!important;}</style></head>
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<style>
+  a{color:#111827!important;text-decoration:underline!important;}
+  @media (prefers-color-scheme:dark){
+    .msg-card{background-color:#0C35C3!important;}
+    .msg-lbl{color:rgba(255,255,255,0.55)!important;}
+    .msg-text{color:#ffffff!important;}
+  }
+</style></head>
 <body style="margin:0;padding:0;background:#f0f1f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
   <tr><td align="center" style="padding:40px 16px;">
