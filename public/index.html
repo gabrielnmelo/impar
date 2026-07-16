@@ -1545,11 +1545,11 @@ verdadeiramente ímpares.</h1>
         <div class="row">
           <label>
             E-mail
-            <input type="email" name="email" placeholder="voce@empresa.com" required/>
+            <input type="email" name="email" id="field-email" placeholder="voce@empresa.com"/>
           </label>
           <label>
             Telefone
-            <input type="tel" name="telefone" placeholder="+55 11 …" required/>
+            <input type="tel" name="telefone" id="field-telefone" placeholder="+55 11 …"/>
           </label>
         </div>
         <input type="hidden" name="interesse" id="interesse-hidden" value=""/>
@@ -1846,13 +1846,13 @@ verdadeiramente ímpares.</h1>
   // Multi-select chips
   const SINGLE_MSG = {
     'Entender a Ímpar': 'Quero saber mais sobre a Ímpar. Quando podemos agendar uma conversa?',
-    'Identidade': 'Quero conversar sobre identidade. Quando podemos agendar uma conversa?',
-    'Relacionamento': 'Quero conversar sobre relacionamento. Quando podemos agendar uma conversa?',
-    'Reputação': 'Quero conversar sobre reputação. Quando podemos agendar uma conversa?',
-    'Posicionamento': 'Quero conversar sobre posicionamento. Quando podemos agendar uma conversa?',
-    'Presença Digital': 'Quero conversar sobre presença digital. Quando podemos agendar uma conversa?',
-    'Influência': 'Quero conversar sobre influência. Quando podemos agendar uma conversa?',
-    'Legado': 'Quero conversar sobre legado. Quando podemos agendar uma conversa?',
+    'Identidade': 'Quero falar sobre identidade. Quando podemos agendar uma conversa?',
+    'Relacionamento': 'Quero falar sobre relacionamento. Quando podemos agendar uma conversa?',
+    'Reputação': 'Quero falar sobre reputação. Quando podemos agendar uma conversa?',
+    'Posicionamento': 'Quero falar sobre posicionamento. Quando podemos agendar uma conversa?',
+    'Presença Digital': 'Quero falar sobre presença digital. Quando podemos agendar uma conversa?',
+    'Influência': 'Quero falar sobre influência. Quando podemos agendar uma conversa?',
+    'Legado': 'Quero falar sobre legado. Quando podemos agendar uma conversa?',
     'Outro assunto': 'Tenho um assunto específico que gostaria de discutir com a Ímpar. Podemos agendar uma conversa?',
   };
   function buildMessage(active) {
@@ -1865,7 +1865,7 @@ verdadeiramente ímpares.</h1>
       return t.toLowerCase();
     });
     const last = named.pop();
-    return 'Quero conversar sobre ' + named.join(', ') + ' e ' + last + '. Quando podemos agendar uma conversa?';
+    return 'Quero falar sobre ' + named.join(', ') + ' e ' + last + '. Quando podemos agendar uma conversa?';
   }
 
   form.querySelectorAll('.chip').forEach(chip => {
@@ -1890,6 +1890,13 @@ verdadeiramente ímpares.</h1>
 
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    const emailInput = document.getElementById('field-email');
+    const telInput = document.getElementById('field-telefone');
+    if (!emailInput.value.trim() && !telInput.value.trim()) {
+      lbl.textContent = 'Informe e-mail ou telefone.';
+      setTimeout(() => { lbl.textContent = 'Enviar mensagem'; }, 3000);
+      return;
+    }
     btn.disabled = true;
     lbl.textContent = 'Enviando…';
 
