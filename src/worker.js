@@ -36,7 +36,7 @@ async function handleApi(request, env, url) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    const lbl = 'display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px;';
+    const lbl = 'display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#EBEEFA;margin-bottom:8px;';
     const val = 'font-size:18px;color:#ffffff;';
     const link = 'font-size:18px;color:#ffffff;text-decoration:underline;';
 
@@ -71,7 +71,7 @@ async function handleApi(request, env, url) {
   @media (prefers-color-scheme:dark){
     .card{background-color:#0C35C3!important;}
     .card *{color:#ffffff!important;}
-    .card .lbl{color:rgba(255,255,255,0.55)!important;}
+    .card .lbl{color:#EBEEFA!important;}
   }
 </style></head>
 <body style="margin:0;padding:0;background:#f0f1f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
