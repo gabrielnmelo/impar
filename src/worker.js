@@ -52,11 +52,11 @@ async function handleApi(request, env, url) {
         email    ? `<td style="vertical-align:top;padding-right:20px;"><span style="${lbl}">E-mail</span>${emailVal}</td>`    : '',
         telefone ? `<td style="vertical-align:top;"><span style="${lbl}">Telefone</span>${telefoneVal}</td>` : '',
       ].filter(Boolean).join('');
-      return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;"><tr>${cols}</tr></table>`;
+      return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:44px;"><tr>${cols}</tr></table>`;
     })() : '';
 
     const msgSection = desafio ? `
-      <div style="margin-top:32px;">
+      <div style="margin-top:44px;">
         <span style="${lbl}">Mensagem</span>
         <div style="font-size:30px;color:#ffffff;line-height:1.4;">${desafio}</div>
       </div>` : '';
