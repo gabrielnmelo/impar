@@ -37,52 +37,37 @@ async function handleApi(request, env, url) {
     }
 
     const lbl = 'display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;';
-    const val = 'font-size:17px;color:#111827;';
-    const link = 'font-size:17px;color:#111827;text-decoration:underline;';
+    const val = 'font-size:18px;color:#111827;';
+    const link = 'font-size:18px;color:#111827;text-decoration:underline;';
 
-    // Message section (with border below if contact info follows)
     const contactExists = nome || email || telefone;
-    const msgRow = desafio ? `<tr><td style="padding:0 0 28px;${contactExists ? 'border-bottom:1px solid #e8eaf6;' : ''}">
-      <span style="${lbl}">Mensagem</span>
-      <span style="${val}line-height:1.65;">${desafio}</span>
-    </td></tr>` : '';
 
-    // Render contact value — linked for email/phone, plain for name
-    const emailVal   = email    ? `<a href="mailto:${email}" style="${link}"><span style="color:#111827;">${email}</span></a>`       : '';
+    // Blue card: message
+    const msgCard = desafio ? `
+      <tr><td style="background:#0C35C3;padding:32px 40px;border-radius:10px;">
+        <span style="display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">Mensagem</span>
+        <span style="font-size:18px;color:#ffffff;line-height:1.65;">${desafio}</span>
+      </td></tr>
+      ${contactExists ? '<tr><td height="12" style="font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}` : '';
+
+    // Contact values — linked for email/phone
+    const emailVal    = email    ? `<a href="mailto:${email}" style="${link}"><span style="color:#111827;">${email}</span></a>`       : '';
     const telefoneVal = telefone ? `<a href="tel:${telefone}" style="${link}"><span style="color:#111827;">${telefone}</span></a>` : '';
 
-    // Contact columns — nome alone if all 3 present, then email+phone below
-    const allThree = nome && email && telefone;
-    let contactHtml = '';
+    // White card: contact columns
+    let contactCols = '';
     if (contactExists) {
-      if (allThree) {
-        contactHtml = `<tr><td style="padding-top:20px;">
-          <span style="${lbl}">Nome</span>
-          <span style="${val}">${nome}</span>
-        </td></tr>
-        <tr><td style="padding-top:16px;padding-bottom:4px;">
-          <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-            <td width="50%" style="vertical-align:top;padding-right:16px;">
-              <span style="${lbl}">E-mail</span>
-              ${emailVal}
-            </td>
-            <td width="50%" style="vertical-align:top;">
-              <span style="${lbl}">Telefone</span>
-              ${telefoneVal}
-            </td>
-          </tr></table>
-        </td></tr>`;
-      } else {
-        const cols = [
-          nome     ? `<td style="vertical-align:top;padding-right:16px;"><span style="${lbl}">Nome</span><span style="${val}">${nome}</span></td>` : '',
-          email    ? `<td style="vertical-align:top;padding-right:16px;"><span style="${lbl}">E-mail</span>${emailVal}</td>` : '',
-          telefone ? `<td style="vertical-align:top;"><span style="${lbl}">Telefone</span>${telefoneVal}</td>` : '',
-        ].filter(Boolean).join('');
-        contactHtml = `<tr><td style="padding-top:${desafio ? '20px' : '0'};padding-bottom:4px;">
-          <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${cols}</tr></table>
-        </td></tr>`;
-      }
+      const cols = [
+        nome     ? `<td style="vertical-align:top;padding-right:20px;"><span style="${lbl}">Nome</span><span style="${val}">${nome}</span></td>`     : '',
+        email    ? `<td style="vertical-align:top;padding-right:20px;"><span style="${lbl}">E-mail</span>${emailVal}</td>`    : '',
+        telefone ? `<td style="vertical-align:top;"><span style="${lbl}">Telefone</span>${telefoneVal}</td>` : '',
+      ].filter(Boolean).join('');
+      contactCols = `<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${cols}</tr></table>`;
     }
+    const contactCard = contactExists ? `
+      <tr><td style="background:#ffffff;padding:28px 40px 32px;border-radius:10px;">
+        ${contactCols}
+      </td></tr>` : '';
 
     const emailHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -92,29 +77,8 @@ async function handleApi(request, env, url) {
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-
-      <!-- Header: title left, logo right -->
-      <tr><td style="background:#0C35C3;padding:28px 40px;border-radius:6px 6px 0 0;">
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr>
-            <td style="vertical-align:middle;">
-              <img src="https://imparcom.com/assets/email-nova-mensagem.svg" alt="Nova mensagem" height="32" style="display:block;border:0;">
-            </td>
-            <td style="vertical-align:middle;text-align:right;">
-              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="22" style="display:block;border:0;margin-left:auto;">
-            </td>
-          </tr>
-        </table>
-      </td></tr>
-
-      <!-- Body -->
-      <tr><td style="background:#ffffff;padding:28px 40px 32px;border-radius:0 0 6px 6px;">
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          ${msgRow}
-          ${contactHtml}
-        </table>
-      </td></tr>
-
+      ${msgCard}
+      ${contactCard}
     </table>
   </td></tr>
 </table>
