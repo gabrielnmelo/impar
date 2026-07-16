@@ -101,7 +101,7 @@ async function handleApi(request, env, url) {
               <img src="https://imparcom.com/assets/email-nova-mensagem.svg" alt="Nova mensagem" height="32" style="display:block;border:0;">
             </td>
             <td style="vertical-align:middle;text-align:right;">
-              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="32" style="display:block;border:0;margin-left:auto;">
+              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="22" style="display:block;border:0;margin-left:auto;">
             </td>
           </tr>
         </table>
