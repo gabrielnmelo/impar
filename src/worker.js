@@ -36,38 +36,30 @@ async function handleApi(request, env, url) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    const lbl = 'display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;';
-    const val = 'font-size:18px;color:#111827;';
-    const link = 'font-size:18px;color:#111827;text-decoration:underline;';
+    const lbl = 'display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px;';
+    const val = 'font-size:18px;color:#ffffff;';
+    const link = 'font-size:18px;color:#ffffff;text-decoration:underline;';
 
     const contactExists = nome || email || telefone;
 
-    // Blue card: message
-    const msgCard = desafio ? `
-      <tr><td class="msg-card" style="background:#0C35C3;padding:32px 40px;border-radius:10px;">
-        <span class="msg-lbl" style="display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">Mensagem</span>
-        <span class="msg-text" style="font-size:18px;color:#ffffff;line-height:1.65;">${desafio}</span>
-      </td></tr>
-      ${contactExists ? '<tr><td height="12" style="font-size:0;line-height:0;">&nbsp;</td></tr>' : ''}` : '';
+    // Contact values — linked for email/phone, forced white
+    const emailVal    = email    ? `<a href="mailto:${email}" style="${link}"><span style="color:#ffffff;">${email}</span></a>`       : '';
+    const telefoneVal = telefone ? `<a href="tel:${telefone}" style="${link}"><span style="color:#ffffff;">${telefone}</span></a>` : '';
 
-    // Contact values — linked for email/phone
-    const emailVal    = email    ? `<a href="mailto:${email}" style="${link}"><span style="color:#111827;">${email}</span></a>`       : '';
-    const telefoneVal = telefone ? `<a href="tel:${telefone}" style="${link}"><span style="color:#111827;">${telefone}</span></a>` : '';
-
-    // White card: contact columns
-    let contactCols = '';
-    if (contactExists) {
+    const contactSection = contactExists ? (() => {
       const cols = [
         nome     ? `<td style="vertical-align:top;padding-right:20px;"><span style="${lbl}">Nome</span><span style="${val}">${nome}</span></td>`     : '',
         email    ? `<td style="vertical-align:top;padding-right:20px;"><span style="${lbl}">E-mail</span>${emailVal}</td>`    : '',
         telefone ? `<td style="vertical-align:top;"><span style="${lbl}">Telefone</span>${telefoneVal}</td>` : '',
       ].filter(Boolean).join('');
-      contactCols = `<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${cols}</tr></table>`;
-    }
-    const contactCard = contactExists ? `
-      <tr><td style="background:#ffffff;padding:28px 40px 32px;border-radius:10px;">
-        ${contactCols}
-      </td></tr>` : '';
+      return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;"><tr>${cols}</tr></table>`;
+    })() : '';
+
+    const msgSection = desafio ? `
+      <div style="margin-top:32px;">
+        <span style="${lbl}">Mensagem</span>
+        <div style="font-size:18px;color:#ffffff;line-height:1.65;">${desafio}</div>
+      </div>` : '';
 
     const emailHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -75,19 +67,22 @@ async function handleApi(request, env, url) {
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
 <style>
-  a{color:#111827!important;text-decoration:underline!important;}
+  a{color:#ffffff!important;text-decoration:underline!important;}
   @media (prefers-color-scheme:dark){
-    .msg-card{background-color:#0C35C3!important;}
-    .msg-lbl{color:rgba(255,255,255,0.55)!important;}
-    .msg-text{color:#ffffff!important;}
+    .card{background-color:#0C35C3!important;}
+    .card *{color:#ffffff!important;}
+    .card .lbl{color:rgba(255,255,255,0.55)!important;}
   }
 </style></head>
 <body style="margin:0;padding:0;background:#f0f1f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-      ${msgCard}
-      ${contactCard}
+      <tr><td class="card" style="background:#0C35C3;padding:32px 40px;border-radius:12px;">
+        <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="20" style="display:block;border:0;">
+        ${msgSection}
+        ${contactSection}
+      </td></tr>
     </table>
   </td></tr>
 </table>
