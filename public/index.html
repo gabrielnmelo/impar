@@ -965,7 +965,7 @@
   .form textarea{resize:vertical; min-height: 80px}
   .chips-group{ display:flex; flex-direction:column; gap:10px; }
   .chips-label{ font-family:"PP Telegraf",sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
-  .chips{ display:flex; flex-wrap:wrap; column-gap:5px; row-gap:3px; }
+  .chips{ display:flex; flex-wrap:wrap; column-gap:5px; row-gap:7px; }
   .form button.chip{
     border:1px solid var(--blue); background:transparent;
     padding:8px 16px; font-family:"PP Telegraf",sans-serif; font-size:14px;
@@ -1517,7 +1517,7 @@ verdadeiramente ímpares.</h1>
   <div class="wrap">
     <div class="grid">
       <div>
-        <h2 style="font-weight: 400; font-size: 80px; line-height: 1">Conte sobre o seu desafio</h2>
+        <h2 style="font-weight: 400; font-size: 80px; line-height: 1">Como podemos ajudar?</h2>
         <p style="max-width: 44ch; font-size: 17px; color: rgba(255,255,255,.85); line-height: 1.5">
           Conectamos marcas, líderes e negócios às conversas que realmente importam.
           Se você busca transformar posicionamento em autoridade e reputação em ativo
@@ -1553,7 +1553,7 @@ verdadeiramente ímpares.</h1>
         </div>
         <input type="hidden" name="interesse" id="interesse-hidden" value=""/>
         <label>
-          Qual é o seu desafio?
+          Como podemos ajudar?
           <div class="chips">
             <button type="button" class="chip" data-interesse="Entender a Ímpar">Entender a Ímpar</button>
             <button type="button" class="chip" data-interesse="Identidade">Identidade</button>
@@ -1841,22 +1841,28 @@ verdadeiramente ímpares.</h1>
   if (!form) return;
 
   // Multi-select chips
+  const SINGLE_MSG = {
+    'Entender a Ímpar': 'Quero saber mais sobre a Ímpar e entender como vocês podem contribuir para os meus objetivos. Podemos conversar?',
+    'Identidade': 'Estou buscando apoio para trabalhar a identidade da minha marca e acredito que a Ímpar pode ser a parceira certa para isso. Gostaria de explorar essa possibilidade.',
+    'Relacionamento': 'Quero desenvolver uma estratégia mais robusta de relacionamento com stakeholders e gostaria de entender como a Ímpar pode contribuir nesse processo.',
+    'Reputação': 'Tenho um desafio de reputação que precisa de atenção e gostaria de conversar com a Ímpar para encontrar o melhor caminho a seguir.',
+    'Posicionamento': 'Preciso de apoio para definir e fortalecer o posicionamento da minha marca no mercado. Gostaria de entender como a Ímpar trabalha esse tema.',
+    'Presença Digital': 'Quero ampliar e qualificar a presença digital da minha marca. Gostaria de conversar sobre como a Ímpar pode ajudar nessa jornada.',
+    'Influência': 'Estou buscando desenvolver uma estratégia de influência mais consistente e acredito que a Ímpar tem o expertise para isso. Podemos conversar?',
+    'Legado': 'Penso em construir um legado de longo prazo e quero entender como a Ímpar pode contribuir nessa construção.',
+    'Outro motivo': 'Tenho um assunto específico que gostaria de discutir com a equipe da Ímpar. Podemos agendar uma conversa?',
+  };
   function buildMessage(active) {
     if (active.length === 0) return '';
     const topics = active.map(c => c.dataset.interesse);
-    if (topics.length === 1) {
-      const t = topics[0];
-      if (t === 'Entender a Ímpar') return 'Quero entender como a Ímpar pode ajudar minha empresa.';
-      if (t === 'Outro motivo') return 'Tenho outro assunto que gostaria de discutir com a Ímpar.';
-      return 'Gostaria de conversar sobre ' + t.toLowerCase() + '.';
-    }
+    if (topics.length === 1) return SINGLE_MSG[topics[0]] || '';
     const named = topics.map(t => {
-      if (t === 'Entender a Ímpar') return 'entender a Ímpar';
+      if (t === 'Entender a Ímpar') return 'entender melhor a Ímpar';
       if (t === 'Outro motivo') return 'outro assunto';
       return t.toLowerCase();
     });
     const last = named.pop();
-    return 'Gostaria de conversar sobre ' + named.join(', ') + ' e ' + last + '.';
+    return 'Gostaria de conversar com a Ímpar sobre ' + named.join(', ') + ' e ' + last + '. Acredito que há muito a explorar juntos.';
   }
 
   form.querySelectorAll('.chip').forEach(chip => {
