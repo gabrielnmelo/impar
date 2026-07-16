@@ -38,14 +38,14 @@ async function handleApi(request, env, url) {
     const emailBody = `
 Nova mensagem do formulário de contato — imparcom.com
 
+Mensagem:
+${desafio || '—'}
+
 Nome:              ${nome}
 E-mail:            ${email}
 Telefone:          ${telefone || '—'}
 Empresa / posição: ${empresa || '—'}
-Frente de interesse: ${interesse || '—'}
-
-Mensagem:
-${desafio || '—'}
+Interesse:         ${interesse || '—'}
     `.trim();
 
     const resendRes = await fetch('https://api.resend.com/emails', {
@@ -56,7 +56,7 @@ ${desafio || '—'}
       },
       body: JSON.stringify({
         from: 'Formulário Ímpar <formulario@imparcom.com>',
-        to: ['gnevesmelo@gmail.com'],
+        to: ['ricardo@imparcom.com'],
         reply_to: email,
         subject: `Novo contato: ${nome}`,
         text: emailBody,
