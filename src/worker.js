@@ -64,18 +64,10 @@ async function handleApi(request, env, url) {
     const emailHtml = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light dark">
-<meta name="supported-color-schemes" content="light dark">
 <style>
   @font-face{font-family:'PPTelegraf';src:url('https://imparcom.com/assets/fonts/PPTelegraf-Regular.otf') format('opentype');font-weight:400;font-style:normal;}
   body,td,div,span,p{font-family:'PPTelegraf',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;}
   a{color:#ffffff!important;text-decoration:underline!important;}
-  @media (prefers-color-scheme:dark){
-    body,table{background-color:#1a1a2e!important;}
-    .card{background-color:#0C35C3!important;}
-    .card .lbl{color:#7A97FE!important;}
-  }
-  [data-ogsc] body,[data-ogsc] table{background-color:#1a1a2e!important;}
   [data-ogsc] .card{background-color:#0C35C3!important;}
   [data-ogsc] .card *{color:#ffffff!important;}
   [data-ogsc] .card .lbl{color:#7A97FE!important;}
