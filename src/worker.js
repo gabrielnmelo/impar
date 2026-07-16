@@ -120,6 +120,67 @@ async function handleApi(request, env, url) {
       return json({ error: 'Falha ao enviar mensagem. Tente novamente.' }, { status: 502 });
     }
 
+    // Confirmation email to sender
+    if (email) {
+      const confirmSection = desafio ? `
+        <div style="margin-top:44px;">
+          <span class="lbl" style="${lbl}">Sua mensagem</span>
+          <div style="font-size:18px;color:#ffffff;line-height:1.5;">${desafio}</div>
+        </div>` : '';
+
+      const confirmHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  @font-face{font-family:'PPTelegraf';src:url('https://imparcom.com/assets/fonts/PPTelegraf-Regular.otf') format('opentype');font-weight:400;font-style:normal;}
+  body,td,div,span,p{font-family:'PPTelegraf',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;}
+  a{color:#ffffff!important;text-decoration:underline!important;}
+  [data-ogsc] .card{background-color:#0C35C3!important;}
+  [data-ogsc] .card *{color:#ffffff!important;}
+  [data-ogsc] .card .lbl{color:#7A97FE!important;}
+</style></head>
+<body style="margin:0;padding:0;background:#f0f1f8;font-family:'PPTelegraf',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
+  <tr><td align="center" style="padding:40px 16px;">
+    <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
+      <tr><td class="card" style="background:#0C35C3;padding:32px 44px 52px 40px;border-radius:12px;">
+        <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="25" style="display:block;border:0;">
+        <div style="margin-top:44px;">
+          <div style="font-size:32px;color:#ffffff;line-height:1.25;letter-spacing:-0.02em;">Em breve você receberá uma resposta.</div>
+        </div>${confirmSection}
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body></html>`;
+
+      const confirmText = [
+        'Em breve você receberá uma resposta.',
+        desafio ? `\nSua mensagem:\n${desafio}` : '',
+      ].filter(Boolean).join('\n').trim();
+
+      const confirmSubject = nome ? `Recebemos sua mensagem, ${nome}` : 'Mensagem recebida — Ímpar';
+
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: 'Ímpar <formulario@imparcom.com>',
+            to: [email],
+            subject: confirmSubject,
+            html: confirmHtml,
+            text: confirmText,
+          }),
+        });
+      } catch (e) {
+        console.error('Confirmation email error:', e);
+      }
+    }
+
     return json({ ok: true });
   }
 
