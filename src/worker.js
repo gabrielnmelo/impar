@@ -25,28 +25,83 @@ async function handleApi(request, env, url) {
   // Public: contact form submission — sends email via Resend.
   if (pathname === '/api/contact' && method === 'POST') {
     const body = await readJson(request);
-    const { nome, email, telefone, empresa, interesse, desafio } = body;
+    const { nome, email, telefone, interesse, desafio } = body;
 
-    if (!nome || !email) {
-      return json({ error: 'Nome e e-mail são obrigatórios.' }, { status: 400 });
+    const hasContact = email || telefone;
+    if (!hasContact) {
+      return json({ error: 'Informe e-mail ou telefone.' }, { status: 400 });
     }
 
     if (!env.RESEND_API_KEY) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    const emailBody = `
-Nova mensagem do formulário de contato — imparcom.com
+    const row = (label, value) => value ? `
+      <tr>
+        <td style="padding:14px 0;border-bottom:1px solid #e8eaf6;">
+          <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;margin-bottom:4px;">${label}</span>
+          <span style="font-size:15px;color:#111827;">${value}</span>
+        </td>
+      </tr>` : '';
 
-Mensagem:
-${desafio || '—'}
+    const emailHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f0f1f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f1f8;">
+  <tr><td align="center" style="padding:40px 16px;">
+    <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
 
-Nome:              ${nome}
-E-mail:            ${email}
-Telefone:          ${telefone || '—'}
-Empresa / posição: ${empresa || '—'}
-Interesse:         ${interesse || '—'}
-    `.trim();
+      <!-- Header -->
+      <tr><td style="background:#0C35C3;padding:32px 40px;border-radius:6px 6px 0 0;">
+        <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="22" style="display:block;border:0;">
+      </td></tr>
+
+      <!-- Body -->
+      <tr><td style="background:#ffffff;padding:40px 40px 32px;">
+
+        <p style="margin:0 0 28px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#0C35C3;">Nova mensagem — imparcom.com</p>
+
+        ${desafio ? `
+        <!-- Message block -->
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:32px;">
+          <tr><td style="background:#EBEEFA;padding:20px 24px;border-left:3px solid #0C35C3;">
+            <p style="margin:0 0 6px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;">Mensagem</p>
+            <p style="margin:0;font-size:16px;color:#111827;line-height:1.65;">${desafio}</p>
+          </td></tr>
+        </table>` : ''}
+
+        <!-- Contact fields -->
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          ${row('Nome', nome)}
+          ${row('E-mail', email)}
+          ${row('Telefone', telefone)}
+          ${row('Interesse', interesse)}
+        </table>
+
+      </td></tr>
+
+      <!-- Footer -->
+      <tr><td style="background:#0C35C3;padding:24px 40px;border-radius:0 0 6px 6px;text-align:center;">
+        <a href="https://imparcom.com" style="color:rgba(235,238,250,0.7);font-size:12px;text-decoration:none;letter-spacing:0.06em;">imparcom.com</a>
+      </td></tr>
+
+    </table>
+  </td></tr>
+</table>
+</body></html>`;
+
+    const emailText = [
+      'Nova mensagem — imparcom.com',
+      '',
+      desafio ? `Mensagem:\n${desafio}\n` : '',
+      nome      ? `Nome:      ${nome}`      : '',
+      email     ? `E-mail:    ${email}`     : '',
+      telefone  ? `Telefone:  ${telefone}`  : '',
+      interesse ? `Interesse: ${interesse}` : '',
+    ].filter(Boolean).join('\n').trim();
+
+    const subject = nome ? `Novo contato: ${nome}` : interesse ? `Novo contato — ${interesse}` : 'Novo contato via imparcom.com';
 
     const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -57,9 +112,10 @@ Interesse:         ${interesse || '—'}
       body: JSON.stringify({
         from: 'Formulário Ímpar <formulario@imparcom.com>',
         to: ['ricardo@imparcom.com'],
-        reply_to: email,
-        subject: `Novo contato: ${nome}`,
-        text: emailBody,
+        reply_to: email || undefined,
+        subject,
+        html: emailHtml,
+        text: emailText,
       }),
     });
 
