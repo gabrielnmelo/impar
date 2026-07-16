@@ -962,7 +962,7 @@
     background-position: right 4px center;
     padding-right: 24px;
   }
-  .form textarea{resize:vertical; min-height: 80px}
+  .form textarea{resize:none; min-height: 120px; overflow:hidden;}
   .chips-group{ display:flex; flex-direction:column; gap:10px; }
   .chips-label{ font-family:"PP Telegraf",sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
   .chips-section{ display:flex; flex-direction:column; gap:14px; }
@@ -1166,6 +1166,7 @@
     .form input, .form textarea, .form select{
       width: 100%; box-sizing: border-box; max-width: 100%;
     }
+    .form textarea{ min-height: 160px; }
 
     /* Footer */
     footer{ padding: 40px 0 24px; }
@@ -1572,7 +1573,7 @@ verdadeiramente ímpares.</h1>
           </div>
         </div>
         <label>
-          <textarea name="desafio" id="desafio" placeholder="Selecione os temas acima ou escreva diretamente. Quanto mais contexto você compartilhar, melhor."></textarea>
+          <textarea name="desafio" id="desafio" placeholder="Selecione os temas acima ou escreva diretamente aqui sua mensagem. Quanto mais contexto você compartilhar, melhor."></textarea>
         </label>
         <button type="submit" id="contact-btn">
           <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
@@ -1806,6 +1807,7 @@ verdadeiramente ímpares.</h1>
       if (textarea){
         const msg = 'Gostaria de conversar sobre ' + d.title + '. Podemos marcar uma conversa?';
         textarea.value = msg;
+        autoResize(textarea);
         if (hiddenInteresse) hiddenInteresse.value = d.title;
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
         textarea.focus({ preventScroll: true });
@@ -1895,10 +1897,21 @@ verdadeiramente ímpares.</h1>
       if (hidden) hidden.value = active.map(c => c.dataset.interesse).join(', ');
       if (textarea) {
         textarea.value = buildMessage(active);
+        autoResize(textarea);
         if (active.length > 0) textarea.focus({ preventScroll: true });
       }
     });
   });
+
+  // Auto-expand textarea as content grows
+  const desafioEl = document.getElementById('desafio');
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+  if (desafioEl) {
+    desafioEl.addEventListener('input', () => autoResize(desafioEl));
+  }
 
   function showBtnError(msg) {
     btn.classList.add('btn-error');
