@@ -36,27 +36,25 @@ async function handleApi(request, env, url) {
       return json({ error: 'Serviço de e-mail não configurado.' }, { status: 503 });
     }
 
-    const fieldsRows = [
-      nome      ? { label: 'Nome',      value: nome }      : null,
-      email     ? { label: 'E-mail',    value: email }     : null,
-      telefone  ? { label: 'Telefone',  value: telefone }  : null,
-      interesse ? { label: 'Interesse', value: interesse } : null,
+    // Compact info line: name · email · phone
+    const infoLine = [nome, email, telefone].filter(Boolean).join(' · ');
+    const labelStyle = 'font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;';
+
+    const bodyRows = [
+      infoLine  ? { value: infoLine }  : null,
+      interesse ? { value: interesse } : null,
     ].filter(Boolean);
 
-    const fieldsHtml = fieldsRows.map((r, i) => {
-      const isLast = i === fieldsRows.length - 1;
-      const border = isLast ? '' : 'border-bottom:1px solid #e8eaf6;';
-      return `<tr><td style="padding:16px 0;${border}">
-        <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;margin-bottom:6px;">${r.label}</span>
-        <span style="font-size:15px;color:#111827;">${r.value}</span>
+    const bodyHtml = bodyRows.map((r, i) => {
+      const isLast = i === bodyRows.length - 1;
+      const border = (isLast && !desafio) ? '' : 'border-bottom:1px solid #e8eaf6;';
+      return `<tr><td style="padding:14px 0;${border}">
+        <span style="${labelStyle}">${r.value}</span>
       </td></tr>`;
     }).join('');
 
-    const hasMsg = Boolean(desafio);
-    const bodyBottomStyle = hasMsg ? 'padding:20px 40px 0;' : 'padding:20px 40px 32px;border-radius:0 0 6px 6px;';
-    const msgSection = hasMsg ? `
-      <tr><td style="background:#ebeefa;padding:20px 40px 32px;border-radius:0 0 6px 6px;">
-        <span style="display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#0C35C3;margin-bottom:8px;">Mensagem</span>
+    const msgHtml = desafio ? `<tr><td style="padding:16px 0 0;">
+        <span style="display:block;${labelStyle}margin-bottom:10px;">Mensagem</span>
         <span style="font-size:15px;color:#111827;line-height:1.65;">${desafio}</span>
       </td></tr>` : '';
 
@@ -68,29 +66,27 @@ async function handleApi(request, env, url) {
   <tr><td align="center" style="padding:40px 16px;">
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
 
-      <!-- Header: logo left, title right -->
+      <!-- Header: title left, logo right -->
       <tr><td style="background:#0C35C3;padding:28px 40px;border-radius:6px 6px 0 0;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td style="vertical-align:middle;">
-              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="20" style="display:block;border:0;">
+              <img src="https://imparcom.com/assets/email-nova-mensagem.svg" alt="Nova mensagem" height="20" style="display:block;border:0;">
             </td>
             <td style="vertical-align:middle;text-align:right;">
-              <span style="font-size:16px;color:#ffffff;letter-spacing:0.01em;">Nova mensagem</span>
+              <img src="https://imparcom.com/assets/logo-top-bar-white.svg" alt="Ímpar" height="20" style="display:block;border:0;margin-left:auto;">
             </td>
           </tr>
         </table>
       </td></tr>
 
-      <!-- Body: contact + interest fields -->
-      <tr><td style="background:#ffffff;${bodyBottomStyle}">
+      <!-- Body -->
+      <tr><td style="background:#ffffff;padding:20px 40px 32px;border-radius:0 0 6px 6px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          ${fieldsHtml}
+          ${bodyHtml}
+          ${msgHtml}
         </table>
       </td></tr>
-
-      <!-- Message section (light blue, only if present) -->
-      ${msgSection}
 
     </table>
   </td></tr>
